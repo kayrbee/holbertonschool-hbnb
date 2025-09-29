@@ -1,0 +1,4 @@
+# Ignored folders (and their contents)
+__pycache__/
+
+# Ignored files
