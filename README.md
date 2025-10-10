@@ -1,7 +1,7 @@
 # Project Contributors
 
 - Mel Harkin
-- Madison Fleming
+- Dana Le
 - Carla Ciar
 - Katherine Beringer
 
