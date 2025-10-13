@@ -1,4 +1,13 @@
 # Ignored folders (and their contents)
 __pycache__/
 
-# Ignored files
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+.env
+
+# Dev containers
+.devcontainer/
+.vscode/
