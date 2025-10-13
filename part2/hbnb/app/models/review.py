@@ -1,6 +1,4 @@
 from app.models.base_class import Base
-# from part2.hbnb.app.models.review import Base
-# Base = __import__('base_class').Base
 
 
 class Review(Base):
