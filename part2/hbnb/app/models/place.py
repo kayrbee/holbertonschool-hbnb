@@ -11,15 +11,71 @@ class Place(Base):
             owner=False
         ):
         super().__init__()
-        self.title = self.validate_non_empty(title, "title")
-        self.description = self.validate_non_empty(description, "description")
-        self.price = self.validate_price(price)
-        self.latitude = self.validate_latitude(latitude)
-        self.longitude = self.validate_longitude(longitude)
+        self.title = title
+        self.description = description
+        self.price = price
+        self.latitude = latitude
+        self.longitude = longitude
         self.owner = owner
         self.reviews = []  # List to store related reviews
         self.amenities = []  # List to store related amenities
 
+    # --- title ---
+    @property
+    def title(self):
+        return self._title
+
+    @title.setter
+    def title(self, value):
+        if not value:
+            raise ValueError("Title cannot be empty.")
+        self._title = value
+
+    # --- description ---
+    @property
+    def description(self):
+        return self._description
+
+    @description.setter
+    def description(self, value):
+        if not value:
+            raise ValueError("Description cannot be empty.")
+        self._description = value
+
+    # --- price ---
+    @property
+    def price(self):
+        return self._price
+
+    @price.setter
+    def price(self, value):
+        if not isinstance(value, (int, float)) or value < 0:
+            raise ValueError("Price must be a positive number.")
+        self._price = value
+
+    # --- latitude ---
+    @property
+    def latitude(self):
+        return self._latitude
+
+    @latitude.setter
+    def latitude(self, value):
+        if not (-90 <= value <= 90):
+            raise ValueError("Latitude must be between -90 and 90.")
+        self._latitude = value
+
+    # --- longitude ---
+    @property
+    def longitude(self):
+        return self._longitude
+
+    @longitude.setter
+    def longitude(self, value):
+        if not (-180 <= value <= 180):
+            raise ValueError("Longitude must be between -180 and 180.")
+        self._longitude = value
+
+    # --- helper methods ---
     def add_review(self, review):
         """Add a review to the place."""
         self.reviews.append(review)
@@ -27,28 +83,3 @@ class Place(Base):
     def add_amenity(self, amenity):
         """Add an amenity to the place."""
         self.amenities.append(amenity)
-    
-    # --- Validation methods ---
-    def validate_non_empty(self, value, field_name):
-        """Ensure the field has a non-empty value."""
-        if not value:
-            raise ValueError("{} cannot be empty.".format(field_name))
-        return value
-    
-    def validate_price(self, value):
-        """Ensure price is a positive number."""
-        if not isinstance(value, (int, float)) or value < 0:
-            raise ValueError("Price must be a positive number.")
-        return value
-    
-    def validate_latitude(self, value):
-        """Ensure latitude is between -90 and 90."""
-        if not (-90 <= value <= 90):
-            raise ValueError("Latitude must be between -90 and 90.")
-        return value
-    
-    def validate_longitude(self, value):
-        """Ensure longitude is between -180 and 180."""
-        if not (-180 <= value <= 180):
-            raise ValueError("Longitude must be between -180 and 180.")
-        return value

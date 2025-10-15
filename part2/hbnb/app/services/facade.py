@@ -18,25 +18,55 @@ class HBnBFacade:
         # Logic will be implemented in later tasks
         pass
 
-    # Placeholder method for fetching a place by ID
-    def get_place(self, place_id):
-        # Logic will be implemented in later tasks
-        # Placeholder for logic to retrieve a place by ID, including associated owner and amenities
-        pass
-    
+    # --- Place ---
     def create_place(self, place_data):
-    # Placeholder for logic to create a place, including validation for price, latitude, and longitude
-    pass
+        """
+        Create a place with including validation
+        for price, latitude, and longitude
+        """
+        # Validation
+        if "price" not in place_data or place_data["price"] < 0:
+            raise ValueError("Price must be a positive number")
+        if "latitude" not in place_data or not (-90 <= place_data["latitude"] <= 90):
+            raise ValueError("Latitude must be between -90 and 90")
+        if "longitude" not in place_data or not (-180 <= place_data["longitude"] <= 180):
+            raise ValueError("Longitude must be between -180 and 180")
+
+        # Create and save the place
+        place = Place(**place_data)
+        self.place_repo.create(place)
+        return place.to_dict()
+    
+    def get_place(self, place_id):
+        """Get a place by ID"""
+        place = self.place_repo.get(place_id)
+        if not place:
+            return None
+        return place.to_dict()
 
     def get_all_places(self):
-        # Placeholder for logic to retrieve all places
-        pass
+        """Get all places"""
+        places = self.place_repo.all()
+        
+        place_dicts = []
+        for p in places:
+            place_dicts.append(p.to_dict())
+
+        return place_dicts
 
     def update_place(self, place_id, place_data):
-        # Placeholder for logic to update a place
-        pass
+        """Update a place by ID"""
+        place = self.place_repo.get(place_id)
+        if not place:
+            return None
+
+        for key, value in place_data.items():
+            setattr(place, key, value)
+
+        self.place_repo.update(place_id, place)
+        return place.to_dict()
     
-    # Amenity
+    # --- Amenity ---
     def create_amenity(self, amenity_data):
         """
         Checks amenity ID and creates a new amenity
