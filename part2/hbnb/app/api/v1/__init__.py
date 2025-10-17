@@ -2,19 +2,28 @@
 
 from flask import Flask
 from flask_restx import Api
-from api.v1.amenities import api as amenity_ns
-from api.v1.places import api as places_ns
-from api.v1.reviews import api as reviews_ns
-from api.v1.users import api as users_ns
+
+# ---OLD CODE:---
+# from api.v1.amenities import api as amenity_ns
+# from api.v1.places import api as places_ns
+# from api.v1.reviews import api as reviews_ns
+# from api.v1.users import api as users_ns
+
+# ---NEW CODE: FIXED IMPORT ERROR ---
+from .amenities import api as amenity_ns
+from .places import api as places_ns
+from .reviews import api as reviews_ns
+from .users import api as users_ns
+
 
 def create_app():
     app = Flask(__name__)
 
     api = Api(
-        app, 
+        app,
         version='1.0',
         title='HBNB API',
-        description='API for managing amenities, places,' \
+        description='API for managing amenities, places,'
               'reviews, and users'
     )
 
