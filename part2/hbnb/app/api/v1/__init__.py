@@ -3,13 +3,11 @@
 from flask import Flask
 from flask_restx import Api
 
-# ---OLD CODE:---
 # from api.v1.amenities import api as amenity_ns
 # from api.v1.places import api as places_ns
 # from api.v1.reviews import api as reviews_ns
 # from api.v1.users import api as users_ns
 
-# ---NEW CODE: FIXED IMPORT ERROR ---
 from .amenities import api as amenity_ns
 from .places import api as places_ns
 from .reviews import api as reviews_ns
