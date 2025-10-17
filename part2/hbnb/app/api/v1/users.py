@@ -1,6 +1,7 @@
 from flask_restx import Namespace, Resource, fields
 from flask import request
 from app.services import facade
+from app.models.user import User
 
 api = Namespace('users', description='User operations')
 
@@ -51,6 +52,7 @@ class UserResource(Resource):
     def get(self, user_id):
         """Get user details by ID"""
         user = facade.get_user_by_id(user_id)
+
         if not user:
             return {'error': 'User not found'}, 404
         return {'id': user.id, 'first_name': user.first_name, 'last_name': user.last_name, 'email': user.email}, 200

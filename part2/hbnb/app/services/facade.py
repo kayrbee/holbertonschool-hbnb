@@ -35,7 +35,7 @@ class HBnBFacade:
 
     def put_user(self, user_id, new_data):
         """ update existing user's information (PUT /users/<user_id>)"""
-        user = self.get_user(user_id)
+        user = self.get_user_by_id(user_id)
         if not user:
             return None
         user.update(new_data)
