@@ -130,3 +130,21 @@ class HBnBFacade:
             raise ValueError("Amenity not found")
         self.amenity_repo.update(amenity_id, amenity_data)
         return amenity_data
+
+    # Reviews
+    def create_review(self, review_data):
+        """ create a new review (POST /reviews)"""
+        review = Review(**review_data)
+        self.review_repo.add(review)
+        return review
+
+    def get_review(self, review_id):
+        if not self.review_repo.get(review_id):
+            raise ValueError("Review not found")
+        return self.review_repo.get(review_id)
+
+    def update_review(self, review_data):
+        pass
+
+    def delete_review(self, review_id):
+        pass

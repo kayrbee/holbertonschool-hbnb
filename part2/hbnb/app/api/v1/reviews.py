@@ -2,9 +2,6 @@ from flask_restx import Namespace, Resource, fields
 from app.services import facade
 
 api = Namespace('reviews', description='Review operations')
-# To do:
-# /submit-review endpoint (POST and PATCH)
-# /reviews endpoint (GET)
 
 # Define the review model for input validation and documentation
 review_model = api.model('Review', {
@@ -22,14 +19,18 @@ class ReviewList(Resource):
     @api.response(400, 'Invalid input data')
     def post(self):
         """Write a new review of a place"""
-        # Placeholder
-        pass
+        review_data = api.payload
+        required_fields = ['comment', 'rating', 'user_id', 'place_id']
+        for field in required_fields:
+            if field not in review_data:
+                return {'Error': f"Missing required field {field}"}, 400
+        new_review = facade.create_review(review_data)
+        return {'id': new_review.id, 'rating': new_review.rating, 'comment': new_review.comment, 'user_id': new_review.user_id, 'place_id': new_review.place_id}, 201
 
     @api.response(200, 'List of reviews retrieved successfully')
     def get(self):
         """Retrieve all reviews of a place"""
-        #  Placeholder
-        pass
+        return "Placeholder GET", 200
 
 
 @api.route('/<review_id>')
