@@ -28,7 +28,8 @@ class AmenityList(Resource):
     def get(self):
         """Retrieve a list of all amenities"""
         try:
-            return facade.get_all_amenities()
+            amenities = facade.get_all_amenities()
+            return [a.to_dict() for a in amenities], 200
         except ValueError as e:
             return{"error": str(e)}, 404
 
