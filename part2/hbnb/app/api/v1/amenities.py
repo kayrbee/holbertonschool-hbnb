@@ -22,12 +22,15 @@ class AmenityList(Resource):
             amenity = facade.create_amenity(data)
             return {"id": amenity.id, "name": amenity.name}, 201
         except Exception as e:
-            return {"Invalid input data"}, 400
+            return {"error": "Invalid input data"}, 400
 
     @api.response(200, 'List of amenities retrieved successfully')
     def get(self):
         """Retrieve a list of all amenities"""
-        return facade.get_all_amenities()
+        try:
+            return facade.get_all_amenities()
+        except ValueError as e:
+            return{"error": str(e)}, 404
 
 @api.route('/<amenity_id>')
 class AmenityResource(Resource):
@@ -48,7 +51,7 @@ class AmenityResource(Resource):
             updated = facade.update_amenity(amenity_id, data)
             return updated, 200
         except ValueError as e:
-            return {"Amenity not found"}, 404
+            return {"error": "Amenity not found"}, 404
         except Exception as e:
-            return {"Invalid input data"}, 400
+            return {"error": "Invalid input data"}, 400
         
