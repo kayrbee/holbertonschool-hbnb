@@ -55,7 +55,7 @@ class HBnBFacade:
         if "longitude" not in place_data or not (-180 <= place_data["longitude"] <= 180):
             raise ValueError("Longitude must be between -180 and 180")
         
-        # Normalize amenities (string -> list)
+        # Normalise amenities (string -> list)
         amenities = place_data.get("amenities", [])
         if isinstance(amenities, str):
             amenities = [amenities]
