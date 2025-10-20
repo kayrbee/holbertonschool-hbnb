@@ -86,7 +86,7 @@ class HBnBFacade:
 
     def get_all_places(self):
         """Get all places"""
-        places = self.place_repo.all()
+        places = self.place_repo.get_all()
 
         place_dicts = []
         for p in places:
