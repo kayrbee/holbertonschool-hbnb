@@ -17,3 +17,9 @@ class Amenity(Base):
         if len(name) > 25:
             raise ValueError("Amenity length cannot exceed 25 characters")
         self.name = name
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name
+        }
