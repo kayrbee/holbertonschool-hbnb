@@ -8,7 +8,10 @@ class Place(Base):
             price: float,
             latitude: float,
             longitude: float,
-            owner=False
+            owner_id: str,
+            place_id: str = None,
+            reviews: list = None,
+            amenities: list = None
         ):
         super().__init__()
         self.title = title
@@ -16,9 +19,9 @@ class Place(Base):
         self.price = price
         self.latitude = latitude
         self.longitude = longitude
-        self.owner = owner
-        self.reviews = []  # List to store related reviews
-        self.amenities = []  # List to store related amenities
+        self.owner_id = owner_id
+        self.reviews = list(reviews) if reviews else []
+        self.amenities = list(amenities) if amenities else []
 
     # --- title ---
     @property
@@ -74,8 +77,20 @@ class Place(Base):
         if not (-180 <= value <= 180):
             raise ValueError("Longitude must be between -180 and 180.")
         self._longitude = value
+    
+    # --- owner_id ---
+    @property
+    def owner_id(self):
+        return self._owner_id
 
-    # --- helper methods ---
+    @owner_id.setter
+    def owner_id(self, value):
+        """Validate the owner ID."""
+        if not value:
+            raise ValueError("Owner ID cannot be empty.")
+        self._owner_id = value
+
+
     def add_review(self, review):
         """Add a review to the place."""
         self.reviews.append(review)
@@ -83,3 +98,17 @@ class Place(Base):
     def add_amenity(self, amenity):
         """Add an amenity to the place."""
         self.amenities.append(amenity)
+    
+    def to_dict(self):
+        """Return a dictionary representation of the Place."""
+        return {
+            "id": getattr(self, "id", None),
+            "title": self.title,
+            "description": self.description,
+            "price": self.price,
+            "latitude": self.latitude,
+            "longitude": self.longitude,
+            "owner_id": self.owner_id,
+            "amenities": self.amenities,
+            "reviews": self.reviews,
+        }
