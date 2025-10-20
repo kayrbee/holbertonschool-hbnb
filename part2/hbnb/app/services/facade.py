@@ -54,10 +54,27 @@ class HBnBFacade:
             raise ValueError("Latitude must be between -90 and 90")
         if "longitude" not in place_data or not (-180 <= place_data["longitude"] <= 180):
             raise ValueError("Longitude must be between -180 and 180")
+        
+        # Normalize amenities (string -> list)
+        amenities = place_data.get("amenities", [])
+        if isinstance(amenities, str):
+            amenities = [amenities]
+        
+        # Args Place accepts
+        init_args = {
+            "title": place_data["title"],
+            "description": place_data.get("description", ""),
+            "price": place_data["price"],
+            "latitude": place_data["latitude"],
+            "longitude": place_data["longitude"],
+            "owner_id": place_data["owner_id"],
+            "amenities": amenities,
+            "reviews": place_data.get("reviews", []),
+        }
 
         # Create and save the place
-        place = Place(**place_data)
-        self.place_repo.create(place)
+        place = Place(**init_args)
+        self.place_repo.add(place)
         return place.to_dict()
 
     def get_place(self, place_id):
