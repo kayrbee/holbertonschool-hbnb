@@ -358,3 +358,4 @@ http://127.0.0.1:5000/api/v1/
 ---
 
 ## Automated testing using `unittest`:
+All test files can be found in the [tests](tests/) directory
