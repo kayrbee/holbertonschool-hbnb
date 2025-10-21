@@ -98,7 +98,7 @@ class HBnBFacade:
         """Update a place by ID"""
         place = self.place_repo.get(place_id)
         if not place:
-            return None
+            return {"error": "Place not found"}, 404
 
         for key, value in place_data.items():
             setattr(place, key, value)
