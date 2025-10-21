@@ -181,7 +181,7 @@ curl -i -X POST "http://127.0.0.1:5000/api/v1/places/" \
 }'
 ```
 
-Expected Response  
+Expected Response:  
 ```bash
 {
     "id": "df1fdae7-156e-4d53-b234-df05a5670b1a",
@@ -200,6 +200,10 @@ Expected Response
 
 // 201 Created
 ```
+
+Possible Status Codes:
+- `201 Created`: When the place is successfully created.
+- `400 Bad Request`: If input data is invalid.
 
 **2. Create with optional/empty description (201 Created)**
 ```bash
@@ -236,7 +240,46 @@ Expected Response
 // 201 Created
 ```
 
-**3. Missing required fields (400 Bad Request)**
+Possible Status Codes:
+- `201 Created`: When the place is successfully created.
+- `400 Bad Request`: If input data is invalid.
+
+**3. Retrieve all Places**
+```bash
+curl -i -X GET "http://127.0.0.1:5000/api/v1/places/123" \
+-H "Content-Type: application/json"
+```
+
+Possible Status Codes:
+- `200 OK`: List of places retrieved successfully.
+
+**4. Retrieve Place Details by ID**
+```bash
+curl -i -X GET "http://127.0.0.1:5000/api/v1/places/123" \
+-H "Content-Type: application/json"
+```
+
+Possible Status Codes:
+- `200 OK`: When the place details are retrieved successfully
+- `404 Not Found`: If the place does not exist.
+
+**5. Update a Place’s Information by ID**
+```bash
+curl -i -X PUT "http://127.0.0.1:5000/api/v1/places/123" \
+-H "Content-Type: application/json" \
+-d '{
+  "title": "Luxury Condo",
+  "description": "An upscale place to stay",
+  "price": 200.0
+}'
+```
+
+Possible Status Codes:
+- `200 OK`: When the place is successfully updated.
+- `404 Not Found`: If the place does not exist.
+- `400 Bad Request`: If input data is invalid.
+
+**6. Missing required fields (400 Bad Request)**
 ```bash
 curl -i -X POST "http://127.0.0.1:5000/api/v1/places/" \
 -H "Content-Type: application/json" \
@@ -259,7 +302,10 @@ Expected Response
 // 400 Bad Request
 ```
 
-**4. Negative price (400 Bad Request)**
+Possible Status Codes:
+- `400 Bad Request`: Missing required field
+
+**7. Negative price (400 Bad Request)**
 ```bash
 curl -i -X POST "http://127.0.0.1:5000/api/v1/places/" \
 -H "Content-Type: application/json" \
@@ -283,7 +329,10 @@ Expected Response
 // 400 Bad Request
 ```
 
-**5. Invalid coordinates (400 Bad Request)**
+Possible Status Codes:
+- `400 Bad Request`: Price must be a positive number
+
+**8. Invalid coordinates (400 Bad Request)**
 ```bash
 curl -i -X POST "http://127.0.0.1:5000/api/v1/places/" \
 -H "Content-Type: application/json" \
@@ -306,6 +355,9 @@ Expected Response
 
 // 400 Bad Request
 ```
+
+Possible Status Codes:
+- `400 Bad Request`: Coordinates must be valid
 
 ### Amenities entity:
 
