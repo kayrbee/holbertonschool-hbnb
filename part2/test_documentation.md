@@ -14,18 +14,19 @@ This documentation illustrates the **testing and validation** process for the AP
 ## Validation Rules Implemented:
 
 ### User model:
+
 - `first_name` : must be a string and max 50 characters
 - `last_name` : must be a string and max 50 characters
-- `email` : must be a string and valid format  
+- `email` : must be a string and valid format
 
 ### Place model:
-- `title` : must not empty.  
-- `price` : must be a positive number.  
-- `latitude` : must be between -90 and 90.  
-- `longitude` : must be between -180 and 180.  
+
+- `title` : must not empty.
+- `price` : must be a positive number.
+- `latitude` : must be between -90 and 90.
+- `longitude` : must be between -180 and 180.
 
 ### Amenities model:
-- `name` : must be a string and max 25 characters
 
 ### Review model:
 
@@ -34,9 +35,11 @@ This documentation illustrates the **testing and validation** process for the AP
 ## Manual testing using `cURL`:
 
 ### User entity:
+
 Base URL: `http://127.0.0.1:5000/api/v1/users/`
 
-**1. POST - Create a User (Valid Data – 201 Created)**
+**1. POST - Create a User**
+
 ```bash
 curl -i -X POST "http://127.0.0.1:5000/api/v1/places/" \
 -H "Content-Type: application/json" \
@@ -46,9 +49,11 @@ curl -i -X POST "http://127.0.0.1:5000/api/v1/places/" \
   "email": "john.doe@example.com"
 }'
 ```
+
 **Expected status:** `201 Created`
 
-**Expected response:**  
+**Expected response:**
+
 ```bash
 {
     "id": "be79e2c1-be43-4af3-8228-6a2ef9c68b4d",
@@ -59,6 +64,7 @@ curl -i -X POST "http://127.0.0.1:5000/api/v1/places/" \
 ```
 
 **2. POST - Create a User (Invalid Email Format)**
+
 ```bash
 curl -i -X POST "http://127.0.0.1:5000/api/v1/places/" \
 -H "Content-Type: application/json" \
@@ -68,9 +74,11 @@ curl -i -X POST "http://127.0.0.1:5000/api/v1/places/" \
   "email": "john.doeexample.com"
 }'
 ```
+
 **Expected status:** `400 Bad Request`
 
 **Expected response:**
+
 ```bash
 {
     "error": "Invalid Email. Try again"
@@ -78,6 +86,7 @@ curl -i -X POST "http://127.0.0.1:5000/api/v1/places/" \
 ```
 
 **3. POST - Create User (Missing Required Field)**
+
 ```bash
 curl -X POST "http://127.0.0.1:5000/api/v1/users/" -H "Content-Type: application/json" -d '{
 
@@ -85,9 +94,11 @@ curl -X POST "http://127.0.0.1:5000/api/v1/users/" -H "Content-Type: application
   "email": "jack.doeexample.com"
 }'
 ```
+
 **Expected status:** `400 Bad Request`
 
 **Expected response:**
+
 ```bash
 {
     "errors": {
@@ -98,12 +109,15 @@ curl -X POST "http://127.0.0.1:5000/api/v1/users/" -H "Content-Type: application
 ```
 
 **4. GET - Retrieve All Existing Users**
+
 ```bash
 curl -X GET "http://127.0.0.1:5000/api/v1/users/" -H "Content-Type: application/json"
 ```
+
 **Expected status:** `200 OK`
 
 **Expected response:**
+
 ```bash
 {
     "id": "be79e2c1-be43-4af3-8228-6a2ef9c68b4d",
@@ -114,12 +128,15 @@ curl -X GET "http://127.0.0.1:5000/api/v1/users/" -H "Content-Type: application/
 ```
 
 **5. GET - Retrieve Existing User by ID**
+
 ```bash
 curl -X GET "http://127.0.0.1:5000/api/v1/users/be79e2c1-be43-4af3-8228-6a2ef9c68b4d" -H "Content-Type: application/json"
 ```
+
 **Expected status:** `200 OK`
 
 **Expected response:**
+
 ```bash
 {
     "id": "be79e2c1-be43-4af3-8228-6a2ef9c68b4d",
@@ -130,12 +147,15 @@ curl -X GET "http://127.0.0.1:5000/api/v1/users/be79e2c1-be43-4af3-8228-6a2ef9c6
 ```
 
 **6. GET - Non-existent User**
+
 ```bash
 curl -X GET "http://127.0.0.1:5000/api/v1/users/be79e2c1-be43-4af3-8228-6a2ef9c70v5g" -H "Content-Type: application/json"
 ```
+
 **Expected status:** `404 NOT FOUND`
 
 **Expected response:**
+
 ```bash
 {
     "error": "User not found"
@@ -143,6 +163,7 @@ curl -X GET "http://127.0.0.1:5000/api/v1/users/be79e2c1-be43-4af3-8228-6a2ef9c7
 ```
 
 **7. PUT - Update a User**
+
 ```bash
 curl -X PUT http://127.0.0.1:5000/api/v1/users/be79e2c1-be43-4af3-8228-6a2ef9c68b4d -H "Content-Type: application/json" -d '{
   "first_name": "Jack",
@@ -150,9 +171,11 @@ curl -X PUT http://127.0.0.1:5000/api/v1/users/be79e2c1-be43-4af3-8228-6a2ef9c68
   "email": "jack.do@example.com"
 }'
 ```
+
 **Expected status:** `200 OK`
 
 **Expected response:**
+
 ```bash
 {
     "id": "be79e2c1-be43-4af3-8228-6a2ef9c68b4d",
@@ -162,11 +185,12 @@ curl -X PUT http://127.0.0.1:5000/api/v1/users/be79e2c1-be43-4af3-8228-6a2ef9c68
 }
 ```
 
+### Place entity:
 
-### Place entity:  
 Base URL: `http://127.0.0.1:5000/api/v1/places/`
 
 **1. Create a new place (Valid Data – 201 Created)**
+
 ```bash
 curl -i -X POST "http://127.0.0.1:5000/api/v1/places/" \
 -H "Content-Type: application/json" \
@@ -181,7 +205,8 @@ curl -i -X POST "http://127.0.0.1:5000/api/v1/places/" \
 }'
 ```
 
-Expected Response:  
+Expected Response
+
 ```bash
 {
     "id": "df1fdae7-156e-4d53-b234-df05a5670b1a",
@@ -201,11 +226,8 @@ Expected Response:
 // 201 Created
 ```
 
-Possible Status Codes:
-- `201 Created`: When the place is successfully created.
-- `400 Bad Request`: If input data is invalid.
-
 **2. Create with optional/empty description (201 Created)**
+
 ```bash
 curl -i -X POST "http://127.0.0.1:5000/api/v1/places/" \
 -H "Content-Type: application/json" \
@@ -221,6 +243,7 @@ curl -i -X POST "http://127.0.0.1:5000/api/v1/places/" \
 ```
 
 Expected Response
+
 ```bash
 {
     "id": "e0f6a280-6958-4a47-acbe-e7c0505e2fbe",
@@ -240,46 +263,8 @@ Expected Response
 // 201 Created
 ```
 
-Possible Status Codes:
-- `201 Created`: When the place is successfully created.
-- `400 Bad Request`: If input data is invalid.
+**3. Missing required fields (400 Bad Request)**
 
-**3. Retrieve all Places**
-```bash
-curl -i -X GET "http://127.0.0.1:5000/api/v1/places/123" \
--H "Content-Type: application/json"
-```
-
-Possible Status Codes:
-- `200 OK`: List of places retrieved successfully.
-
-**4. Retrieve Place Details by ID**
-```bash
-curl -i -X GET "http://127.0.0.1:5000/api/v1/places/123" \
--H "Content-Type: application/json"
-```
-
-Possible Status Codes:
-- `200 OK`: When the place details are retrieved successfully
-- `404 Not Found`: If the place does not exist.
-
-**5. Update a Place’s Information by ID**
-```bash
-curl -i -X PUT "http://127.0.0.1:5000/api/v1/places/123" \
--H "Content-Type: application/json" \
--d '{
-  "title": "Luxury Condo",
-  "description": "An upscale place to stay",
-  "price": 200.0
-}'
-```
-
-Possible Status Codes:
-- `200 OK`: When the place is successfully updated.
-- `404 Not Found`: If the place does not exist.
-- `400 Bad Request`: If input data is invalid.
-
-**6. Missing required fields (400 Bad Request)**
 ```bash
 curl -i -X POST "http://127.0.0.1:5000/api/v1/places/" \
 -H "Content-Type: application/json" \
@@ -293,7 +278,9 @@ curl -i -X POST "http://127.0.0.1:5000/api/v1/places/" \
 "amenities": ["wifi", "pool"]
 }'
 ```
+
 Expected Response
+
 ```bash
 {
     "error": "Title cannot be empty."
@@ -302,10 +289,8 @@ Expected Response
 // 400 Bad Request
 ```
 
-Possible Status Codes:
-- `400 Bad Request`: Missing required field
+**4. Negative price (400 Bad Request)**
 
-**7. Negative price (400 Bad Request)**
 ```bash
 curl -i -X POST "http://127.0.0.1:5000/api/v1/places/" \
 -H "Content-Type: application/json" \
@@ -321,6 +306,7 @@ curl -i -X POST "http://127.0.0.1:5000/api/v1/places/" \
 ```
 
 Expected Response
+
 ```bash
 {
     "error": "Price must be a positive number"
@@ -329,10 +315,8 @@ Expected Response
 // 400 Bad Request
 ```
 
-Possible Status Codes:
-- `400 Bad Request`: Price must be a positive number
+**5. Invalid coordinates (400 Bad Request)**
 
-**8. Invalid coordinates (400 Bad Request)**
 ```bash
 curl -i -X POST "http://127.0.0.1:5000/api/v1/places/" \
 -H "Content-Type: application/json" \
@@ -348,6 +332,7 @@ curl -i -X POST "http://127.0.0.1:5000/api/v1/places/" \
 ```
 
 Expected Response
+
 ```bash
 {
     "error": "Latitude must be between -90 and 90"
@@ -356,11 +341,7 @@ Expected Response
 // 400 Bad Request
 ```
 
-Possible Status Codes:
-- `400 Bad Request`: Coordinates must be valid
-
 ### Amenities entity:
-
 
 ### Review entity:
 
@@ -377,4 +358,3 @@ http://127.0.0.1:5000/api/v1/
 ---
 
 ## Automated testing using `unittest`:
-
