@@ -348,7 +348,7 @@ Expected Response
 ### Amenities entity:
 Base URL: `http://127.0.0.1:5000/api/v1/places/`
 
-**1. Create a new amenity (Valid Data – 201 Created)**
+**1. POST - Create a new amenity (Valid Data – 201 Created)**
 
 ```bash
 curl -X POST -H 'Content-Type: application/json' -d '{"name": "Aesop hand wash"}' http://127.0.0.1:5000/api/v1/amenities/
@@ -365,7 +365,7 @@ Expected Response
 // 201 Created
 ```
 
-**2. Retrieve amenity list (Valid Data – 200 OK)**
+**2. GET - Retrieve amenity list (Valid Data – 200 OK)**
 
 ```bash
 curl -X POST -H 'Content-Type: application/json' -d '{"name": "Aesop hand wash"}' http://127.0.0.1:5000/api/v1/amenities/
@@ -393,7 +393,7 @@ Expected Response
 // 200 OK
 ```
 
-**3. Add amenity exceeding 25 characters (400 Bad Request)**
+**3. POST - Add amenity exceeding 25 characters (400 Bad Request)**
 
 ```bash
 curl -X POST -H 'Content-Type: application/json' -d '{"name": "Aesop hand wash from the himalayas"}' http://127.0.0.1:5000/api/v1/amenities/
