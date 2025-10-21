@@ -54,12 +54,12 @@ class HBnBFacade:
             raise ValueError("Latitude must be between -90 and 90")
         if "longitude" not in place_data or not (-180 <= place_data["longitude"] <= 180):
             raise ValueError("Longitude must be between -180 and 180")
-        
+
         # Normalise amenities (string -> list)
         amenities = place_data.get("amenities", [])
         if isinstance(amenities, str):
             amenities = [amenities]
-        
+
         # Args Place accepts
         init_args = {
             "title": place_data["title"],
@@ -150,11 +150,19 @@ class HBnBFacade:
         self.amenity_repo.update(amenity_id, amenity_data)
         return amenity_data
 
-    # Reviews
+    # --- Reviews ---
     def create_review(self, review_data):
         """ create a new review (POST /reviews)"""
         review = Review(**review_data)
+        # Validate user_id and place_id before saving review
+        place = self.place_repo.get(review.place_id)
+        user = self.user_repo.get(review.user_id)
+        if not place:
+            raise ValueError("Place not found, cannot submit review")
+        if not user:
+            raise ValueError("User not found, cannot submit review")
         self.review_repo.add(review)
+        place.add_review(review.to_dict())
         return review
 
     def get_review(self, review_id):
@@ -162,8 +170,32 @@ class HBnBFacade:
             raise ValueError("Review not found")
         return self.review_repo.get(review_id)
 
-    def update_review(self, review_data):
-        pass
+    def get_reviews_by_place(self, place_id):
+        if not self.place_repo.get(place_id):
+            raise ValueError("Place not found")
+        reviews = self.review_repo.get_by_attribute("place_id", place_id)
+        return [review.to_dict() for review in reviews]
+
+    def get_all_reviews(self):
+        if not self.review_repo.get_all():
+            raise ValueError("No reviews found")
+        return self.review_repo.get_all()
+
+    def update_review(self, review_id, data):
+        review = self.review_repo.get(review_id)
+        if not review:
+            return None
+        try:
+            review.update(data)
+            return review
+        except Exception as e:
+            return {"Error": f"{e}"}
 
     def delete_review(self, review_id):
-        pass
+        review = self.review_repo.get(review_id)
+        if not review:
+            raise ValueError("Review not found")
+        place = self.place_repo.get(review.place_id)
+        place.reviews.remove(review)  # Remove review from place before delete
+        self.review_repo.delete(review_id)
+        return "Review deleted"
