@@ -365,7 +365,7 @@ Expected Response
 // 201 Created
 ```
 
-**1. Retrieve amenity list (Valid Data – 201 Created)**
+**2. Retrieve amenity list (Valid Data – 200 OK)**
 
 ```bash
 curl -X POST -H 'Content-Type: application/json' -d '{"name": "Aesop hand wash"}' http://127.0.0.1:5000/api/v1/amenities/
