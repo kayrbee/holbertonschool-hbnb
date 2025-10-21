@@ -14,9 +14,9 @@ This documentation illustrates the **testing and validation** process for the AP
 ## Validation Rules Implemented:
 
 ### User model:
-- `first_name` : must not be empty  
-- `last_name` : must not be empty  
-- `email` : must not be empty and valid format  
+- `first_name` : must be a string and max 50 characters
+- `last_name` : must be a string and max 50 characters
+- `email` : must be a string and valid format  
 
 ### Place model:
 - `title` : must not empty.  
@@ -36,7 +36,100 @@ This documentation illustrates the **testing and validation** process for the AP
 ## Manual testing using `cURL`:
 
 ### User entity:
+Base URL: `http://127.0.0.1:5000/api/v1/users/`
 
+**1. POST - Create a User (Valid Data – 201 Created)**
+```bash
+curl -i -X POST "http://127.0.0.1:5000/api/v1/places/" \
+-H "Content-Type: application/json" \
+-d '{
+  "first_name": "John",
+  "last_name": "Doe",
+  "email": "john.doe@example.com"
+}'
+```
+**Expected status:** `201 Created`
+
+**Expected response:**  
+```bash
+{
+    "id": "be79e2c1-be43-4af3-8228-6a2ef9c68b4d",
+    "first_name": "John",
+    "last_name": "Doe",
+    "email": "john.doe@example.com"
+}
+```
+
+**2. POST - Create a User (Invalid Email Format)**
+```bash
+curl -i -X POST "http://127.0.0.1:5000/api/v1/places/" \
+-H "Content-Type: application/json" \
+-d '{
+  "first_name": "",
+  "last_name": "",
+  "email": "john.doeexample.com"
+}'
+```
+**Expected status:** `400 Bad Request`
+
+**Expected response:**
+```bash
+{
+    "error": "Invalid Email. Try again"
+}
+```
+
+**3. POST - Create User (Missing Required Field)**
+```bash
+curl -X POST "http://127.0.0.1:5000/api/v1/users/" -H "Content-Type: application/json" -d '{
+
+  "last_name": "Doe",
+  "email": "jack.doeexample.com"
+}'
+```
+**Expected status:** `400 Bad Request`
+
+**Expected response:**
+```bash
+{
+    "errors": {
+        "first_name": "'first_name' is a required property"
+    },
+    "message": "Input payload validation failed"
+}
+```
+
+**4. GET - Retrieve All Existing Users**
+```bash
+curl -X GET "http://127.0.0.1:5000/api/v1/users/" -H "Content-Type: application/json"
+```
+**Expected status:** `200 OK`
+
+**Expected response:**
+```bash
+{
+    "id": "be79e2c1-be43-4af3-8228-6a2ef9c68b4d",
+    "first_name": "John",
+    "last_name": "Doe",
+    "email": "john.doe@example.com"
+}
+```
+
+**5. GET - Retrieve Existing User by ID**
+```bash
+curl -X GET "http://127.0.0.1:5000/api/v1/users/be79e2c1-be43-4af3-8228-6a2ef9c68b4d" -H "Content-Type: application/json"
+```
+**Expected status:** `200 OK`
+
+**Expected response:**
+```bash
+{
+    "id": "be79e2c1-be43-4af3-8228-6a2ef9c68b4d",
+    "first_name": "John",
+    "last_name": "Doe",
+    "email": "john.doe@example.com"
+}
+```
 
 ### Place entity:  
 Base URL: `http://127.0.0.1:5000/api/v1/places/`
