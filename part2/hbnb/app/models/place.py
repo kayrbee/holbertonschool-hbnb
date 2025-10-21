@@ -41,9 +41,11 @@ class Place(Base):
 
     @description.setter
     def description(self, value):
-        if not value:
-            raise ValueError("Description cannot be empty.")
-        self._description = value
+        # Allow None or empty string
+        if value is None:
+            self._description = ""
+        else:
+            self._description = value
 
     # --- price ---
     @property
