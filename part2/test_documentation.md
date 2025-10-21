@@ -461,3 +461,4 @@ http://127.0.0.1:5000/api/v1/
 ---
 
 ## Automated testing using `unittest`:
+[unittests hosted on Github](https://github.com/kayrbee/holbertonschool-hbnb/tree/master/part2/tests)
