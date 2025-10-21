@@ -131,6 +131,40 @@ curl -X GET "http://127.0.0.1:5000/api/v1/users/be79e2c1-be43-4af3-8228-6a2ef9c6
 }
 ```
 
+**6. GET - Non-existent User**
+```bash
+curl -X GET "http://127.0.0.1:5000/api/v1/users/be79e2c1-be43-4af3-8228-6a2ef9c70v5g" -H "Content-Type: application/json"
+```
+**Expected status:** `404 NOT FOUND`
+
+**Expected response:**
+```bash
+{
+    "error": "User not found"
+}
+```
+
+**7. PUT - Update a User**
+```bash
+curl -X PUT http://127.0.0.1:5000/api/v1/users/be79e2c1-be43-4af3-8228-6a2ef9c68b4d -H "Content-Type: application/json" -d '{
+  "first_name": "Jack",
+  "last_name": "Do",
+  "email": "jack.do@example.com"
+}'
+```
+**Expected status:** `200 OK`
+
+**Expected response:**
+```bash
+{
+    "id": "be79e2c1-be43-4af3-8228-6a2ef9c68b4d",
+    "first_name": "Jack",
+    "last_name": "Do",
+    "email": "jack.do@example.com"
+}
+```
+
+
 ### Place entity:  
 Base URL: `http://127.0.0.1:5000/api/v1/places/`
 
@@ -293,3 +327,4 @@ http://127.0.0.1:5000/api/v1/
 ---
 
 ## Automated testing using `unittest`:
+
