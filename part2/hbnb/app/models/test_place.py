@@ -21,3 +21,4 @@ def test_place_creation():
     assert place.owner_id == "user123"
     assert "wifi" in place.amenities
     assert "pool" in place.amenities
+    print("Place creation test passed!")
