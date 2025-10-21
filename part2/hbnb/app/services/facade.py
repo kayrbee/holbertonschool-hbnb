@@ -82,6 +82,8 @@ class HBnBFacade:
         place = self.place_repo.get(place_id)
         if not place:
             return None
+        if isinstance(place, dict):
+            return place
         return place.to_dict()
 
     def get_all_places(self):
