@@ -1,6 +1,4 @@
 from app.models.base_class import Base
-# from app.persistence.user_repo import User_Repo
-# from app.persistence.place_repo import Place_Repo
 
 
 class Review(Base):
@@ -16,16 +14,14 @@ class Review(Base):
             self.comment = comment
         else:
             raise ValueError("Comment field is mandatory")
-        # To do - validate place_id
         if place_id:
             self.place_id = place_id
         else:
-            raise ValueError("Place must first exist to be reviewed")
-        # To do - validate user_id
+            raise ValueError("Place_id is mandatory")
         if user_id:
             self.user_id = user_id
         else:
-            raise ValueError("User must exist to leave a review")
+            raise ValueError("User_id is mandatory")
 
     def update(self, data):
         """
@@ -39,6 +35,12 @@ class Review(Base):
                 self.comment = value
         self.save()  # Updates the updated_at timestamp
 
-    # To do:
-    # implement delete_review()
-    # implement data_validator()
+    def to_dict(self):
+        """Return a dictionary representation of the review."""
+        return {
+            "id": self.id,
+            "rating": self.rating,
+            "comment": self.comment,
+            "user_id": self.user_id,
+            "place_id": self.place_id
+        }
