@@ -39,7 +39,11 @@ class AmenityResource(Resource):
     @api.response(404, 'Amenity not found')
     def get(self, amenity_id):
         """Get amenity details by ID"""
-        return facade.get_amenity(amenity_id)
+        try:
+            amenity = facade.get_amenity(amenity_id)
+            return amenity.to_dict(), 200
+        except ValueError as e:
+            return {"error": str(e)}, 404
     
     @api.expect(amenity_model)
     @api.response(200, 'Amenity updated successfully')
