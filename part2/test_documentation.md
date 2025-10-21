@@ -25,9 +25,7 @@ This documentation illustrates the **testing and validation** process for the AP
 - `longitude` : must be between -180 and 180.  
 
 ### Amenities model:
-
-
-
+- `name` : must be a string and max 25 characters
 
 ### Review model:
 
