@@ -41,7 +41,7 @@ Base URL: `http://127.0.0.1:5000/api/v1/users/`
 **1. POST - Create a User**
 
 ```bash
-curl -i -X POST "http://127.0.0.1:5000/api/v1/places/" \
+curl -i -X POST "http://127.0.0.1:5000/api/v1/users/" \
 -H "Content-Type: application/json" \
 -d '{
   "first_name": "John",
@@ -66,7 +66,7 @@ curl -i -X POST "http://127.0.0.1:5000/api/v1/places/" \
 **2. POST - Create a User (Invalid Email Format)**
 
 ```bash
-curl -i -X POST "http://127.0.0.1:5000/api/v1/places/" \
+curl -i -X POST "http://127.0.0.1:5000/api/v1/users/" \
 -H "Content-Type: application/json" \
 -d '{
   "first_name": "",
