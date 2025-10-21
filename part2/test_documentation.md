@@ -29,6 +29,9 @@ This documentation illustrates the **testing and validation** process for the AP
 ### Amenities model:
 
 ### Review model:
+- `comment` : must not be empty.
+- `user_id` : must reference valid user.
+- `place_id` : must reference valid place.
 
 ---
 
@@ -344,6 +347,43 @@ Expected Response
 ### Amenities entity:
 
 ### Review entity:
+Prerequisites: user_id and place_id are valid
+
+Create a review:
+```bash
+curl -X POST \
+  -H "Content-Type: application/json" \
+  -d "{\"comment\": \"Great place to stay\", \"rating\": 5, \"user_id\": \"$USER\", \"place_id\": \"$PLACE\"}" \
+http://127.0.0.1:5000/api/v1/reviews/
+```
+
+Update a review
+```bash
+curl -X PUT http://127.0.0.1:5000/api/v1/reviews/$REVIEW \
+  -H "Content-Type: application/json" \
+  -d '{"comment": "Updated comment", "rating": 4}'
+```
+
+List all reviews
+```bash
+curl http://127.0.0.1:5000/api/v1/reviews/
+```
+
+Get review by ID
+```bash
+curl http://127.0.0.1:5000/api/v1/reviews/$REVIEW
+```
+
+Get review by place ID
+```bash
+curl http://127.0.0.1:5000/api/v1/places/$PLACE/reviews
+```
+
+Delete a review
+```bash
+curl -X DELETE http://127.0.0.1:5000/api/v1/reviews/$REVIEW
+```
+
 
 ---
 
