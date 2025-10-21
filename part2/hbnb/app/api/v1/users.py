@@ -44,7 +44,7 @@ class UserList(Resource):
         return {'id': new_user.id, 'first_name': new_user.first_name, 'last_name': new_user.last_name, 'email': new_user.email}, 201
 
     def get(self):
-        """ Register all users """
+        """ Retrieve all users """
         users = facade.get_all_users()
         return [{
             'id': user.id,
