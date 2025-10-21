@@ -77,7 +77,7 @@ class HBnBFacade:
         self.place_repo.add(place)
         return place.to_dict()
 
-    def get_place(self, place_id):
+    def get_place_by_id(self, place_id):
         """Get a place by ID"""
         place = self.place_repo.get(place_id)
         if not place:
