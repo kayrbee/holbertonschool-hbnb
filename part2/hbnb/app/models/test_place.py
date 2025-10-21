@@ -1,24 +1,72 @@
-import pytest
-from models.place import Place
+import unittest
+from app import create_app
 
-def test_place_creation():
-    """Test that a Place object is created correctly"""
-    place = Place(
-        title="Beach House",
-        description="A nice place to stay",
-        price=200,
-        latitude=-37.8,
-        longitude=144.9,
-        owner_id="user123",
-        amenities=["wifi", "pool"]
-    )
+class TestPlaceEndpoints(unittest.TestCase):
 
-    assert place.title == "Beach House"
-    assert place.description == "A nice place to stay"
-    assert place.price == 200
-    assert place.latitude == -37.8
-    assert place.longitude == 144.9
-    assert place.owner_id == "user123"
-    assert "wifi" in place.amenities
-    assert "pool" in place.amenities
-    print("Place creation test passed!")
+    def setUp(self):
+        self.app = create_app()
+        self.client = self.app.test_client()
+    
+    def test_create_place(self):
+        response = self.client.post('/api/v1/places/', json={
+            "title": "Beach House",
+            "description": "A nice place to stay",
+            "price": 200,
+            "latitude": -37.8,
+            "longitude": 144.9,
+            "owner_id": "user123",
+            "amenities": ["wifi, pool"]
+        })
+        self.assertEqual(response.status_code, 201)
+
+
+    def test_create_place_empty_description(self):
+        response = self.client.post('/api/v1/places/', json={
+            "title": "Beach House",
+            "description": "",
+            "price": 200,
+            "latitude": -37.8,
+            "longitude": 144.9,
+            "owner_id": "user123",
+            "amenities": ["wifi, pool"]
+        })
+        self.assertEqual(response.status_code, 201)
+
+
+    def test_create_place_missing_field(self):
+        response = self.client.post('/api/v1/places/', json={
+            "title": "",  # invalid
+            "description": "A nice place to stay",
+            "price": 200,
+            "latitude": -37.8,
+            "longitude": 144.9,
+            "owner_id": "user123",
+            "amenities": ["wifi, pool"]
+        })
+        self.assertEqual(response.status_code, 400)
+
+
+    def test_create_place_negative_price(self):
+        response = self.client.post('/api/v1/places/', json={
+            "title": "Beach House",
+            "description": "A nice place to stay",
+            "price": -200,  # invalid
+            "latitude": -37.8,
+            "longitude": 144.9,
+            "owner_id": "user123",
+            "amenities": ["wifi, pool"]
+        })
+        self.assertEqual(response.status_code, 400)
+    
+
+    def test_create_place_invalid_coordinates(self):
+        response = self.client.post('/api/v1/places/', json={
+            "title": "Beach House",
+            "description": "A nice place to stay",
+            "price": -200,
+            "latitude": 100,  #invalid
+            "longitude": 144.9,
+            "owner_id": "user123",
+            "amenities": ["wifi, pool"]
+        })
+        self.assertEqual(response.status_code, 400)
