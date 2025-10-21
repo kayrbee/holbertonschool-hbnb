@@ -52,13 +52,15 @@ class PlaceList(Resource):
                 return {"error": "No input data provided"}, 400
 
             # Validate required fields
-            required_fields = ["title", "price", "latitude", "longitude", "owner_id", "amenities"]
-            missing_fields = [field for field in required_fields if field not in data]
+            required_fields = ["title", "price", "latitude",
+                               "longitude", "owner_id", "amenities"]
+            missing_fields = [
+                field for field in required_fields if field not in data]
             if missing_fields:
                 return {
                     "error": "Missing fields: {}".format(", ".join(missing_fields))
                 }, 400
-            
+
             # Normalize amenities (allow string or list)
             amenities = data.get("amenities", [])
             if isinstance(amenities, str):
@@ -67,20 +69,19 @@ class PlaceList(Resource):
 
             # Create and return
             created = facade.create_place(data)
-            return created, 201 
-        
+            return created, 201
+
         except KeyError as e:
             # If a required field is missing in the data
             return {"error": "Missing key: {}".format(str(e))}, 400
-        
+
         except ValueError as e:
             # If the data is wrong
             return {"error": str(e)}, 400
-        
+
         except Exception as e:
             # If something else goes wrong
             return {"error": "An unexpected error occurred: {}".format(str(e))}, 500
-
 
     @api.response(200, 'List of places retrieved successfully')
     def get(self):
@@ -96,11 +97,10 @@ class PlaceResource(Resource):
     def get(self, place_id):
         """Get place details by ID"""
         # Get the place from the facade (later connected to your repo)
-        place = facade.get_place_by_id(place_id)  # expect dict or None
+        place = facade.get_place(place_id)  # expect dict or None
         if not place:
             return {"error": "Place not found"}, 404
         return place, 200
-        
 
     @api.expect(place_model)
     @api.response(200, 'Place updated successfully')
