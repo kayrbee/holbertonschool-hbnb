@@ -27,6 +27,7 @@ This documentation illustrates the **testing and validation** process for the AP
 - `longitude` : must be between -180 and 180.
 
 ### Amenities model:
+- `name` : must be a string and max 25 characters
 
 ### Review model:
 - `comment` : must not be empty.
@@ -345,6 +346,68 @@ Expected Response
 ```
 
 ### Amenities entity:
+Base URL: `http://127.0.0.1:5000/api/v1/places/`
+
+**1. Create a new amenity (Valid Data – 201 Created)**
+
+```bash
+curl -X POST -H 'Content-Type: application/json' -d '{"name": "Aesop hand wash"}' http://127.0.0.1:5000/api/v1/amenities/
+```
+
+Expected Response
+
+```bash
+{
+    "id": "97fad86c-2008-43c7-b6ea-dbd2b20350dd",
+    "name": "Aesop hand wash"
+}
+
+// 201 Created
+```
+
+**1. Retrieve amenity list (Valid Data – 201 Created)**
+
+```bash
+curl -X POST -H 'Content-Type: application/json' -d '{"name": "Aesop hand wash"}' http://127.0.0.1:5000/api/v1/amenities/
+curl -X POST -H 'Content-Type: application/json' -d '{"name": "Pool"}' http://127.0.0.1:5000/api/v1/amenities/
+```
+
+```bash
+curl -X GET -H 'Content-Type: application/json' http://127.0.0.1:5000/api/v1/amenities/
+```
+
+Expected Response
+
+```bash
+[
+    {
+        "id": "68698cec-6dee-4a7c-8c61-c95053c3e310",
+        "name": "Aesop hand wash"
+    },
+    {
+        "id": "a52d9913-5b3b-412c-bb96-d7c90d583e50",
+        "name": "Pool"
+    }
+]
+
+// 200 OK
+```
+
+**3. Add amenity exceeding 25 characters (400 Bad Request)**
+
+```bash
+curl -X POST -H 'Content-Type: application/json' -d '{"name": "Aesop hand wash from the himalayas"}' http://127.0.0.1:5000/api/v1/amenities/
+```
+
+Expected Response
+
+```bash
+{
+    "error": "Amenity length cannot exceed 25 characters"
+}
+
+// 400 Bad Request
+```
 
 ### Review entity:
 Prerequisites: user_id and place_id are valid
@@ -374,7 +437,7 @@ Get review by ID
 curl http://127.0.0.1:5000/api/v1/reviews/$REVIEW
 ```
 
-Get review by place ID
+Get review by place IDgit
 ```bash
 curl http://127.0.0.1:5000/api/v1/places/$PLACE/reviews
 ```
