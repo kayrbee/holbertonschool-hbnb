@@ -1,5 +1,7 @@
 from flask_restx import Namespace, Resource, fields
 from app.services import facade
+from flask import request
+
 
 api = Namespace('places', description='Place operations')
 
@@ -84,15 +86,7 @@ class PlaceList(Resource):
     def get(self):
         """Retrieve a list of all places"""
         places = facade.get_all_places()
-        return [{
-            'id': place.id,
-            'title': place.title,
-            'description': place.description,
-            'price': place.price,
-            'latitude': place.latitude,
-            'longitude': place.longitude,
-            'owner_id': place.owner_id
-        } for place in places], 200
+        return places, 200
 
 
 @api.route('/<place_id>')
@@ -102,22 +96,10 @@ class PlaceResource(Resource):
     def get(self, place_id):
         """Get place details by ID"""
         # Get the place from the facade (later connected to your repo)
-        place = facade.get_place_by_id(place_id)
-            
-        # If no place found, return 404
+        place = facade.get_place_by_id(place_id)  # expect dict or None
         if not place:
             return {"error": "Place not found"}, 404
-            
-        # Return the place details
-        return {
-                "id": place.id,
-                "title": place.title,
-                "description": place.description,
-                "price": place.price,
-                "latitude": place.latitude,
-                "longitude": place.longitude,
-                "owner_id": place.owner_id
-            }, 200
+        return place, 200
         
 
     @api.expect(place_model)
@@ -126,22 +108,14 @@ class PlaceResource(Resource):
     @api.response(400, 'Invalid input data')
     def put(self, place_id):
         """Update a place's information"""
-        place = facade.get_place_by_id(place_id)
-        if not place:
+        existing = facade.get_place_by_id(place_id)
+        if not existing:
             return {'error': 'Place not found'}, 404
 
-        data = request.get_json()
-        updated_place = facade.put_place(place_id, data)
+        data = request.get_json() or {}
+        updated = facade.put_place(place_id, data)  # expect dict or None
 
-        if not updated_place:
+        if not updated:
             return {'error': 'Update unsuccessful'}, 400
 
-        return {
-            'id': updated_place.id,
-            'title': updated_place.title,
-            'description': updated_place.description,
-            'price': updated_place.price,
-            'latitude': updated_place.latitude,
-            'longitude': updated_place.longitude,
-            'owner_id': updated_place.owner_id
-        }, 200
+        return updated, 200
