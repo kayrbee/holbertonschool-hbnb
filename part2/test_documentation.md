@@ -543,12 +543,17 @@ curl -X PUT http://127.0.0.1:5000/api/v1/reviews/$REVIEW \
 
 **4. PUT - Update a review (Invalid data)**
 ```bash
+curl -X PUT http://127.0.0.1:5000/api/v1/reviews/$REVIEW   \
+  -H "Content-Type: application/json"   -d '{"rating": 40}'
 ```
 
 **Expected status:** `400 Invalid Input Data`
 
 **Expected response:**
 ```bash
+{
+    "error": "Rating must be between 1 and 5"
+}
 ```
 
 **5. PUT - Update a review (Review not found)**
