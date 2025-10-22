@@ -63,8 +63,10 @@ class Review(Base):
         Updates only if value has changed
         """
         for key, value in data.items():
-            if hasattr(self, key) and getattr(self, key) != value:
-                setattr(self, key, value)
+            if key == "rating" and value != self.rating:
+                self.rating = value
+            if key == "text" and value != self.text:
+                self.text = value
         self.save()  # Updates the updated_at timestamp
 
     def to_dict(self):
