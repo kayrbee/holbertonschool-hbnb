@@ -15,6 +15,7 @@ This documentation illustrates the **testing and validation** process for the AP
 
 
 **unittest tests**
+
 Navigate to the `/test` directory
 Ensure that `PYTHONPATH` is set, so that the interpreter can find `app`
 Run the desired test file/s
@@ -25,12 +26,15 @@ PYTHONPATH=.. python <test_file>.py
 ```
 
 **pytest tests**
+
 Install pytest
+Naviage to the project directory
+Run the test file using pytest
 
 ```bash
 pip install pytest
 cd part2/hbnb
-pytest tests/test_review_api.py
+pytest tests/<test_file>.py
 ```
 
 ## Validation Rules Implemented:
