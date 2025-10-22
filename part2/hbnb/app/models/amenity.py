@@ -23,6 +23,6 @@ class Amenity(Base):
         return {
             "id": self.id,
             "name": self.name,
-            "created at": self.created_at,
-            "updated at": self.updated_at
+            "created at": str(self.created_at),
+            "updated at": str(self.updated_at)
         }
