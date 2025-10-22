@@ -184,12 +184,12 @@ class HBnBFacade:
     def update_review(self, review_id, data):
         review = self.review_repo.get(review_id)
         if not review:
-            return None
+            raise ValueError("Review not found")
         try:
             review.update(data)
             return review
-        except Exception as e:
-            return {"Error": f"{e}"}
+        except TypeError as e:
+            return f"{e}"
 
     def delete_review(self, review_id):
         review = self.review_repo.get(review_id)

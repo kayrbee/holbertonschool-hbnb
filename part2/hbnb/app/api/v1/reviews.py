@@ -24,8 +24,10 @@ class ReviewList(Resource):
         try:
             new_review = facade.create_review(review_data)
             return {'id': new_review.id, 'rating': new_review.rating, 'text': new_review.text, 'user': new_review.user, 'place': new_review.place}, 201
-        except Exception as e:
+        except (ValueError, TypeError) as e:
             return {"error": f"{e}"}, 400
+        except Exception:
+            return {"error": "Internal server error"}, 500
 
     @api.response(200, 'List of reviews retrieved successfully')
     def get(self):
@@ -33,8 +35,8 @@ class ReviewList(Resource):
         try:
             reviews = facade.get_all_reviews()
             return [review.to_dict() for review in reviews], 200
-        except Exception as e:
-            return {"error": f'{e}'}, 404
+        except Exception:
+            return {"error": "Internal server error"}, 500
 
 
 @api.route('/<review_id>')
@@ -46,8 +48,10 @@ class ReviewResource(Resource):
         try:
             review = facade.get_review(review_id)
             return review.to_dict(), 200
-        except Exception as e:
-            return {"Error": f'{e}'}, 404
+        except ValueError:
+            return {"Error": "Review not found"}, 404
+        except Exception:
+            return {"error": "Internal server error"}, 500
 
     @api.expect(review_model)
     @api.response(200, 'Review updated successfully')
@@ -59,8 +63,12 @@ class ReviewResource(Resource):
         try:
             facade.update_review(review_id, data)
             return "Successfully updated review", 200
-        except Exception as e:
-            return {"error": f'{e}'}
+        except ValueError:
+            return {"error": 'Review not found'}, 404
+        except TypeError:
+            return {"error": 'Invalid input data'}, 400
+        except Exception:
+            return {"error": "Internal server error"}, 500
 
     @api.response(200, 'Review deleted successfully')
     @api.response(404, 'Review not found')
@@ -69,8 +77,10 @@ class ReviewResource(Resource):
         try:
             facade.delete_review(review_id)
             return "success", 200
-        except Exception as e:
-            return {"error": f"{e}"}, 404
+        except ValueError:
+            return {"error": 'Review not found'}, 404
+        except Exception:
+            return {"error": "Internal server error"}, 500
 
 
 @api.route('/places/<place_id>/reviews')
@@ -82,5 +92,7 @@ class PlaceReviewList(Resource):
         try:
             reviews = facade.get_reviews_by_place(place_id)
             return [review for review in reviews], 200
-        except Exception as e:
-            return {"error": f"{e}"}, 404
+        except ValueError:
+            return {"error": "Place not found"}, 404
+        except Exception:
+            return {"error": "Internal server error"}, 500
