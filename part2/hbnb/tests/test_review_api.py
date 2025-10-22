@@ -1,5 +1,6 @@
 import unittest
 import json
+import uuid
 from app import create_app
 
 
@@ -11,12 +12,14 @@ class TestReviewEndpoints(unittest.TestCase):
 
         # Create test data
         # Create a valid user_id
+        unique_email = f"test_{uuid.uuid4().hex}@example.com"
         user_response = self.client.post(
             "/api/v1/users/",
             json={
                 "first_name": "John",
                 "last_name": "Doe",
-                "email": "test@example.com"}
+                "email": unique_email
+            }
         )
         self.assertEqual(user_response.status_code, 201)
         self.user_id = user_response.get_json()["id"]
@@ -46,7 +49,9 @@ class TestReviewEndpoints(unittest.TestCase):
         }
 
     def test_get_reviews_empty_list(self):
-        """ Get reviews should return an empty list when there are no reviews"""
+        """ Get reviews should return an empty list when there are no reviews
+        Note: this will only pass on the first run until I handle teardown
+        """
         response = self.client.get('/api/v1/reviews/')
         self.assertEqual(response.status_code, 200)
         data = response.get_json()
