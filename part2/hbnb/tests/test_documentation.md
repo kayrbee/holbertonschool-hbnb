@@ -53,7 +53,7 @@ pytest tests/<test_file>.py
 - `longitude` : must be between -180 and 180.
 
 ### Amenities model:
-- `name` : must be a string and max 25 characters
+- `name` : must be a string and max 50 characters
 
 ### Review model:
 - `comment` : must not be empty.
