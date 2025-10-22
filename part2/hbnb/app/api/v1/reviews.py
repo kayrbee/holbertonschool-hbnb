@@ -6,7 +6,7 @@ api = Namespace('reviews', description='Review operations')
 
 # Define the review model for input validation and documentation
 review_model = api.model('Review', {
-    'comment': fields.String(required=True, description='Review comment'),
+    'text': fields.String(required=True, description='Review comment'),
     'rating': fields.Integer(required=True, description='Rating of the place (1-5)'),
     'user_id': fields.String(required=True, description='ID of the review author'),
     'place_id': fields.String(required=True, description='ID of the place')
@@ -23,9 +23,9 @@ class ReviewList(Resource):
         review_data = api.payload
         try:
             new_review = facade.create_review(review_data)
-            return {'id': new_review.id, 'rating': new_review.rating, 'comment': new_review.comment, 'user_id': new_review.user_id, 'place_id': new_review.place_id}, 201
+            return {'id': new_review.id, 'rating': new_review.rating, 'text': new_review.text, 'user': new_review.user, 'place': new_review.place}, 201
         except Exception as e:
-            return {"error": f"{e}"}
+            return {"error": f"{e}"}, 400
 
     @api.response(200, 'List of reviews retrieved successfully')
     def get(self):
