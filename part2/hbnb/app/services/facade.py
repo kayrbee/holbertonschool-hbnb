@@ -171,10 +171,10 @@ class HBnBFacade:
         return self.review_repo.get(review_id)
 
     def get_reviews_by_place(self, place_id):
-        if not self.place_repo.get(place_id):
+        place = self.place_repo.get(place_id)
+        if not place:
             raise ValueError("Place not found")
-        reviews = self.review_repo.get_by_attribute("place", place_id)
-        return [review.to_dict() for review in reviews]
+        return place.reviews
 
     def get_all_reviews(self):
         if not self.review_repo.get_all():

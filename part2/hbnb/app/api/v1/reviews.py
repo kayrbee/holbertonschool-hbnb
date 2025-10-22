@@ -81,6 +81,6 @@ class PlaceReviewList(Resource):
         """Get all reviews for a specific place"""
         try:
             reviews = facade.get_reviews_by_place(place_id)
-            return [review.to_dict() for review in reviews], 200
+            return [review for review in reviews], 200
         except Exception as e:
             return {"error": f"{e}"}, 404
