@@ -450,10 +450,14 @@ Expected Response
     {
         "id": "68698cec-6dee-4a7c-8c61-c95053c3e310",
         "name": "Aesop hand wash"
+        "created at": "2025-10-22 18:25:14.575684",
+        "updated at": "2025-10-22 18:25:14.575688"
     },
     {
         "id": "a52d9913-5b3b-412c-bb96-d7c90d583e50",
         "name": "Pool"
+        "created at": "2025-10-22 18:30:14.575684",
+        "updated at": "2025-10-22 18:30:14.575688"
     }
 ]
 
