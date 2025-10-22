@@ -72,7 +72,7 @@ class TestPlaceEndpoints(unittest.TestCase):
         self.assertEqual(response.status_code, 400)
     
     def test_get_all_places(self):
-        response = self.client.get('/api/v1/places')
+        response = self.client.get('/api/v1/places/')
         self.assertEqual(response.status_code, 200)
     
     def test_get_place_by_id(self):
@@ -88,10 +88,10 @@ class TestPlaceEndpoints(unittest.TestCase):
         self.assertEqual(create_response.status_code, 201)
 
         # Get the ID from the response
-        place_id = create_response.get_json().get("id")
+        place_id = create_response.get_json()["id"]
 
         # Retrieve it by ID
-        response = self.client.get(f"/api/v1/places/{place_id}/")
+        response = self.client.get(f"/api/v1/places/{place_id}")
         self.assertEqual(response.status_code, 200)
 
 
