@@ -2,7 +2,7 @@ from app.models.base_class import Base
 
 
 class Review(Base):
-    def __init__(self, rating: int, comment: str, place_id: str = None, user_id: str = None):
+    def __init__(self, rating: int, text: str, place: str, user: str):
         super().__init__()
         if type(rating) is not int:
             raise TypeError("Rating must be an integer")
@@ -10,18 +10,18 @@ class Review(Base):
             self.rating = rating
         else:
             raise ValueError("Rating must be between 1 and 5")
-        if comment != None:
-            self.comment = comment
+        if text != None:
+            self.text = text
         else:
-            raise ValueError("Comment field is mandatory")
-        if place_id:
-            self.place_id = place_id
+            raise ValueError("Text field is mandatory")
+        if place:
+            self.place = place
         else:
-            raise ValueError("Place_id is mandatory")
-        if user_id:
-            self.user_id = user_id
+            raise ValueError("Place is mandatory")
+        if user:
+            self.user = user
         else:
-            raise ValueError("User_id is mandatory")
+            raise ValueError("User is mandatory")
 
     def update(self, data):
         """
@@ -31,8 +31,8 @@ class Review(Base):
         for key, value in data.items():
             if key == "rating" and value != self.rating:
                 self.rating = value
-            if key == "comment" and value != self.comment:
-                self.comment = value
+            if key == "text" and value != self.text:
+                self.text = value
         self.save()  # Updates the updated_at timestamp
 
     def to_dict(self):
@@ -40,7 +40,7 @@ class Review(Base):
         return {
             "id": self.id,
             "rating": self.rating,
-            "comment": self.comment,
-            "user_id": self.user_id,
-            "place_id": self.place_id
+            "text": self.text,
+            "user": self.user,
+            "place": self.place
         }
