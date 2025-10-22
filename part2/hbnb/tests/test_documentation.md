@@ -11,6 +11,17 @@ This documentation illustrates the **testing and validation** process for the AP
 
 ---
 
+### To run the automated tests for this project
+
+Navigate to the `/test` directory
+Ensure that `PYTHONPATH` is set, so that the interpreter can find `app`
+Run the desired test file/s
+
+```bash
+cd part2/hbnb/tests
+PYTHONPATH=.. python <test_file>.py
+```
+
 ## Validation Rules Implemented:
 
 ### User model:
