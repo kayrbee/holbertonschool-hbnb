@@ -154,9 +154,9 @@ class HBnBFacade:
     def create_review(self, review_data):
         """ create a new review (POST /reviews)"""
         review = Review(**review_data)
-        # Validate user_id and place_id before saving review
-        place = self.place_repo.get(review.place_id)
-        user = self.user_repo.get(review.user_id)
+        # Validate user and place before saving review
+        place = self.place_repo.get(review.place)
+        user = self.user_repo.get(review.user)
         if not place:
             raise ValueError("Place not found, cannot submit review")
         if not user:
@@ -171,31 +171,28 @@ class HBnBFacade:
         return self.review_repo.get(review_id)
 
     def get_reviews_by_place(self, place_id):
-        if not self.place_repo.get(place_id):
+        place = self.place_repo.get(place_id)
+        if not place:
             raise ValueError("Place not found")
-        reviews = self.review_repo.get_by_attribute("place_id", place_id)
-        return [review.to_dict() for review in reviews]
+        return place.reviews
 
     def get_all_reviews(self):
-        if not self.review_repo.get_all():
-            raise ValueError("No reviews found")
         return self.review_repo.get_all()
 
     def update_review(self, review_id, data):
         review = self.review_repo.get(review_id)
         if not review:
-            return None
-        try:
-            review.update(data)
-            return review
-        except Exception as e:
-            return {"Error": f"{e}"}
+            raise ValueError("Review not found")
+        review.update(data)
+        return review
 
     def delete_review(self, review_id):
         review = self.review_repo.get(review_id)
         if not review:
             raise ValueError("Review not found")
-        place = self.place_repo.get(review.place_id)
-        place.reviews.remove(review)  # Remove review from place before delete
+        place_id = review.place
+        place = self.place_repo.get(place_id)
+        # Remove this review from place's reviews list before deletion
+        place.reviews = [r for r in place.reviews if r['id'] != review.id]
         self.review_repo.delete(review_id)
         return "Review deleted"
