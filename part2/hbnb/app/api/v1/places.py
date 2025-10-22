@@ -97,7 +97,7 @@ class PlaceResource(Resource):
     def get(self, place_id):
         """Get place details by ID"""
         # Get the place from the facade (later connected to your repo)
-        place = facade.get_place(place_id)  # expect dict or None
+        place = facade.get_place_by_id(place_id)  # expect dict or None
         if not place:
             return {"error": "Place not found"}, 404
         return place, 200
@@ -113,7 +113,7 @@ class PlaceResource(Resource):
             return {'error': 'Place not found'}, 404
 
         data = request.get_json() or {}
-        updated = facade.put_place(place_id, data)  # expect dict or None
+        updated = facade.update_place(place_id, data)  # expect dict or None
 
         if not updated:
             return {'error': 'Update unsuccessful'}, 400
