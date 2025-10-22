@@ -32,11 +32,8 @@ class ReviewList(Resource):
     @api.response(200, 'List of reviews retrieved successfully')
     def get(self):
         """Retrieve all reviews"""
-        try:
-            reviews = facade.get_all_reviews()
-            return [review.to_dict() for review in reviews], 200
-        except Exception:
-            return {"error": "Internal server error"}, 500
+        reviews = facade.get_all_reviews()
+        return [review.to_dict() for review in reviews], 200
 
 
 @api.route('/<review_id>')
@@ -61,14 +58,14 @@ class ReviewResource(Resource):
         """Update a review's information"""
         data = api.payload
         try:
-            facade.update_review(review_id, data)
-            return "Successfully updated review", 200
+            update = facade.update_review(review_id, data)
+            return update.to_dict, 200
         except ValueError:
             return {"error": 'Review not found'}, 404
         except TypeError:
             return {"error": 'Invalid input data'}, 400
-        except Exception:
-            return {"error": "Internal server error"}, 500
+        except Exception as e:
+            return {"error": f"Internal server error {e}"}, 500
 
     @api.response(200, 'Review deleted successfully')
     @api.response(404, 'Review not found')
@@ -76,7 +73,7 @@ class ReviewResource(Resource):
         """Delete a review"""
         try:
             facade.delete_review(review_id)
-            return "success", 200
+            return {"success": "Review deleted"}, 200
         except ValueError:
             return {"error": 'Review not found'}, 404
         except Exception:

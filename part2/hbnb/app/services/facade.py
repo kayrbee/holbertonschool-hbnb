@@ -177,8 +177,6 @@ class HBnBFacade:
         return place.reviews
 
     def get_all_reviews(self):
-        if not self.review_repo.get_all():
-            raise ValueError("No reviews found")
         return self.review_repo.get_all()
 
     def update_review(self, review_id, data):
