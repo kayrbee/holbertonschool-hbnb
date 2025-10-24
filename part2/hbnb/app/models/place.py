@@ -104,7 +104,7 @@ class Place(Base):
     def to_dict(self):
         """Return a dictionary representation of the Place."""
         return {
-            "id": getattr(self, "id", None),
+            "id": self.id,
             "title": self.title,
             "description": self.description,
             "price": self.price,
