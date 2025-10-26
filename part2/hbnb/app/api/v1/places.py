@@ -46,48 +46,61 @@ class PlaceList(Resource):
     def post(self):
         """Register a new place"""
         try:
-            # Get JSON data from request
-            data = api.payload
-            if not data:
-                return {"error": "No input data provided"}, 400
+            data = api.payload or {}
+            if isinstance(data.get("amenities"), str):
+                data["amenities"] = [data["amenities"]]
 
-            # Validate required fields
-            required_fields = ["title", "price", "latitude",
-                               "longitude", "owner_id", "amenities"]
-            missing_fields = [
-                field for field in required_fields if field not in data]
-            if missing_fields:
-                return {
-                    "error": "Missing fields: {}".format(", ".join(missing_fields))
-                }, 400
+            place = facade.create_place(data)
+            d = place.to_dict()
+            if "id" not in d and hasattr(place, "id"):
+                d["id"] = place.id
 
-            # Normalize amenities (allow string or list)
-            amenities = data.get("amenities", [])
-            if isinstance(amenities, str):
-                amenities = [amenities]
-            data["amenities"] = amenities
+            owner = facade.get_user_by_id(place.owner_id)
+            if owner and hasattr(owner, "to_dict"):
+                d["owner"] = owner.to_dict()
 
-            # Create and return
-            created = facade.create_place(data)
-            return created, 201
+            amenities = []
+            for amenity_id in d.get("amenities", []):
+                a = facade.amenity_repo.get(amenity_id)
+                if a and hasattr(a, "to_dict"):
+                    amenities.append(a.to_dict())
+            d["amenities"] = amenities
 
-        except KeyError as e:
-            # If a required field is missing in the data
-            return {"error": "Missing key: {}".format(str(e))}, 400
+            return d, 201
 
         except ValueError as e:
-            # If the data is wrong
             return {"error": str(e)}, 400
+        except Exception:
+            return {"error": "Internal server error"}, 500
 
-        except Exception as e:
-            # If something else goes wrong
-            return {"error": "An unexpected error occurred: {}".format(str(e))}, 500
 
     @api.response(200, 'List of places retrieved successfully')
     def get(self):
         """Retrieve a list of all places"""
-        places = facade.get_all_places()
-        return places, 200
+        """Retrieve a list of all places"""
+        try:
+            places = facade.get_all_places()
+            results = []
+            for p in places:
+                d = p.to_dict()
+
+                owner = facade.get_user_by_id(p.owner_id)
+                d["owner"] = owner.to_dict() if owner and hasattr(owner, "to_dict") else None
+
+                amenities = []
+                for amenity_id in d.get("amenities", []):
+                    a = facade.amenity_repo.get(amenity_id)
+                    if a and hasattr(a, "to_dict"):
+                        amenities.append(a.to_dict())
+                d["amenities"] = amenities
+
+                results.append(d)
+            return results, 200
+
+        except ValueError:
+            return [], 200
+        except Exception:
+            return {"error": "Internal server error"}, 500
 
 
 @api.route('/<place_id>')
@@ -96,11 +109,26 @@ class PlaceResource(Resource):
     @api.response(404, 'Place not found')
     def get(self, place_id):
         """Get place details by ID"""
-        # Get the place from the facade (later connected to your repo)
-        place = facade.get_place_by_id(place_id)  # expect dict or None
-        if not place:
+        try:
+            place = facade.get_place_by_id(place_id)
+            d = place.to_dict()
+
+            owner = facade.get_user_by_id(place.owner_id)
+            d["owner"] = owner.to_dict() if owner and hasattr(owner, "to_dict") else None
+
+            amenities = []
+            for amenity_id in d.get("amenities", []):
+                a = facade.amenity_repo.get(amenity_id)
+                if a and hasattr(a, "to_dict"):
+                    amenities.append(a.to_dict())
+            d["amenities"] = amenities
+
+            return d, 200
+        except ValueError:
             return {"error": "Place not found"}, 404
-        return place, 200
+        except Exception:
+            return {"error": "Internal server error"}, 500
+
 
     @api.expect(place_model)
     @api.response(200, 'Place updated successfully')
@@ -108,14 +136,29 @@ class PlaceResource(Resource):
     @api.response(400, 'Invalid input data')
     def put(self, place_id):
         """Update a place's information"""
-        existing = facade.get_place_by_id(place_id)
-        if not existing:
-            return {'error': 'Place not found'}, 404
+        try:
+            payload = api.payload or {}
+            if "amenities" in payload and isinstance(payload["amenities"], str):
+                payload["amenities"] = [payload["amenities"]]
 
-        data = request.get_json() or {}
-        updated = facade.update_place(place_id, data)  # expect dict or None
+            updated = facade.update_place(place_id, payload)  # return model, not _serialize_place
+            d = updated.to_dict()
 
-        if not updated:
-            return {'error': 'Update unsuccessful'}, 400
+            owner = facade.get_user_by_id(updated.owner_id)
+            d["owner"] = owner.to_dict() if owner and hasattr(owner, "to_dict") else None
 
-        return updated, 200
+            amenities = []
+            for amenity_id in d.get("amenities", []):
+                a = facade.amenity_repo.get(amenity_id)
+                if a and hasattr(a, "to_dict"):
+                    amenities.append(a.to_dict())
+            d["amenities"] = amenities
+
+            return d, 200
+
+        except LookupError:
+            return {"error": "Place not found"}, 404
+        except ValueError as e:
+            return {"error": str(e)}, 400
+        except Exception:
+            return {"error": "Internal server error"}, 500
