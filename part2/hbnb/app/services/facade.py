@@ -47,66 +47,122 @@ class HBnBFacade:
         Create a place with including validation
         for price, latitude, and longitude
         """
-        # Validation
-        if "price" not in place_data or place_data["price"] < 0:
-            raise ValueError("Price must be a positive number")
-        if "latitude" not in place_data or not (-90 <= place_data["latitude"] <= 90):
+
+        # Required fields
+        required = ["title", "price", "latitude", "longitude", "owner_id", "amenities"]
+        missing = [f for f in required if f not in place_data]
+        if missing:
+            raise ValueError(f"Missing required field(s): {', '.join(missing)}")
+
+        # Validate owner exists
+        owner_id = place_data.get("owner_id")
+        owner = self.user_repo.get(owner_id)
+        if not owner:
+            raise ValueError("Invalid owner_id: user does not exist")
+        
+
+        # Validate numeric ranges
+        price = place_data.get("price")
+        latitude = place_data.get("latitude")
+        longitude = place_data.get("longitude")
+        if price is None or price < 0:
+            raise ValueError("Price must be a non-negative number")
+        if latitude is None or not (-90 <= latitude <= 90):
             raise ValueError("Latitude must be between -90 and 90")
-        if "longitude" not in place_data or not (-180 <= place_data["longitude"] <= 180):
+        if longitude is None or not (-180 <= longitude <= 180):
             raise ValueError("Longitude must be between -180 and 180")
 
-        # Normalise amenities (string -> list)
+        # Normalise amenities to list[str]
         amenities = place_data.get("amenities", [])
         if isinstance(amenities, str):
             amenities = [amenities]
+        if not isinstance(amenities, list):
+            raise ValueError("Amenities must be a list of amenity IDs")
 
-        # Args Place accepts
+        # Validate amenities exist
+        valid_amenity_ids = []
+        for amenity_id in amenities:
+            if not self.amenity_repo.get(amenity_id):
+                raise ValueError(f"Invalid amenity_id: {amenity_id} does not exist")
+            valid_amenity_ids.append(amenity_id)
+
         init_args = {
             "title": place_data["title"],
             "description": place_data.get("description", ""),
-            "price": place_data["price"],
-            "latitude": place_data["latitude"],
-            "longitude": place_data["longitude"],
-            "owner_id": place_data["owner_id"],
-            "amenities": amenities,
+            "price": price,
+            "latitude": latitude,
+            "longitude": longitude,
+            "owner_id": owner_id,
+            "amenities": valid_amenity_ids,
             "reviews": place_data.get("reviews", []),
         }
 
-        # Create and save the place
         place = Place(**init_args)
         self.place_repo.add(place)
-        return place.to_dict()
+        return place
 
     def get_place_by_id(self, place_id):
         """Get a place by ID"""
-        place = self.place_repo.get(place_id)
-        if not place:
-            return None
-        if isinstance(place, dict):
-            return place
-        return place.to_dict()
+        if not self.place_repo.get(place_id):
+            raise ValueError("Place not found")
+        return self.place_repo.get(place_id)
 
     def get_all_places(self):
         """Get all places"""
-        places = self.place_repo.get_all()
-
-        place_dicts = []
-        for p in places:
-            place_dicts.append(p.to_dict())
-
-        return place_dicts
+        if not self.place_repo.get_all():
+            raise ValueError("No Places found")
+        return self.place_repo.get_all()
 
     def update_place(self, place_id, place_data):
         """Update a place by ID"""
+
         place = self.place_repo.get(place_id)
         if not place:
-            return {"error": "Place not found"}, 404
+            raise LookupError("Place not found")
 
-        for key, value in place_data.items():
-            setattr(place, key, value)
+        updates = place_data
 
-        self.place_repo.update(place_id, place)
-        return place.to_dict()
+        if "price" in updates and updates["price"] is not None:
+            if updates["price"] < 0:
+                raise ValueError("Price must be a positive number")
+
+        if "latitude" in updates and updates["latitude"] is not None:
+            if not (-90 <= updates["latitude"] <= 90):
+                raise ValueError("Latitude must be between -90 and 90")
+
+        if "longitude" in updates and updates["longitude"] is not None:
+            if not (-180 <= updates["longitude"] <= 180):
+                raise ValueError("Longitude must be between -180 and 180")
+
+        if "amenities" in updates:
+            amenities = updates["amenities"]
+
+            # allow string or list
+            if isinstance(amenities, str):
+                amenities = [amenities]
+
+            if not isinstance(amenities, list):
+                raise ValueError("Amenities must be a list of amenity IDs")
+
+            # Verify each amenity ID exists in the repository
+            for amenity_id in amenities:
+                if not self.amenity_repo.get(amenity_id):
+                    raise ValueError(f"Invalid amenity_id: {amenity_id} does not exist")
+
+            # Replace the original value with the cleaned list
+            updates["amenities"] = amenities
+
+        allowed = {"title", "description", "price", "latitude", "longitude", "amenities"}
+
+        # new dictionary containing only valid update keys
+        safe_updates = {}
+        for key, value in updates.items():
+            if key in allowed:
+                safe_updates[key] = value
+
+        self.place_repo.update(place_id, safe_updates)
+
+        return self.place_repo.get(place_id)
 
     # --- Amenity ---
     def create_amenity(self, amenity_data):
