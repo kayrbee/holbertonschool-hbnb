@@ -1,5 +1,5 @@
 import pytest
-from .review import Review
+from ..app.models.review import Review
 
 
 def test_review_creation():

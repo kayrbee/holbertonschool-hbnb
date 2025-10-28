@@ -16,7 +16,7 @@ class TestPlaceEndpoints(unittest.TestCase):
 
     def test_create_amenity_too_long(self):
         response = self.client.post('/api/v1/amenities/', json={
-            "name": "Aesop hand wash from the himalayas"
+            "name": "Aesop hand wash from the himalayas with plastic microbeads, which noone wants"
         })
         self.assertEqual(response.status_code, 400)
 

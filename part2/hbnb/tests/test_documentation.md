@@ -11,6 +11,32 @@ This documentation illustrates the **testing and validation** process for the AP
 
 ---
 
+### To run the automated tests for this project
+
+
+**unittest tests**
+
+Navigate to the `/test` directory
+Ensure that `PYTHONPATH` is set, so that the interpreter can find `app`
+Run the desired test file/s
+
+```bash
+cd part2/hbnb/tests
+PYTHONPATH=.. python <test_file>.py
+```
+
+**pytest tests**
+
+Install pytest
+Naviage to the project directory
+Run the test file using pytest
+
+```bash
+pip install pytest
+cd part2/hbnb
+pytest tests/<test_file>.py
+```
+
 ## Validation Rules Implemented:
 
 ### User model:
@@ -27,8 +53,12 @@ This documentation illustrates the **testing and validation** process for the AP
 - `longitude` : must be between -180 and 180.
 
 ### Amenities model:
+<<<<<<< HEAD:part2/test_documentation.md
 
 - `name` : must be a string and max 25 characters
+=======
+- `name` : must be a string and max 50 characters
+>>>>>>> master:part2/hbnb/tests/test_documentation.md
 
 ### Review model:
 
@@ -462,10 +492,14 @@ Expected Response
     {
         "id": "68698cec-6dee-4a7c-8c61-c95053c3e310",
         "name": "Aesop hand wash"
+        "created at": "2025-10-22 18:25:14.575684",
+        "updated at": "2025-10-22 18:25:14.575688"
     },
     {
         "id": "a52d9913-5b3b-412c-bb96-d7c90d583e50",
         "name": "Pool"
+        "created at": "2025-10-22 18:30:14.575684",
+        "updated at": "2025-10-22 18:30:14.575688"
     }
 ]
 
@@ -489,57 +523,252 @@ Expected Response
 ```
 
 ### Review entity:
+<<<<<<< HEAD:part2/test_documentation.md
 
 Prerequisites: user_id and place_id are valid
 
 Create a review:
 
+=======
+
+Base URL: `http://127.0.0.1:5000/api/v1/reviews/`
+
+**1. POST - Create a Review**
+
+Prerequisites: user and place are both valid uuids
+>>>>>>> master:part2/hbnb/tests/test_documentation.md
 ```bash
 curl -X POST \
   -H "Content-Type: application/json" \
-  -d "{\"comment\": \"Great place to stay\", \"rating\": 5, \"user_id\": \"$USER\", \"place_id\": \"$PLACE\"}" \
+  -d "{\"text\": \"A bit cold and full of spiders\", \"rating\": 3, \"user\": \"$USER\", \"place\": \"$PLACE\"}" \
+http://127.0.0.1:5000/api/v1/reviews/
+```
+**Expected status:** `201 Created`
+
+**Expected response:**
+```bash
+{
+    "id": "f1cfb1c2-46f7-4920-b5f3-f277d435a452",
+    "rating": 3,
+    "text": "A bit cold and full of spiders",
+    "user": "3a3116c0-7edd-4467-9639-7b7bfe7d8885",
+    "place": "677bb9f4-5c2a-4e78-b712-23a407d3a346"
+}
+```
+**2. POST - Create a Review (Invalid Rating)**
+
+```bash
+curl -X POST \
+  -H "Content-Type: application/json" \
+  -d "{\"comment\": \"Great place to stay\", \"rating\": 100, \"user_id\": \"$USER\", \"place_id\": \"$PLACE\"}" \
 http://127.0.0.1:5000/api/v1/reviews/
 ```
 
+<<<<<<< HEAD:part2/test_documentation.md
 Update a review
+=======
+**Expected status:** `400 Bad Request`
+
+**Expected response:**
+
+```bash
+{
+    "error": "Rating must be between 1 and 5"
+}
+```
+
+**3. PUT - Update a review**
+>>>>>>> master:part2/hbnb/tests/test_documentation.md
 
 ```bash
 curl -X PUT http://127.0.0.1:5000/api/v1/reviews/$REVIEW \
   -H "Content-Type: application/json" \
-  -d '{"comment": "Updated comment", "rating": 4}'
+  -d '{"text": "Updated comment", "rating": 4}'
 ```
 
+<<<<<<< HEAD:part2/test_documentation.md
 List all reviews
 
+=======
+**Expected status:** `200 OK`
+
+**Expected response:**
+```bash
+{
+    "Success": "Successfully updated review"
+}
+```
+
+**4. PUT - Update a review (Invalid data)**
+```bash
+curl -X PUT http://127.0.0.1:5000/api/v1/reviews/$REVIEW   \
+  -H "Content-Type: application/json"   -d '{"rating": 40}'
+```
+
+**Expected status:** `400 Invalid Input Data`
+
+**Expected response:**
+```bash
+{
+    "error": "Rating must be between 1 and 5"
+}
+```
+
+**5. PUT - Update a review (Review not found)**
+
+**Expected status:** `404 Not Found`
+
+**Expected response:**
+```bash
+{
+    "error": "Review not found"
+}
+```
+
+**6. GET - List all reviews**
+>>>>>>> master:part2/hbnb/tests/test_documentation.md
 ```bash
 curl http://127.0.0.1:5000/api/v1/reviews/
 ```
 
+<<<<<<< HEAD:part2/test_documentation.md
 Get review by ID
 
+=======
+**Expected status:** `200 OK`
+
+**Expected response:**
+```bash
+[
+    {
+        "id": "3e59157c-495d-48bf-a4ef-095dcf3e6746",
+        "rating": 3,
+        "text": "A bit cold and full of spiders",
+        "user": "e06f4d8e-0f3c-4313-a4ca-bf014ccea532",
+        "place": "919e1408-3ee3-45c6-8799-8ebe135f5ae3"
+    }
+]
+```
+
+**7. GET - Get review by ID**
+>>>>>>> master:part2/hbnb/tests/test_documentation.md
 ```bash
 curl http://127.0.0.1:5000/api/v1/reviews/$REVIEW
 ```
 
+<<<<<<< HEAD:part2/test_documentation.md
 Get review by place IDgit
+=======
+**Expected status:** `200 OK`
+
+**Expected response:**
+>>>>>>> master:part2/hbnb/tests/test_documentation.md
 
 ```bash
-curl http://127.0.0.1:5000/api/v1/places/$PLACE/reviews
+{
+    "id": "3e59157c-495d-48bf-a4ef-095dcf3e6746",
+    "rating": 3,
+    "text": "A bit cold and full of spiders",
+    "user": "e06f4d8e-0f3c-4313-a4ca-bf014ccea532",
+    "place": "919e1408-3ee3-45c6-8799-8ebe135f5ae3"
+}
 ```
 
+<<<<<<< HEAD:part2/test_documentation.md
 Delete a review
 
+=======
+**8. GET - Get review by ID (Review not found)**
+```bash
+curl http://127.0.0.1:5000/api/v1/reviews/$REVIEW
+```
+
+**Expected status:** `404 Not Found`
+
+**Expected response:**
+
+```bash
+{
+    "Error": "Review not found"
+}
+```
+
+**9. GET - Get reviews by place**
+```bash
+curl http://127.0.0.1:5000/api/v1/reviews/places/$PLACE/reviews
+```
+
+**Expected status:** `200 OK`
+
+**Expected response:**
+
+```bash
+[
+    {
+        "id": "3e59157c-495d-48bf-a4ef-095dcf3e6746",
+        "rating": 3,
+        "text": "A bit cold and full of spiders",
+        "user": "e06f4d8e-0f3c-4313-a4ca-bf014ccea532",
+        "place": "919e1408-3ee3-45c6-8799-8ebe135f5ae3"
+    }
+]
+```
+
+**10. GET - Get reviews by place (Place not found)**
+```bash
+curl http://127.0.0.1:5000/api/v1/reviews/places/$PLACE/reviews
+```
+
+**Expected status:** `404 Not Found`
+
+**Expected response:**
+
+```bash
+{
+    "error": "Place not found"
+}
+```
+
+**11. DELETE - Delete a review**
+>>>>>>> master:part2/hbnb/tests/test_documentation.md
 ```bash
 curl -X DELETE http://127.0.0.1:5000/api/v1/reviews/$REVIEW
 ```
+**Expected status:** `200 OK`
 
+<<<<<<< HEAD:part2/test_documentation.md
+=======
+**Expected response:**
+
+```bash
+{
+    "success": "Review deleted"
+}
+```
+
+**12. DELETE - Delete a review (Review not found)**
+```bash
+curl -X DELETE http://127.0.0.1:5000/api/v1/reviews/$REVIEW
+```
+**Expected status:** `404 Not Found`
+
+**Expected response:**
+
+```bash
+{
+    "error": "Review not found"
+}
+```
+>>>>>>> master:part2/hbnb/tests/test_documentation.md
 ---
 
 ## Generate Swagger Documentation
 
 To access the Swagger documentation:
 
-```
+```bash
+cd part2/
+flask run
 http://127.0.0.1:5000/api/v1/
 ```
 
