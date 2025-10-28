@@ -3,7 +3,14 @@ from app.models.base_class import Base
 
 
 class User(Base):
-    def __init__(self, first_name: str, last_name: str, email: str, is_admin=False):
+    def __init__(
+            self,
+            first_name: str,
+            last_name: str,
+            email: str,
+            password: str,
+            is_admin=False
+        ):
         """
         Initialise a new User instance
 
@@ -23,6 +30,7 @@ class User(Base):
         self.first_name = first_name
         self.last_name = last_name
         self.email = email
+        self.password = password
         self.is_admin = is_admin
 
         # validate1: first_name must be a string and max 50 characters
@@ -46,11 +54,24 @@ class User(Base):
             raise ValueError("invalid email format")
         self.email = email
 
+        # validate4: password must be a string
+        if not isinstance(password, str):
+            raise TypeError("password must be a string")
+        self.password = password
+
     def is_email_valid(self, email):
         """ Validate format of an email address using a regular expression """
         pattern = (r"^(?!\.)(?!.*\.\.)[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+"
                    r"@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$")
         return re.match(pattern, email) is not None
+    
+    def hash_password(self, password):
+        """Hashes the password before storing it."""
+        self.password = bcrypt.generate_password_hash(password).decode('utf-8')
+    
+    def verify_password(self, password):
+        """Verifies if the provided password matches the hashed password."""
+        return bcrypt.check_password_hash(self.password, password)
 
     # todo:
         # validate email address
