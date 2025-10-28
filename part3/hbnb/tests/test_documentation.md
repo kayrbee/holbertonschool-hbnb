@@ -76,7 +76,8 @@ curl -i -X POST "http://127.0.0.1:5000/api/v1/users/" \
 -d '{
   "first_name": "John",
   "last_name": "Doe",
-  "email": "john.doe@example.com"
+  "email": "john.doe@example.com",
+  "password": "password123"
 }'
 ```
 
@@ -86,10 +87,8 @@ curl -i -X POST "http://127.0.0.1:5000/api/v1/users/" \
 
 ```bash
 {
-    "id": "be79e2c1-be43-4af3-8228-6a2ef9c68b4d",
-    "first_name": "John",
-    "last_name": "Doe",
-    "email": "john.doe@example.com"
+    "id": "11a4d15b-128a-4533-b304-010e5f0b6386",
+    "message": "User registered successfully"
 }
 ```
 
@@ -160,7 +159,7 @@ curl -X GET "http://127.0.0.1:5000/api/v1/users/" -H "Content-Type: application/
 **5. GET - Retrieve Existing User by ID**
 
 ```bash
-curl -X GET "http://127.0.0.1:5000/api/v1/users/be79e2c1-be43-4af3-8228-6a2ef9c68b4d" -H "Content-Type: application/json"
+curl -X GET "http://127.0.0.1:5000/api/v1/users/11a4d15b-128a-4533-b304-010e5f0b6386" -H "Content-Type: application/json"
 ```
 
 **Expected status:** `200 OK`
@@ -169,7 +168,7 @@ curl -X GET "http://127.0.0.1:5000/api/v1/users/be79e2c1-be43-4af3-8228-6a2ef9c6
 
 ```bash
 {
-    "id": "be79e2c1-be43-4af3-8228-6a2ef9c68b4d",
+    "id": "11a4d15b-128a-4533-b304-010e5f0b6386",
     "first_name": "John",
     "last_name": "Doe",
     "email": "john.doe@example.com"
