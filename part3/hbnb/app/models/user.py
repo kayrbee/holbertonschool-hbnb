@@ -1,6 +1,6 @@
 import re  # module to implement email format validation check
 from app.models.base_class import Base
-
+from app import bcrypt
 
 class User(Base):
     def __init__(
