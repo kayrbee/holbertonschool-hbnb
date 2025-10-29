@@ -53,7 +53,7 @@ class UserList(Resource):
         }, 201
 
     def get(self):
-        """ Register all users """
+        """ Get all users """
         users = facade.get_all_users()
         return [{
             'id': user.id,
