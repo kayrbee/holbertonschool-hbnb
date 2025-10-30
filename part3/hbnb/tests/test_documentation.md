@@ -25,6 +25,13 @@ cd part2/hbnb/tests
 PYTHONPATH=.. python <test_file>.py
 ```
 
+```
+curl -X POST "http://127.0.0.1:5000/api/v1/auth/login" -H "Content-Type: application/json" -d '{
+  "email": "john.doe2@example.com",
+  "password": "password123"
+}'
+```
+
 **pytest tests**
 
 Install pytest
@@ -59,6 +66,9 @@ pytest tests/<test_file>.py
 - `comment` : must not be empty.
 - `user_id` : must reference valid user.
 - `place_id` : must reference valid place.
+
+### Auth model:
+- tbd
 
 ---
 
@@ -711,6 +721,64 @@ curl -X DELETE http://127.0.0.1:5000/api/v1/reviews/$REVIEW
 ```
 ---
 
+### Auth entity:
+
+**1. POST - Authenticate with valid credentials**
+
+Assuming that John Doe exists in the system:
+```bash
+curl -X POST "http://127.0.0.1:5000/api/v1/auth/login" \
+-H "Content-Type: application/json" \
+-d '{
+  "email": "john.doe@example.com",
+  "password": "password123"
+}'
+
+```
+
+**Expected status:** `200 OK`
+
+**Expected response:**
+
+```bash
+{"access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc2MTcxOTk1OCwianRpIjoiYjI2YjhjNTMtOGU2YS00ZTg4LTgxODQtODQ1ZjA0ZGE5YzM2IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjVjYmE4N2JiLTQwMWQtNDViNi1hNmNkLTk5YzIxMmRhNWFmYyIsIm5iZiI6MTc2MTcxOTk1OCwiY3NyZiI6IjE0Zjg0MDgzLWMzYjItNGM2Yy05MjQxLWQxMzA4NDdiYTVkOCIsImV4cCI6MTc2MTcyMDg1OCwiaXNfYWRtaW4iOmZhbHNlfQ.eTlYwqh31uwc3z8W-QQiR4W1-FrBTegXjDBTQ369zWg"}
+```
+
+**2. POST - Invalid username**
+
+```bash
+curl -X POST "http://127.0.0.1:5000/api/v1/auth/login" \
+  -H "Content-Type: application/json" \
+  -d '{
+  "email": "unregistered@example.com",
+  "password": "password123"
+  }'
+```
+
+**Expected status:** `401 Unauthorized`
+
+**Expected response:**
+```bash
+{"error": "Invalid credentials"}
+```
+
+**3. POST - Invalid password**
+```bash
+curl -X POST "http://127.0.0.1:5000/api/v1/auth/login" \
+  -H "Content-Type: application/json" \
+  -d '{
+  "email": "john.doe@example.com",
+  "password": "fakepassword"
+  }'
+```
+
+**Expected status:** `401 Unauthorized`
+
+**Expected response:**
+```bash
+{"error": "Invalid credentials"}
+```
+---
 ## Generate Swagger Documentation
 
 To access the Swagger documentation:

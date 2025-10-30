@@ -1,10 +1,10 @@
 #!/usr/bin/python3
-"""
-"""
+
 from flask import Flask
 from flask_restx import Api
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager
+from app.api.v1.auth import api as auth_ns
 
 # Instantiates a password encryption class
 bcrypt = Bcrypt()
@@ -40,5 +40,6 @@ def create_app(config_class="config.DevelopmentConfig"):
     api.add_namespace(reviews_ns, path='/api/v1/reviews')
     api.add_namespace(places_ns, path='/api/v1/places')
     api.add_namespace(amenities_ns, path='/api/v1/amenities')
+    api.add_namespace(auth_ns, path='/api/v1/auth')
 
     return app

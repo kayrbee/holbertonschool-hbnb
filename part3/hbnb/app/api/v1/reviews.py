@@ -1,6 +1,7 @@
 from flask_restx import Namespace, Resource, fields
 from app.services import facade
 from flask import jsonify
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 api = Namespace('reviews', description='Review operations')
 
@@ -16,6 +17,7 @@ review_model = api.model('Review', {
 @api.route('/')
 class ReviewList(Resource):
     @api.expect(review_model)
+    @api.expect(review_model, validate=True)
     @api.response(201, 'Review successfully created')
     @api.response(400, 'Invalid input data')
     def post(self):
@@ -51,6 +53,7 @@ class ReviewResource(Resource):
             return {"error": "Internal server error"}, 500
 
     @api.expect(review_model)
+    @api.expect(review_model, validate=True)
     @api.response(200, 'Review updated successfully')
     @api.response(404, 'Review not found')
     @api.response(400, 'Invalid input data')
