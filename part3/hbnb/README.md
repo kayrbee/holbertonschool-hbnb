@@ -1,12 +1,10 @@
-# Overview
+# How to run this application
 
-To Do: Describe the purpose of each directory and file
+## Clean installation
 
-## How to run this application
+### 1. Set up a Virtual Environment
 
-### Set up a Virtual Environment
-
-```
+```bash
 cd part2/hbnb
 python3 -m venv venv
 source venv/bin/activate
@@ -16,25 +14,30 @@ pip install -r requirements.txt
 This should install `flask_restx`, but if it doesn't, jump to Troubleshooting
 
 
-### Run app
+### 2. Run application
 
-1. Change directory to application's project root
+There are two ways to launch the application. Take note of which directory you need to be in for each
 
-    Note that `cd` is necessary because there are additional layers of folders in the repo
+**Using run.py file**
 
-    `cd holbertonschool-hbnb/part2`
+```bash
+cd holbertonschool-hbnb/part3
+python3 -m hbnb/run.py
+```
+**Using `flask run` command**
 
-2. Launch Flask app
+```bash
+cd holbertonschool-hbnb/part3/hbnb
+flask run
 
-    `hbnb/run.py`
+# Run with optional debugger
+flask run --debug
+```
+### 3. Run tests
+
+Jump to (test_documentation.md)[]  # add link
 
 ### Troubleshooting
-
-#### Install Dependencies
-
-Install flask_restx
-
-`pip install flask-restx`
 
 #### Module Not Found
 If Python complains of `ModuleNotFound` errors, try setting the PYTHONPATH
