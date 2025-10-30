@@ -3,7 +3,7 @@
 ## Table of Contents
 
 - (Project structure)[] (add link)
-- Setup Instructions (add link)
+- Jump to Setup Instructions (add link)
 
 ## Project structure
 
