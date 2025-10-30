@@ -1,16 +1,17 @@
 import re  # module to implement email format validation check
 from app.models.base_class import Base
+from app import bcrypt
 
 
 class User(Base):
     def __init__(
-            self,
-            first_name: str,
-            last_name: str,
-            email: str,
-            password: str,
-            is_admin=False
-        ):
+        self,
+        first_name: str,
+        last_name: str,
+        email: str,
+        password: str,
+        is_admin=False
+    ):
         """
         Initialise a new User instance
 
@@ -64,11 +65,11 @@ class User(Base):
         pattern = (r"^(?!\.)(?!.*\.\.)[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+"
                    r"@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$")
         return re.match(pattern, email) is not None
-    
+
     def hash_password(self, password):
         """Hashes the password before storing it."""
         self.password = bcrypt.generate_password_hash(password).decode('utf-8')
-    
+
     def verify_password(self, password):
         """Verifies if the provided password matches the hashed password."""
         return bcrypt.check_password_hash(self.password, password)
