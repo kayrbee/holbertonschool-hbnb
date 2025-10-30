@@ -42,24 +42,36 @@ class HBnBFacade:
         return user
 
     # --- Place ---
-    def create_place(self, place_data):
+    def create_place(self, place_data, owner_id):
         """
         Create a place with including validation
         for price, latitude, and longitude
         """
 
         # Required fields
-        required = ["title", "price", "latitude", "longitude", "owner_id", "amenities"]
+        required = ["title", "price", "latitude", "longitude", "amenities"]
         missing = [f for f in required if f not in place_data]
         if missing:
             raise ValueError(f"Missing required field(s): {', '.join(missing)}")
 
         # Validate owner exists
-        owner_id = place_data.get("owner_id")
         owner = self.user_repo.get(owner_id)
         if not owner:
             raise ValueError("Invalid owner_id: user does not exist")
+
+        description = place_data.get("description", "")
+        new_place = Place(
+            title=place_data["title"],
+            description=description,
+            price=place_data["price"],
+            latitude=place_data["latitude"],
+            longitude=place_data["longitude"],
+            amenities=place_data["amenities"],
+            owner_id=owner_id
+        )
+        self.place_repo.add(new_place)
         
+        return new_place
 
         # Validate numeric ranges
         price = place_data.get("price")
