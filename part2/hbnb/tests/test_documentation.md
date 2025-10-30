@@ -717,7 +717,7 @@ curl -X DELETE http://127.0.0.1:5000/api/v1/reviews/$REVIEW
 To access the Swagger documentation:
 
 ```bash
-cd part2/
+cd part2/hbnb
 flask run
 http://127.0.0.1:5000/api/v1/
 ```
