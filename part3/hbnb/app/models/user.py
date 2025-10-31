@@ -4,13 +4,13 @@ from app import bcrypt
 
 class User(Base):
     def __init__(
-            self,
-            first_name: str,
-            last_name: str,
-            email: str,
-            password: str,
-            is_admin=False
-        ):
+        self,
+        first_name: str,
+        last_name: str,
+        email: str,
+        password: str,
+        is_admin=False
+    ):
         """
         Initialise a new User instance
 
@@ -76,14 +76,13 @@ class User(Base):
         pattern = (r"^(?!\.)(?!.*\.\.)[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+"
                    r"@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$")
         return re.match(pattern, email) is not None
-    
+
     def hash_password(self, password):
         """Hashes the password before storing it."""
         if not isinstance(password, str):
             raise TypeError("password must be a string")
         # todo: add more validations (missing pw if not pw, raise error "pw must be included")
         self.password = bcrypt.generate_password_hash(password).decode('utf-8')
-        
 
     def verify_password(self, password):
         """Verifies if the provided password matches the hashed password."""

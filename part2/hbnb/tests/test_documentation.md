@@ -53,12 +53,7 @@ pytest tests/<test_file>.py
 - `longitude` : must be between -180 and 180.
 
 ### Amenities model:
-<<<<<<< HEAD:part2/test_documentation.md
-
-- `name` : must be a string and max 25 characters
-=======
 - `name` : must be a string and max 50 characters
->>>>>>> master:part2/hbnb/tests/test_documentation.md
 
 ### Review model:
 
@@ -523,20 +518,12 @@ Expected Response
 ```
 
 ### Review entity:
-<<<<<<< HEAD:part2/test_documentation.md
-
-Prerequisites: user_id and place_id are valid
-
-Create a review:
-
-=======
 
 Base URL: `http://127.0.0.1:5000/api/v1/reviews/`
 
 **1. POST - Create a Review**
 
 Prerequisites: user and place are both valid uuids
->>>>>>> master:part2/hbnb/tests/test_documentation.md
 ```bash
 curl -X POST \
   -H "Content-Type: application/json" \
@@ -564,9 +551,6 @@ curl -X POST \
 http://127.0.0.1:5000/api/v1/reviews/
 ```
 
-<<<<<<< HEAD:part2/test_documentation.md
-Update a review
-=======
 **Expected status:** `400 Bad Request`
 
 **Expected response:**
@@ -578,7 +562,6 @@ Update a review
 ```
 
 **3. PUT - Update a review**
->>>>>>> master:part2/hbnb/tests/test_documentation.md
 
 ```bash
 curl -X PUT http://127.0.0.1:5000/api/v1/reviews/$REVIEW \
@@ -586,10 +569,6 @@ curl -X PUT http://127.0.0.1:5000/api/v1/reviews/$REVIEW \
   -d '{"text": "Updated comment", "rating": 4}'
 ```
 
-<<<<<<< HEAD:part2/test_documentation.md
-List all reviews
-
-=======
 **Expected status:** `200 OK`
 
 **Expected response:**
@@ -626,15 +605,10 @@ curl -X PUT http://127.0.0.1:5000/api/v1/reviews/$REVIEW   \
 ```
 
 **6. GET - List all reviews**
->>>>>>> master:part2/hbnb/tests/test_documentation.md
 ```bash
 curl http://127.0.0.1:5000/api/v1/reviews/
 ```
 
-<<<<<<< HEAD:part2/test_documentation.md
-Get review by ID
-
-=======
 **Expected status:** `200 OK`
 
 **Expected response:**
@@ -651,18 +625,13 @@ Get review by ID
 ```
 
 **7. GET - Get review by ID**
->>>>>>> master:part2/hbnb/tests/test_documentation.md
 ```bash
 curl http://127.0.0.1:5000/api/v1/reviews/$REVIEW
 ```
 
-<<<<<<< HEAD:part2/test_documentation.md
-Get review by place IDgit
-=======
 **Expected status:** `200 OK`
 
 **Expected response:**
->>>>>>> master:part2/hbnb/tests/test_documentation.md
 
 ```bash
 {
@@ -674,10 +643,6 @@ Get review by place IDgit
 }
 ```
 
-<<<<<<< HEAD:part2/test_documentation.md
-Delete a review
-
-=======
 **8. GET - Get review by ID (Review not found)**
 ```bash
 curl http://127.0.0.1:5000/api/v1/reviews/$REVIEW
@@ -730,14 +695,11 @@ curl http://127.0.0.1:5000/api/v1/reviews/places/$PLACE/reviews
 ```
 
 **11. DELETE - Delete a review**
->>>>>>> master:part2/hbnb/tests/test_documentation.md
 ```bash
 curl -X DELETE http://127.0.0.1:5000/api/v1/reviews/$REVIEW
 ```
 **Expected status:** `200 OK`
 
-<<<<<<< HEAD:part2/test_documentation.md
-=======
 **Expected response:**
 
 ```bash
@@ -759,7 +721,6 @@ curl -X DELETE http://127.0.0.1:5000/api/v1/reviews/$REVIEW
     "error": "Review not found"
 }
 ```
->>>>>>> master:part2/hbnb/tests/test_documentation.md
 ---
 
 ## Generate Swagger Documentation
