@@ -27,18 +27,16 @@ class User(Base):
                         if email address is invalid
         """
         super().__init__()
-        self.first_name = first_name
+        self.first_name(first_name)
         self.last_name = last_name
         self.email = email
-        self.password = password
+        # self.password = password
+        self.hash_password(password)
         self.is_admin = is_admin
 
+    
         # validate1: first_name must be a string and max 50 characters
-        if not isinstance(first_name, str):
-            raise TypeError("first name must be a string")
-        if len(first_name) > 50:
-            raise ValueError("first_name cannot exceed 50 characters")
-        self.first_name = first_name
+
 
         # validate2: last_name must be a string and max 50 characters
         if not isinstance(last_name, str):
@@ -55,10 +53,24 @@ class User(Base):
         self.email = email
 
         # validate4: password must be a string
-        if not isinstance(password, str):
-            raise TypeError("password must be a string")
-        self.password = password
+        # if not isinstance(password, str):
+        #     raise TypeError("password must be a string")
+        # self.password = password
 
+    @property
+    def first_name(self):
+        return self._first_name
+
+    @first_name.setter
+    def first_name(self, first_name):
+        if not isinstance(first_name, str):
+            raise TypeError("first name must be a string")
+        if len(first_name) > 50:
+            raise ValueError("first_name cannot exceed 50 characters")
+        self._first_name = first_name
+    
+    
+    
     def is_email_valid(self, email):
         """ Validate format of an email address using a regular expression """
         pattern = (r"^(?!\.)(?!.*\.\.)[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+"
@@ -67,13 +79,14 @@ class User(Base):
     
     def hash_password(self, password):
         """Hashes the password before storing it."""
+        if not isinstance(password, str):
+            raise TypeError("password must be a string")
+        # todo: add more validations (missing pw if not pw, raise error "pw must be included")
         self.password = bcrypt.generate_password_hash(password).decode('utf-8')
-    
+        
+
     def verify_password(self, password):
         """Verifies if the provided password matches the hashed password."""
         return bcrypt.check_password_hash(self.password, password)
 
-    # todo:
-        # validate email address
-        # duplicate email address
-        # update user
+

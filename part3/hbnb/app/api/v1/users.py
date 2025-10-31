@@ -2,7 +2,7 @@ from flask_restx import Namespace, Resource, fields
 from flask import request
 from app.services import facade
 from app.models.user import User
-from app import bcrypt
+# from app import bcrypt
 
 api = Namespace('users', description='User operations')
 
@@ -34,10 +34,10 @@ class UserList(Resource):
         existing_user = facade.get_user_by_email(user_data['email'])
         if existing_user:
             return {'error': 'Email already registered'}, 400
-
-        password = user_data['password']
-        hashed_pw = bcrypt.generate_password_hash(password).decode('utf-8')
-        user_data['password'] = hashed_pw
+        
+        # password = user_data['password']
+        # # hashed_pw = bcrypt.generate_password_hash(password).decode('utf-8')
+        # user_data['password'] = hashed_pw
 
         try:
             new_user = facade.create_user(user_data)
