@@ -56,6 +56,7 @@ pytest tests/<test_file>.py
 - `name` : must be a string and max 50 characters
 
 ### Review model:
+
 - `comment` : must not be empty.
 - `user_id` : must reference valid user.
 - `place_id` : must reference valid place.
@@ -257,6 +258,7 @@ Expected Response:
 ```
 
 Possible Status Codes:
+
 - `201 Created`: When the place is successfully created.
 - `400 Bad Request`: If input data is invalid.
 
@@ -298,16 +300,19 @@ Expected Response
 ```
 
 Possible Status Codes:
+
 - `201 Created`: When the place is successfully created.
 - `400 Bad Request`: If input data is invalid.
 
 **3. Retrieve all places**
+
 ```bash
 curl -i -X GET "http://127.0.0.1:5000/api/v1/places/" \
 -H "Content-Type: application/json"
 ```
 
 Expected Response:
+
 ```bash
 [
     {
@@ -336,16 +341,19 @@ Expected Response:
 ```
 
 **4. Retrieve Place Details by ID**
+
 ```bash
 curl -i -X GET "http://127.0.0.1:5000/api/v1/places/123" \
 -H "Content-Type: application/json"
 ```
 
 Possible Status Codes:
+
 - `200 OK`: When the place and its associated owner and amenities are successfully retrieved.
 - `404 Not Found`: If the place does not exist.
 
 **5. Update a Place’s Information by ID**
+
 ```bash
 curl -i -X PUT "http://127.0.0.1:5000/api/v1/places/123" \
 -H "Content-Type: application/json" \
@@ -355,7 +363,9 @@ curl -i -X PUT "http://127.0.0.1:5000/api/v1/places/123" \
   "price": 200.0
 }'
 ```
+
 Possible Status Codes:
+
 - `200 OK`: When the place is successfully updated.
 - `404 Not Found`: If the place does not exist.
 - `400 Bad Request`: If input data is invalid.
@@ -439,6 +449,7 @@ Expected Response
 ```
 
 ### Amenities entity:
+
 Base URL: `http://127.0.0.1:5000/api/v1/places/`
 
 **1. POST - Create a new amenity (Valid Data – 201 Created)**
@@ -717,7 +728,7 @@ curl -X DELETE http://127.0.0.1:5000/api/v1/reviews/$REVIEW
 To access the Swagger documentation:
 
 ```bash
-cd part2/hbnb
+cd part2/
 flask run
 http://127.0.0.1:5000/api/v1/
 ```
@@ -725,4 +736,5 @@ http://127.0.0.1:5000/api/v1/
 ---
 
 ## Automated testing using `unittest`:
+
 All test files can be found in the [tests](tests/) directory

@@ -21,7 +21,7 @@ Ensure that `PYTHONPATH` is set, so that the interpreter can find `app`
 Run the desired test file/s
 
 ```bash
-cd part3/hbnb/tests
+cd part2/hbnb/tests
 PYTHONPATH=.. python <test_file>.py
 ```
 
@@ -784,7 +784,7 @@ curl -X POST "http://127.0.0.1:5000/api/v1/auth/login" \
 To access the Swagger documentation:
 
 ```bash
-cd part3/
+cd part2/hbnb
 flask run
 http://127.0.0.1:5000/api/v1/
 ```

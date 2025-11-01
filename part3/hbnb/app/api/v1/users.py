@@ -35,25 +35,20 @@ class UserList(Resource):
         if existing_user:
             return {'error': 'Email already registered'}, 400
 
-        password = user_data['password']
-        hashed_pw = bcrypt.generate_password_hash(password).decode('utf-8')
-        user_data['password'] = hashed_pw
-
         try:
             new_user = facade.create_user(user_data)
         except ValueError:
             return {'error': 'Invalid Email. Try again'}, 400
-        except Exception:
-            return {'error': 'Internal server error'}, 500
+        except Exception as e:
+            return {f'{e}'}, 500
 
-        # new_user = facade.create_user(user_data)
         return {
             'id': new_user.id,
             'message': 'User registered successfully'
         }, 201
 
     def get(self):
-        """ Register all users """
+        """ Get all users """
         users = facade.get_all_users()
         return [{
             'id': user.id,
@@ -76,8 +71,8 @@ class UserResource(Resource):
         return {
             'id': user.id,
             'first_name': user.first_name,
-            'last_name': user.last_name,'email': user.email
-            }, 200
+            'last_name': user.last_name, 'email': user.email
+        }, 200
 
     @api.expect(user_model, validate=True)
     @api.response(200, 'Successfully update')

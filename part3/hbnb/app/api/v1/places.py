@@ -1,7 +1,7 @@
 from flask_restx import Namespace, Resource, fields
 from app.services import facade
 from flask import request
-
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 api = Namespace('places', description='Place operations')
 
@@ -40,18 +40,21 @@ place_model = api.model('Place', {
 
 @api.route('/')
 class PlaceList(Resource):
+    @jwt_required()
     @api.expect(place_model)
     @api.response(201, 'Place successfully created')
     @api.response(400, 'Invalid input data')
     def post(self):
-        """Register a new place"""
+        """Create a new place"""
         try:
             data = api.payload or {}
             if isinstance(data.get("amenities"), str):
                 data["amenities"] = [data["amenities"]]
 
-            place = facade.create_place(data)
+            user_id = get_jwt_identity()
+            place = facade.create_place(data, owner_id=user_id)
             d = place.to_dict()
+            
             if "id" not in d and hasattr(place, "id"):
                 d["id"] = place.id
 
@@ -76,7 +79,6 @@ class PlaceList(Resource):
 
     @api.response(200, 'List of places retrieved successfully')
     def get(self):
-        """Retrieve a list of all places"""
         """Retrieve a list of all places"""
         try:
             places = facade.get_all_places()
@@ -129,18 +131,30 @@ class PlaceResource(Resource):
         except Exception:
             return {"error": "Internal server error"}, 500
 
-
+    @jwt_required()
     @api.expect(place_model)
     @api.response(200, 'Place updated successfully')
     @api.response(404, 'Place not found')
     @api.response(400, 'Invalid input data')
+    @api.response(403, 'Unauthorized action')
     def put(self, place_id):
         """Update a place's information"""
         try:
+            user_id = get_jwt_identity()
+            
+            place = facade.get_place_by_id(place_id)
+            if not place:
+                return {"error": "Place not found"}, 404
+            
+            # this is when valid token but wrong user (user is not owner)
+            if place.owner_id != user_id:
+                return {"error": "Unauthorized action: You don't own this place"}, 403
+            
             payload = api.payload or {}
             if "amenities" in payload and isinstance(payload["amenities"], str):
                 payload["amenities"] = [payload["amenities"]]
 
+            # Update using facade
             updated = facade.update_place(place_id, payload)  # return model, not _serialize_place
             d = updated.to_dict()
 

@@ -2,7 +2,6 @@ import re  # module to implement email format validation check
 from app.models.base_class import Base
 from app import bcrypt
 
-
 class User(Base):
     def __init__(
         self,
@@ -31,35 +30,48 @@ class User(Base):
         self.first_name = first_name
         self.last_name = last_name
         self.email = email
-        self.password = password
+        self.hash_password(password)
         self.is_admin = is_admin
 
-        # validate1: first_name must be a string and max 50 characters
+    # validate1: first_name must be a string and max 50 characters
+    @property
+    def first_name(self):
+        return self._first_name
+
+    @first_name.setter
+    def first_name(self, first_name):
         if not isinstance(first_name, str):
             raise TypeError("first name must be a string")
         if len(first_name) > 50:
-            raise ValueError("first_name cannot exceed 50 characters")
-        self.first_name = first_name
+            raise ValueError("first name cannot exceed 50 characters")
+        self._first_name = first_name
+    
+    # validate2: last_name must be a string and max 50 characters
+    @property
+    def last_name(self):
+        return self._last_name
 
-        # validate2: last_name must be a string and max 50 characters
+    @last_name.setter
+    def last_name(self, last_name):
         if not isinstance(last_name, str):
             raise TypeError("last name must be a string")
         if len(last_name) > 50:
-            raise ValueError("last_name cannot exceed 50 characters")
-        self.last_name = last_name
-
-        # validate3: email must be a string and follow standard email format
+            raise ValueError("last name cannot exceed 50 characters")
+        self._last_name = last_name
+        
+    # validate3: email must be a string and follow standard email format
+    @property
+    def email(self):
+        return self._email
+    
+    @email.setter
+    def email(self, email):
         if not isinstance(email, str):
             raise TypeError("email must be a string")
         if not self.is_email_valid(email):
             raise ValueError("invalid email format")
-        self.email = email
-
-        # validate4: password must be a string
-        if not isinstance(password, str):
-            raise TypeError("password must be a string")
-        self.password = password
-
+        self._email = email
+    
     def is_email_valid(self, email):
         """ Validate format of an email address using a regular expression """
         pattern = (r"^(?!\.)(?!.*\.\.)[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+"
@@ -68,13 +80,13 @@ class User(Base):
 
     def hash_password(self, password):
         """Hashes the password before storing it."""
+        if not isinstance(password, str):
+            raise TypeError("password must be a string")
+        # todo: add more validations (missing pw if not pw, raise error "pw must be included")
         self.password = bcrypt.generate_password_hash(password).decode('utf-8')
 
     def verify_password(self, password):
         """Verifies if the provided password matches the hashed password."""
         return bcrypt.check_password_hash(self.password, password)
 
-    # todo:
-        # validate email address
-        # duplicate email address
-        # update user
+
