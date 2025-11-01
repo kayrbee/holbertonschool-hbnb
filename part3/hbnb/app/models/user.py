@@ -27,36 +27,13 @@ class User(Base):
                         if email address is invalid
         """
         super().__init__()
-        self.first_name(first_name)
+        self.first_name = first_name
         self.last_name = last_name
         self.email = email
-        # self.password = password
         self.hash_password(password)
         self.is_admin = is_admin
 
-    
-        # validate1: first_name must be a string and max 50 characters
-
-
-        # validate2: last_name must be a string and max 50 characters
-        if not isinstance(last_name, str):
-            raise TypeError("last name must be a string")
-        if len(last_name) > 50:
-            raise ValueError("last_name cannot exceed 50 characters")
-        self.last_name = last_name
-
-        # validate3: email must be a string and follow standard email format
-        if not isinstance(email, str):
-            raise TypeError("email must be a string")
-        if not self.is_email_valid(email):
-            raise ValueError("invalid email format")
-        self.email = email
-
-        # validate4: password must be a string
-        # if not isinstance(password, str):
-        #     raise TypeError("password must be a string")
-        # self.password = password
-
+    # validate1: first_name must be a string and max 50 characters
     @property
     def first_name(self):
         return self._first_name
@@ -66,10 +43,34 @@ class User(Base):
         if not isinstance(first_name, str):
             raise TypeError("first name must be a string")
         if len(first_name) > 50:
-            raise ValueError("first_name cannot exceed 50 characters")
+            raise ValueError("first name cannot exceed 50 characters")
         self._first_name = first_name
     
+    # validate2: last_name must be a string and max 50 characters
+    @property
+    def last_name(self):
+        return self._last_name
+
+    @last_name.setter
+    def last_name(self, last_name):
+        if not isinstance(last_name, str):
+            raise TypeError("last name must be a string")
+        if len(last_name) > 50:
+            raise ValueError("last name cannot exceed 50 characters")
+        self._last_name = last_name
+        
+    # validate3: email must be a string and follow standard email format
+    @property
+    def email(self):
+        return self._email
     
+    @email.setter
+    def email(self, email):
+        if not isinstance(email, str):
+            raise TypeError("email must be a string")
+        if not self.is_email_valid(email):
+            raise ValueError("invalid email format")
+        self._email = email
     
     def is_email_valid(self, email):
         """ Validate format of an email address using a regular expression """
