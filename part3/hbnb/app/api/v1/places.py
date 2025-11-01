@@ -146,6 +146,7 @@ class PlaceResource(Resource):
             if not place:
                 return {"error": "Place not found"}, 404
             
+            # this is when valid token but wrong user (user is not owner)
             if place.owner_id != user_id:
                 return {"error": "Unauthorized action: You don't own this place"}, 403
             
