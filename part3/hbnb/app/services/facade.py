@@ -254,6 +254,15 @@ class HBnBFacade:
         review.update(data)
         return review
 
+    def get_review_by_user_and_place(self, user_id, place_id):
+        reviews = self.get_reviews_by_place(place_id)
+        for r in reviews:
+            if hasattr(r, "user") and r.user == user_id:
+                return r
+        if isinstance(r, dict) and r.get("user") == user_id:
+            return r
+        return None
+
     def delete_review(self, review_id):
         review = self.review_repo.get(review_id)
         if not review:
