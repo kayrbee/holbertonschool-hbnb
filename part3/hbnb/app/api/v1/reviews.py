@@ -24,6 +24,7 @@ class ReviewList(Resource):
         review_data = api.payload or {}
         user_id = get_jwt_identity() 
         try:
+            # must include place field
             place_id = review_data.get("place")
             if not place_id:
                 return {"error": "place_id is required"}, 400
@@ -31,7 +32,7 @@ class ReviewList(Resource):
             place = facade.place_repo.get(place_id)
             if not place:
                 return {"error": "Place not found"}, 404
-            
+
             if place.owner_id == user_id:
                 return {"error": "You cannot review your own place"}, 400
             
@@ -52,6 +53,7 @@ class ReviewList(Resource):
         except (ValueError, TypeError) as e:
             return {"error": f"{e}"}, 400
         except Exception:
+            print("SERVER ERROR:", type(e), e)
             return {"error": "Internal server error"}, 500
 
     @api.response(200, 'List of reviews retrieved successfully')
