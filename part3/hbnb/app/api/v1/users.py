@@ -3,6 +3,7 @@ from flask import request
 from app.services import facade
 from app.models.user import User
 from app import bcrypt
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 api = Namespace('users', description='User operations')
 
@@ -74,24 +75,43 @@ class UserResource(Resource):
             'last_name': user.last_name, 'email': user.email
         }, 200
 
+    @jwt_required()
     @api.expect(user_model, validate=True)
     @api.response(200, 'Successfully update')
     @api.response(400, 'Invalid input data')
+    @api.response(403, "Unauthorized action")
+    @api.response(404, "User not found")
     def put(self, user_id):
-        """ Update user info """
+        """ Update user info (cannot modify email or password)"""
+        auth_user_id = get_jwt_identity()
+        
+        # only logged-in user can update their details
+        if str(user_id) != str(auth_user_id):
+            return {"error": "Unauthorized action"}, 403
+        
         user = facade.get_user_by_id(user_id)
         if not user:
             return {'error': 'User not found'}, 404
 
-        data = request.get_json()
-        updated_user = facade.put_user(user_id, data)
+        data = request.get_json() or {}
+        
+        # prevent changing email or pw
+        if "email" in data or "password" in data:
+            return {"error": "You cannot modify email or password"}, 400
+        
+        try:
+            updated_user = facade.put_user(user_id, data)
 
-        if not updated_user:
-            return {'error': 'Update unsuccessful'}, 400
+            if not updated_user:
+                return {'error': 'Update unsuccessful'}, 400
 
-        return {
-            'id': updated_user.id,
-            'first_name': updated_user.first_name,
-            'last_name': updated_user.last_name,
-            'email': updated_user.email
-        }
+            return {
+                'id': updated_user.id,
+                'first_name': updated_user.first_name,
+                'last_name': updated_user.last_name,
+                'email': updated_user.email
+            }, 200
+            
+        except Exception as e:
+            print("SERVER ERROR:", e)
+            return {"error": "Internal server error"}, 500

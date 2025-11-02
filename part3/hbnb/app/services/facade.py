@@ -38,7 +38,13 @@ class HBnBFacade:
         user = self.get_user_by_id(user_id)
         if not user:
             return None
-        user.update(new_data)
+        
+        #only update allowed fields 
+        allowed_fields = ["first_name", "last_name", "is_admin"]
+        for field in allowed_fields:
+            if field in new_data:
+                setattr(user, field, new_data[field])
+                
         return user
 
     # --- Place ---
@@ -257,9 +263,9 @@ class HBnBFacade:
     def get_review_by_user_and_place(self, user_id, place_id):
         reviews = self.get_reviews_by_place(place_id)
         for r in reviews:
-            if hasattr(r, "user") and r.user == user_id:
+            if hasattr(r, "user") and str(r.user) == str(user_id):
                 return r
-        if isinstance(r, dict) and r.get("user") == user_id:
+        if isinstance(r, dict) and str(r.get("user")) == str(user_id):
             return r
         return None
 
