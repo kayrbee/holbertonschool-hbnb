@@ -118,38 +118,37 @@ class TestReviewEndpoints(unittest.TestCase):
             content_type="application/json"
         )
         # Handy debugging statement!
-        print(response.status_code, response.get_json())
+        # print(response.status_code, response.get_json())
         self.assertEqual(response.status_code, 201)
         data = response.get_json()
         self.assertIn("id", data)
         self.assertEqual(data["text"], self.review_data["text"])
         self.review_id = data["id"]
 
-    # def test_create_review_missing_field(self):
-    #     """POST /api/v1/reviews should fail with missing field"""
-    #     bad_data = self.review_data.copy()
-    #     del bad_data["rating"]
+    def test_create_review_with_missing_rating(self):
+        """POST /api/v1/reviews should fail with missing field"""
+        bad_data = self.review_data.copy()
+        del bad_data["rating"]
 
-    #     response = self.client.post(
-    #         "/api/v1/reviews/",
-    #         data=json.dumps(bad_data),
-    #         content_type="application/json"
-    #     )
-    #     self.assertEqual(response.status_code, 400)
-    #     self.assertIn("error", response.get_json())
+        response = self.client.post(
+            "/api/v1/reviews/",
+            headers=self.auth_headers,
+            data=json.dumps(bad_data),
+            content_type="application/json"
+        )
+        self.assertEqual(response.status_code, 400)
+        data = response.get_json()
+        self.assertIn("errors", data)
+        self.assertIn("rating", data["errors"])
 
-    # def test_get_all_reviews(self):
-    #     """GET /api/v1/reviews/ should return a list of reviews"""
-    #     # Create a review first
-    #     self.client.post(
-    #         "/api/v1/reviews/", data=json.dumps(self.review_data), content_type="application/json")
+    def test_get_all_reviews_with_one_review_in_list(self):
+        """GET /api/v1/reviews/ should return a list of reviews"""
 
-    #     response = self.client.get("/api/v1/reviews/")
-    #     self.assertEqual(response.status_code, 200)
-    #     data = response.get_json()
-    #     self.assertIsInstance(data, list)
-    #     # Failing because review not created
-    #     # self.assertGreaterEqual(len(data), 1)
+        response = self.client.get("/api/v1/reviews/")
+        self.assertEqual(response.status_code, 200)
+        data = response.get_json()
+        self.assertIsInstance(data, list)
+        self.assertGreaterEqual(len(data), 1)
 
     # def test_get_review_by_id(self):
     #     """GET /api/v1/reviews/<id> should return the review <id>"""
