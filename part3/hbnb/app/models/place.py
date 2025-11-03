@@ -1,18 +1,19 @@
 from app.models.base_class import Base
 
+
 class Place(Base):
     def __init__(
-            self,
-            title: str,
-            description: str,
-            price: float,
-            latitude: float,
-            longitude: float,
-            owner_id: str,
-            place_id: str = None,
-            reviews: list = None,
-            amenities: list = None
-        ):
+        self,
+        title: str,
+        description: str,
+        price: float,
+        latitude: float,
+        longitude: float,
+        owner_id: str,
+        # place_id: str = None,
+        reviews: list = None,
+        amenities: list = None
+    ):
         super().__init__()
         self.title = title
         self.description = description or ""
@@ -79,7 +80,7 @@ class Place(Base):
         if not (-180 <= value <= 180):
             raise ValueError("Longitude must be between -180 and 180.")
         self._longitude = value
-    
+
     # --- owner_id ---
     @property
     def owner_id(self):
@@ -92,7 +93,6 @@ class Place(Base):
             raise ValueError("Owner ID cannot be empty.")
         self._owner_id = value
 
-
     def add_review(self, review):
         """Add a review to the place."""
         self.reviews.append(review)
@@ -100,7 +100,7 @@ class Place(Base):
     def add_amenity(self, amenity):
         """Add an amenity to the place."""
         self.amenities.append(amenity)
-    
+
     def to_dict(self):
         """Return a dictionary representation of the Place."""
         return {
