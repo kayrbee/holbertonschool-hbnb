@@ -1,6 +1,6 @@
 from flask_restx import Namespace, Resource, fields
 from app.services import facade
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
 
 api = Namespace('reviews', description='Review operations')
 
@@ -21,8 +21,17 @@ class ReviewList(Resource):
     @api.response(400, 'Invalid input data')
     def post(self):
         """Write a new review of a place"""
+        current_user = get_jwt()
+
+        is_admin = current_user.get('is_admin', False)
+        user_id = get_jwt_identity()
+
+        review = facade.get_review(review_id)
+
+        if not is_admin and review.user != user_id:
+            return {'error': 'Unauthorized action'}, 403 
+
         review_data = api.payload or {}
-        user_id = get_jwt_identity() 
         try:
             place_id = review_data.get("place")
             if not place_id:
@@ -111,16 +120,22 @@ class ReviewResource(Resource):
     @api.response(404, 'Review not found')
     def delete(self, review_id):
         """Delete a review"""
+        ###Would like to discuss with Thomas/Jonathan methods here. get_jwt vs get_jwt_identity
+        current_user = get_jwt()
+
+        is_admin = current_user.get('is_admin', False)
         user_id = get_jwt_identity()
-        try:
-            review = facade.review_repo.get(review_id)
-            if not review:
-                return {"error": "Review not found"}, 404
-            
-            # only review owner can delete
-            if review.user != user_id:
-                return {"error": "Unauthorised action"}, 403
-            
+
+        review = facade.get_review(review_id)
+
+        if not review:
+            return {"error": "Review not found"}, 404
+        
+        # if not admin and doesn't own a review
+        if not is_admin and review.user != user_id:
+            return {'error': 'Unauthorized action'}, 403
+
+        try:   
             facade.delete_review(review_id)
             return {"success": "Review deleted"}, 200
         

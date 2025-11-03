@@ -139,17 +139,19 @@ class PlaceResource(Resource):
     @api.response(403, 'Unauthorized action')
     def put(self, place_id):
         """Update a place's information"""
-        try:
-            user_id = get_jwt_identity()
-            
-            place = facade.get_place_by_id(place_id)
-            if not place:
-                return {"error": "Place not found"}, 404
-            
-            # this is when valid token but wrong user (user is not owner)
-            if place.owner_id != user_id:
-                return {"error": "Unauthorized action: You don't own this place"}, 403
-            
+        current_user = get_jwt()
+        is_admin = current_user.get('is_admin', False)
+        user_id = get_jwt_identity()
+        
+        place = facade.get_place_by_id(place_id)
+        if not place:
+            return {"error": "Place not found"}, 404
+        
+        # only admin or owners can update
+        if not is_admin and place.owner_id != user_id:
+            return {'error': 'Unauthorized action'}, 403  
+        
+        try:    
             payload = api.payload or {}
             if "amenities" in payload and isinstance(payload["amenities"], str):
                 payload["amenities"] = [payload["amenities"]]
