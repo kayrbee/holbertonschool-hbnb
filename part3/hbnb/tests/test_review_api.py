@@ -150,15 +150,20 @@ class TestReviewEndpoints(unittest.TestCase):
         self.assertIsInstance(data, list)
         self.assertGreaterEqual(len(data), 1)
 
-    # def test_get_review_by_id(self):
-    #     """GET /api/v1/reviews/<id> should return the review <id>"""
-    #     post_resp = self.client.post(
-    #         "/api/v1/reviews/", data=json.dumps(self.review_data), content_type="application/json")
-    #     review_id = post_resp.get_json()['id']
+    def test_get_review_by_id(self):
+        """GET /api/v1/reviews/<id> should return the review <id> """
+        # Pre-condition - create review & save its id
+        post_resp = self.client.post(
+            "/api/v1/reviews/",
+            headers=self.auth_headers,
+            data=json.dumps(self.review_data),
+            content_type="application/json"
+        )
+        review_id = post_resp.get_json()['id']
 
-    #     get_resp = self.client.get(f"/api/v1/reviews/{review_id}")
-    #     self.assertEqual(get_resp.status_code, 200)
-    #     self.assertEqual(get_resp.get_json()["id"], review_id)
+        get_resp = self.client.get(f"/api/v1/reviews/{review_id}")
+        self.assertEqual(get_resp.status_code, 200)
+        self.assertEqual(get_resp.get_json()["id"], review_id)
 
     # def test_update_review(self):
     #     """PUT /api/v1/reviews/<id> should update the review"""
