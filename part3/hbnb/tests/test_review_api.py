@@ -90,7 +90,7 @@ class TestReviewEndpoints(unittest.TestCase):
     def get_jwt_token(self, user_email, user_password):
         response = self.client.post(
             "/api/v1/auth/login",
-            data=json.dumps({"email": user_email, "password": user_password}),
+            json={"email": user_email, "password": user_password},
             content_type="application/json"
         )
         self.assertEqual(response.status_code, 200)
@@ -114,7 +114,7 @@ class TestReviewEndpoints(unittest.TestCase):
         response = self.client.post(
             "/api/v1/reviews/",
             headers=self.auth_headers,
-            data=json.dumps(self.review_data),
+            json=self.review_data,
             content_type="application/json"
         )
         # Handy debugging statement!
@@ -133,7 +133,7 @@ class TestReviewEndpoints(unittest.TestCase):
         response = self.client.post(
             "/api/v1/reviews/",
             headers=self.auth_headers,
-            data=json.dumps(bad_data),
+            json=bad_data,
             content_type="application/json"
         )
         self.assertEqual(response.status_code, 400)
@@ -156,7 +156,7 @@ class TestReviewEndpoints(unittest.TestCase):
         post_resp = self.client.post(
             "/api/v1/reviews/",
             headers=self.auth_headers,
-            data=json.dumps(self.review_data),
+            json=self.review_data,
             content_type="application/json"
         )
         review_id = post_resp.get_json()['id']
@@ -169,7 +169,7 @@ class TestReviewEndpoints(unittest.TestCase):
     #     """PUT /api/v1/reviews/<id> should update the review"""
     #     # Create a review
     #     post_resp = self.client.post(
-    #         "/api/v1/reviews/", data=json.dumps(self.review_data), content_type="application/json")
+    #         "/api/v1/reviews/", json=self.review_data, content_type="application/json")
     #     review_id = post_resp.get_json()["id"]
 
     #     updated_data = {
@@ -180,7 +180,7 @@ class TestReviewEndpoints(unittest.TestCase):
     #     }
 
     #     put_resp = self.client.put(
-    #         f"/api/v1/reviews/{review_id}", data=json.dumps(updated_data), content_type="application/json")
+    #         f"/api/v1/reviews/{review_id}", json=updated_data, content_type="application/json")
     #     self.assertEqual(put_resp.status_code, 200)
     #     self.assertEqual(put_resp.get_json()["text"], "Updated review")
     #     self.assertEqual(put_resp.get_json()["rating"], 4)
@@ -188,7 +188,7 @@ class TestReviewEndpoints(unittest.TestCase):
     # def test_delete_review(self):
     #     """DELETE /api/v1/reviews/<id> should delete the review <id>"""
     #     post_resp = self.client.post(
-    #         "/api/v1/reviews/", data=json.dumps(self.review_data), content_type="application/json")
+    #         "/api/v1/reviews/", json=self.review_data, content_type="application/json")
     #     review_id = post_resp.get_json()["id"]
 
     #     del_resp = self.client.delete(f"/api/v1/reviews/{review_id}")
@@ -197,17 +197,21 @@ class TestReviewEndpoints(unittest.TestCase):
     #     get_resp = self.client.get(f"/api/v1/reviews/{review_id}")
     #     self.assertEqual(get_resp.status_code, 404)
 
-    # def test_get_reviews_by_place(self):
-    #     """GET /api/v1/reviews/places/<place_id>/reviews should return reviews"""
-    #     self.client.post(
-    #         "/api/v1/reviews/", data=json.dumps(self.review_data), content_type="application/json")
+    def test_get_reviews_by_place(self):
+        """GET /api/v1/reviews/places/<place_id>/reviews should return reviews"""
+        self.client.post(
+            "/api/v1/reviews/",
+            headers=self.auth_headers,
+            json=self.review_data,
+            content_type="application/json"
+        )
 
-    #     response = self.client.get(
-    #         f"/api/v1/reviews/places/{self.review_data['place']}/reviews")
-    #     self.assertEqual(response.status_code, 200)
-    #     data = response.get_json()
-    #     self.assertIsInstance(data, list)
-    #     self.assertGreaterEqual(len(data), 1)
+        response = self.client.get(
+            f"/api/v1/reviews/places/{self.review_data['place']}/reviews")
+        self.assertEqual(response.status_code, 200)
+        data = response.get_json()
+        self.assertIsInstance(data, list)
+        self.assertGreaterEqual(len(data), 1)
 
 
 if __name__ == '__main__':
