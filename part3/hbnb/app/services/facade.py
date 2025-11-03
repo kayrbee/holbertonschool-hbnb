@@ -49,17 +49,18 @@ class HBnBFacade:
         """
 
         # Required fields
-        required = ["title", "price", "latitude", "longitude", "owner_id", "amenities"]
+        required = ["title", "price", "latitude",
+                    "longitude", "owner_id", "amenities"]
         missing = [f for f in required if f not in place_data]
         if missing:
-            raise ValueError(f"Missing required field(s): {', '.join(missing)}")
+            raise ValueError(
+                f"Missing required field(s): {', '.join(missing)}")
 
         # Validate owner exists
         owner_id = place_data.get("owner_id")
         owner = self.user_repo.get(owner_id)
         if not owner:
             raise ValueError("Invalid owner_id: user does not exist")
-        
 
         # Validate numeric ranges
         price = place_data.get("price")
@@ -83,7 +84,8 @@ class HBnBFacade:
         valid_amenity_ids = []
         for amenity_id in amenities:
             if not self.amenity_repo.get(amenity_id):
-                raise ValueError(f"Invalid amenity_id: {amenity_id} does not exist")
+                raise ValueError(
+                    f"Invalid amenity_id: {amenity_id} does not exist")
             valid_amenity_ids.append(amenity_id)
 
         init_args = {
@@ -147,12 +149,14 @@ class HBnBFacade:
             # Verify each amenity ID exists in the repository
             for amenity_id in amenities:
                 if not self.amenity_repo.get(amenity_id):
-                    raise ValueError(f"Invalid amenity_id: {amenity_id} does not exist")
+                    raise ValueError(
+                        f"Invalid amenity_id: {amenity_id} does not exist")
 
             # Replace the original value with the cleaned list
             updates["amenities"] = amenities
 
-        allowed = {"title", "description", "price", "latitude", "longitude", "amenities"}
+        allowed = {"title", "description", "price",
+                   "latitude", "longitude", "amenities"}
 
         # new dictionary containing only valid update keys
         safe_updates = {}

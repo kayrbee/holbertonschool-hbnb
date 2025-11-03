@@ -15,7 +15,8 @@ user_model = api.model('PlaceUser', {
     'id': fields.String(description='User ID'),
     'first_name': fields.String(description='First name of the owner'),
     'last_name': fields.String(description='Last name of the owner'),
-    'email': fields.String(description='Email of the owner')
+    'email': fields.String(description='Email of the owner'),
+    'password': fields.String(required=True, description='User password (hashed before saving)')
 })
 
 review_model = api.model('PlaceReview', {
@@ -70,13 +71,11 @@ class PlaceList(Resource):
 
         except ValueError as e:
             return {"error": str(e)}, 400
-        except Exception:
-            return {"error": "Internal server error"}, 500
-
+        except Exception as e:
+            return {"error": f"Internal server error {e}"}, 500
 
     @api.response(200, 'List of places retrieved successfully')
     def get(self):
-        """Retrieve a list of all places"""
         """Retrieve a list of all places"""
         try:
             places = facade.get_all_places()
@@ -85,7 +84,8 @@ class PlaceList(Resource):
                 d = p.to_dict()
 
                 owner = facade.get_user_by_id(p.owner_id)
-                d["owner"] = owner.to_dict() if owner and hasattr(owner, "to_dict") else None
+                d["owner"] = owner.to_dict() if owner and hasattr(
+                    owner, "to_dict") else None
 
                 amenities = []
                 for amenity_id in d.get("amenities", []):
@@ -114,7 +114,8 @@ class PlaceResource(Resource):
             d = place.to_dict()
 
             owner = facade.get_user_by_id(place.owner_id)
-            d["owner"] = owner.to_dict() if owner and hasattr(owner, "to_dict") else None
+            d["owner"] = owner.to_dict() if owner and hasattr(
+                owner, "to_dict") else None
 
             amenities = []
             for amenity_id in d.get("amenities", []):
@@ -129,7 +130,6 @@ class PlaceResource(Resource):
         except Exception:
             return {"error": "Internal server error"}, 500
 
-
     @api.expect(place_model)
     @api.response(200, 'Place updated successfully')
     @api.response(404, 'Place not found')
@@ -141,11 +141,13 @@ class PlaceResource(Resource):
             if "amenities" in payload and isinstance(payload["amenities"], str):
                 payload["amenities"] = [payload["amenities"]]
 
-            updated = facade.update_place(place_id, payload)  # return model, not _serialize_place
+            # return model, not _serialize_place
+            updated = facade.update_place(place_id, payload)
             d = updated.to_dict()
 
             owner = facade.get_user_by_id(updated.owner_id)
-            d["owner"] = owner.to_dict() if owner and hasattr(owner, "to_dict") else None
+            d["owner"] = owner.to_dict() if owner and hasattr(
+                owner, "to_dict") else None
 
             amenities = []
             for amenity_id in d.get("amenities", []):
