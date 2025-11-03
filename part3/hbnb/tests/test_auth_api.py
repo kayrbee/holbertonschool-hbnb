@@ -41,7 +41,7 @@ class TestAuthEndpoints(unittest.TestCase):
         """ Post to /login endpoint with correct email and correct password of
         an existing user """
         response = self.client.post(
-            "/api/v1/auth/login/",
+            "/api/v1/auth/login",
             data=json.dumps(self.valid_auth_data),
             content_type="application/json"
         )
@@ -54,8 +54,15 @@ class TestAuthEndpoints(unittest.TestCase):
         # Fetch the token from response data
         access_token = data["access_token"]
 
-        # Decode the token
-        decoded_token = decode_token(access_token)
+        # app_context() pushes an application context for the duration of the block,
+        # which means that decode_token can now access current_app.config["JWT_SECRET_KEY"]
+        # and other config values. This is required in tests because
+        # self.client only pushes a request context -
+        # self.client does not push an application context outside of request handling.
+        with self.app.app_context():
+            from flask_jwt_extended import decode_token
+            # Decode the token
+            decoded_token = decode_token(access_token)
 
-        # Assert that jwt subject matches user_id
-        self.assertEqual(decoded_token["sub"], self.user_id)
+            # Assert that jwt subject matches user_id
+            self.assertEqual(decoded_token["sub"], self.user_id)
