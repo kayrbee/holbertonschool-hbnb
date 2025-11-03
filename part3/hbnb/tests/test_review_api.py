@@ -8,9 +8,11 @@ class TestReviewEndpoints(unittest.TestCase):
 
     def setUp(self):
         self.app = create_app()
+        self.app.testing = True
         self.client = self.app.test_client()
 
         # Create test data
+        # Pre-condition for create_review - User must exist
         # Create a valid user_id
         unique_email = f"test_{uuid.uuid4().hex}@example.com"
         user_response = self.client.post(
@@ -18,12 +20,14 @@ class TestReviewEndpoints(unittest.TestCase):
             json={
                 "first_name": "John",
                 "last_name": "Doe",
-                "email": unique_email
+                "email": unique_email,
+                "password": "password123"
             }
         )
         self.assertEqual(user_response.status_code, 201)
         self.user_id = user_response.get_json()["id"]
 
+        # Pre-condition for create_review - Place must exist
         # Create a valid place_id
         place_response = self.client.post(
             "/api/v1/places/",
@@ -50,7 +54,7 @@ class TestReviewEndpoints(unittest.TestCase):
 
     def test_get_reviews_empty_list(self):
         """ Get reviews should return an empty list when there are no reviews
-        Note: this will only pass on the first run until I handle teardown
+        Note: currently failing because test run order is not guaranteed
         """
         response = self.client.get('/api/v1/reviews/')
         self.assertEqual(response.status_code, 200)
