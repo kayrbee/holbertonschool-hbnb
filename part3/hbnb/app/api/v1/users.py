@@ -32,12 +32,12 @@ class UserList(Resource):
     @api.response(400, 'Email already registered')
     @api.response(400, 'Invalid input data')
     @api.expect(user_model, validate=True)
-#    @jwt_required()
+    @jwt_required()
     def post(self):
         """Register a new user"""
-#        current_user = get_jwt()
-#        if not current_user.get("is_admin", False):
-#            return {'error': 'Admin privileges required'}, 403
+        current_user = get_jwt()
+        if not current_user.get("is_admin", False):
+            return {'error': 'Admin privileges required'}, 403
         
         user_data = api.payload or {}
         required_fields = ['first_name', 'last_name', 'email', 'password']
