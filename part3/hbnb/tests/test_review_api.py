@@ -185,17 +185,24 @@ class TestReviewEndpoints(unittest.TestCase):
     #     self.assertEqual(put_resp.get_json()["text"], "Updated review")
     #     self.assertEqual(put_resp.get_json()["rating"], 4)
 
-    # def test_delete_review(self):
-    #     """DELETE /api/v1/reviews/<id> should delete the review <id>"""
-    #     post_resp = self.client.post(
-    #         "/api/v1/reviews/", json=self.review_data, content_type="application/json")
-    #     review_id = post_resp.get_json()["id"]
+    def test_delete_review(self):
+        """DELETE /api/v1/reviews/<id> should delete the review <id>"""
+        post_resp = self.client.post(
+            "/api/v1/reviews/",
+            headers=self.auth_headers,
+            json=self.review_data,
+            content_type="application/json"
+        )
+        review_id = post_resp.get_json()["id"]
 
-    #     del_resp = self.client.delete(f"/api/v1/reviews/{review_id}")
-    #     self.assertEqual(del_resp.status_code, 200)
+        del_resp = self.client.delete(
+            f"/api/v1/reviews/{review_id}",
+            headers=self.auth_headers
+        )
+        self.assertEqual(del_resp.status_code, 200)
 
-    #     get_resp = self.client.get(f"/api/v1/reviews/{review_id}")
-    #     self.assertEqual(get_resp.status_code, 404)
+        get_resp = self.client.get(f"/api/v1/reviews/{review_id}")
+        self.assertEqual(get_resp.status_code, 404)
 
     def test_get_reviews_by_place(self):
         """GET /api/v1/reviews/places/<place_id>/reviews should return reviews"""
