@@ -165,25 +165,30 @@ class TestReviewEndpoints(unittest.TestCase):
         self.assertEqual(get_resp.status_code, 200)
         self.assertEqual(get_resp.get_json()["id"], review_id)
 
-    # def test_update_review(self):
-    #     """PUT /api/v1/reviews/<id> should update the review"""
-    #     # Create a review
-    #     post_resp = self.client.post(
-    #         "/api/v1/reviews/", json=self.review_data, content_type="application/json")
-    #     review_id = post_resp.get_json()["id"]
+    def test_update_review(self):
+        """PUT /api/v1/reviews/<id> should update the review"""
+        # Create a review
+        post_resp = self.client.post(
+            "/api/v1/reviews/",
+            headers=self.auth_headers,
+            json=self.review_data,
+            content_type="application/json"
+        )
+        review_id = post_resp.get_json()["id"]
 
-    #     updated_data = {
-    #         "text": "Updated review",
-    #         "rating": 4,
-    #         "user": "user-123",
-    #         "place": "place-456"
-    #     }
+        updated_data = self.review_data.copy()
+        updated_data["rating"] = 1
+        updated_data["text"] = "Updated review text"
 
-    #     put_resp = self.client.put(
-    #         f"/api/v1/reviews/{review_id}", json=updated_data, content_type="application/json")
-    #     self.assertEqual(put_resp.status_code, 200)
-    #     self.assertEqual(put_resp.get_json()["text"], "Updated review")
-    #     self.assertEqual(put_resp.get_json()["rating"], 4)
+        put_resp = self.client.put(
+            f"/api/v1/reviews/{review_id}",
+            headers=self.auth_headers,
+            json=updated_data,
+            content_type="application/json"
+        )
+        self.assertEqual(put_resp.status_code, 200)
+        self.assertEqual(put_resp.get_json()["text"], "Updated review text")
+        self.assertEqual(put_resp.get_json()["rating"], 1)
 
     def test_delete_review(self):
         """DELETE /api/v1/reviews/<id> should delete the review <id>"""
