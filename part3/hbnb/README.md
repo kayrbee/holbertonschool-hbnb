@@ -5,7 +5,7 @@
 ### 1. Set up a Virtual Environment
 
 ```bash
-cd part2/hbnb
+cd part3/hbnb
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
