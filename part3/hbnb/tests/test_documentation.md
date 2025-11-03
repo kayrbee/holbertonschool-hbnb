@@ -16,27 +16,26 @@ This documentation illustrates the **testing and validation** process for the AP
 
 **unittest tests**
 
+`unittest` is native to Python - no need to install it
+
 Navigate to the `/test` directory
+
 Ensure that `PYTHONPATH` is set, so that the interpreter can find `app`
+
 Run the desired test file/s
 
 ```bash
 cd part2/hbnb/tests
-PYTHONPATH=.. python <test_file>.py
-```
-
-```
-curl -X POST "http://127.0.0.1:5000/api/v1/auth/login" -H "Content-Type: application/json" -d '{
-  "email": "john.doe2@example.com",
-  "password": "password123"
-}'
+PYTHONPATH=.. python3 -m unittest <test_file>.py
 ```
 
 **pytest tests**
 
-Install pytest
-Naviage to the project directory
-Run the test file using pytest
+Install `pytest`
+
+Navigate to the project directory
+
+Run the test file using `pytest`
 
 ```bash
 pip install pytest

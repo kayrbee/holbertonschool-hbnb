@@ -52,7 +52,8 @@ class HBnBFacade:
         required = ["title", "price", "latitude", "longitude", "amenities"]
         missing = [f for f in required if f not in place_data]
         if missing:
-            raise ValueError(f"Missing required field(s): {', '.join(missing)}")
+            raise ValueError(
+                f"Missing required field(s): {', '.join(missing)}")
 
         # Validate owner exists
         owner = self.user_repo.get(owner_id)
@@ -70,7 +71,7 @@ class HBnBFacade:
             owner_id=owner_id
         )
         self.place_repo.add(new_place)
-        
+
         return new_place
 
         # Validate numeric ranges
@@ -95,7 +96,8 @@ class HBnBFacade:
         valid_amenity_ids = []
         for amenity_id in amenities:
             if not self.amenity_repo.get(amenity_id):
-                raise ValueError(f"Invalid amenity_id: {amenity_id} does not exist")
+                raise ValueError(
+                    f"Invalid amenity_id: {amenity_id} does not exist")
             valid_amenity_ids.append(amenity_id)
 
         init_args = {
@@ -159,12 +161,14 @@ class HBnBFacade:
             # Verify each amenity ID exists in the repository
             for amenity_id in amenities:
                 if not self.amenity_repo.get(amenity_id):
-                    raise ValueError(f"Invalid amenity_id: {amenity_id} does not exist")
+                    raise ValueError(
+                        f"Invalid amenity_id: {amenity_id} does not exist")
 
             # Replace the original value with the cleaned list
             updates["amenities"] = amenities
 
-        allowed = {"title", "description", "price", "latitude", "longitude", "amenities"}
+        allowed = {"title", "description", "price",
+                   "latitude", "longitude", "amenities"}
 
         # new dictionary containing only valid update keys
         safe_updates = {}
@@ -259,8 +263,8 @@ class HBnBFacade:
         for r in reviews:
             if hasattr(r, "user") and r.user == user_id:
                 return r
-        if isinstance(r, dict) and r.get("user") == user_id:
-            return r
+            if isinstance(r, dict) and r.get("user") == user_id:
+                return r
         return None
 
     def delete_review(self, review_id):
