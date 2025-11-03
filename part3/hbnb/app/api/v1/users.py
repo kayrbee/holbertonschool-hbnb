@@ -1,4 +1,5 @@
 from flask_restx import Namespace, Resource, fields
+from flask_jwt_extended import jwt_required, get_jwt
 from flask import request
 from app.services import facade
 from app.models.user import User
@@ -15,6 +16,14 @@ user_model = api.model('User', {
     'password': fields.String(required=True, description='User password (hashed before saving)')
 })
 
+# User model for updating user data, specifically removes required fields
+user_update_model = api.model('UserUpdate', {
+    'email': fields.String(),
+    'first_name': fields.String(),
+    'last_name': fields.String(),
+    'password': fields.String(),
+    'is_admin': fields.Boolean()
+})
 
 @api.route('/')
 class UserList(Resource):
@@ -23,8 +32,13 @@ class UserList(Resource):
     @api.response(400, 'Email already registered')
     @api.response(400, 'Invalid input data')
     @api.expect(user_model, validate=True)
+    @jwt_required()
     def post(self):
         """Register a new user"""
+        current_user = get_jwt()
+        if not current_user.get("is_admin", False):
+            return {'error': 'Admin privileges required'}, 403
+        
         user_data = api.payload or {}
         required_fields = ['first_name', 'last_name', 'email', 'password']
         for field in required_fields:
@@ -74,11 +88,16 @@ class UserResource(Resource):
             'last_name': user.last_name, 'email': user.email
         }, 200
 
-    @api.expect(user_model, validate=True)
+    @jwt_required()
+    @api.expect(user_update_model, validate=True)
     @api.response(200, 'Successfully update')
     @api.response(400, 'Invalid input data')
     def put(self, user_id):
         """ Update user info """
+        current_user = get_jwt()
+        if not current_user.get("is_admin", False):
+            return {'error': 'Admin privileges required'}, 403
+        
         user = facade.get_user_by_id(user_id)
         if not user:
             return {'error': 'User not found'}, 404
