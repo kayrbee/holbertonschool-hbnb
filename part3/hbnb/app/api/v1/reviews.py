@@ -21,15 +21,7 @@ class ReviewList(Resource):
     @api.response(400, 'Invalid input data')
     def post(self):
         """Write a new review of a place"""
-        current_user = get_jwt()
-
-        is_admin = current_user.get('is_admin', False)
         user_id = get_jwt_identity()
-
-        review = facade.get_review(review_id)
-
-        if not is_admin and review.user != user_id:
-            return {'error': 'Unauthorized action'}, 403
 
         review_data = api.payload or {}
         try:
@@ -94,6 +86,16 @@ class ReviewResource(Resource):
     def put(self, review_id):
         """Update a review's information"""
         user_id = get_jwt_identity()
+        current_user = get_jwt()
+
+        is_admin = current_user.get('is_admin', False)
+        user_id = get_jwt_identity()
+
+        review = facade.get_review(review_id)
+
+        if not is_admin and review.user != user_id:
+            return {'error': 'Unauthorized action'}, 403
+
         try:
             review = facade.review_repo.get(review_id)
             data = api.payload or {}
