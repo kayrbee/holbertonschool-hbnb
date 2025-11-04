@@ -6,6 +6,7 @@ from flask_restx import Api
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager
 from flask_sqlalchemy import SQLAlchemy
+import os  # Used for handling JWT secret key
 
 # Instantiates a password encryption class
 bcrypt = Bcrypt()
@@ -17,13 +18,13 @@ jwt = JWTManager()
 db = SQLAlchemy()
 
 def create_app(config_class="config.DevelopmentConfig"):
-    
+
     app = Flask(__name__)
     app.config.from_object(config_class)
 
     # Register bcrypt with the app instance
     bcrypt.init_app(app)
-    
+
     app.config.from_object(config_class)
     # Register the jwt middleware with the app instance
     jwt.init_app(app)
@@ -31,7 +32,7 @@ def create_app(config_class="config.DevelopmentConfig"):
     # Update the config with the JWT_SECRET_KEY
     app.config.update(
         TESTING=True,
-        SECRET_KEY='example-123'
+        SECRET_KEY=os.environ.get("JWT_SECRET_KEY")
     )
 
     # Register SQLAlchemy  with the app instance
