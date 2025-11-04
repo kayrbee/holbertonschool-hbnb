@@ -11,7 +11,7 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-This should install `flask_restx`, but if it doesn't, jump to Troubleshooting
+This should install `flask_restx` and `bcrypt`, but if it doesn't, jump to Troubleshooting
 
 
 ### 2. Run application
