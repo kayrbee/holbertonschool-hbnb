@@ -1,7 +1,7 @@
 from flask_restx import Namespace, Resource, fields
 from app.services import facade
 from flask import request
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask_jwt_extended import jwt_required, get_jwt, get_jwt_identity
 
 api = Namespace('places', description='Place operations')
 
@@ -44,15 +44,17 @@ class PlaceList(Resource):
     @api.expect(place_model)
     @api.response(201, 'Place successfully created')
     @api.response(400, 'Invalid input data')
+    @api.response(500, 'Internal server error')
     def post(self):
         """Create a new place"""
+        current_user_id = get_jwt_identity()
+
         try:
             data = api.payload or {}
             if isinstance(data.get("amenities"), str):
                 data["amenities"] = [data["amenities"]]
 
-            user_id = get_jwt_identity()
-            place = facade.create_place(data, owner_id=user_id)
+            place = facade.create_place(data, owner_id=current_user_id)
             d = place.to_dict()
             
             if "id" not in d and hasattr(place, "id"):
@@ -78,6 +80,7 @@ class PlaceList(Resource):
 
 
     @api.response(200, 'List of places retrieved successfully')
+    @api.response(500, 'Internal server error')
     def get(self):
         """Retrieve a list of all places"""
         try:
@@ -109,6 +112,7 @@ class PlaceList(Resource):
 class PlaceResource(Resource):
     @api.response(200, 'Place details retrieved successfully')
     @api.response(404, 'Place not found')
+    @api.response(500, 'Internal server error')
     def get(self, place_id):
         """Get place details by ID"""
         try:
@@ -134,21 +138,23 @@ class PlaceResource(Resource):
     @jwt_required()
     @api.expect(place_model)
     @api.response(200, 'Place updated successfully')
-    @api.response(404, 'Place not found')
-    @api.response(400, 'Invalid input data')
+    @api.response(400, 'Invalid input or amenity format')
     @api.response(403, 'Unauthorized action')
+    @api.response(404, 'Place not found')
+    @api.response(500, 'Internal server error')
     def put(self, place_id):
         """Update a place's information"""
-        current_user = get_jwt()
-        is_admin = current_user.get('is_admin', False)
-        user_id = get_jwt_identity()
+        current_user_id = get_jwt_identity()
+        
+        claims = get_jwt()
+        is_admin = claims.get('is_admin', False)
         
         place = facade.get_place_by_id(place_id)
         if not place:
             return {"error": "Place not found"}, 404
         
         # only admin or owners can update
-        if not is_admin and place.owner_id != user_id:
+        if not is_admin and place.owner_id != current_user_id:
             return {'error': 'Unauthorized action'}, 403  
         
         try:    

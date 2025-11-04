@@ -1,7 +1,6 @@
 from flask_restx import Namespace, Resource, fields
 from flask_jwt_extended import jwt_required, get_jwt
 from app.services import facade
-from flask import jsonify
 from flask import request
 
 api = Namespace('amenities', description='Amenity operations')
@@ -50,20 +49,25 @@ class AmenityResource(Resource):
             return amenity.to_dict(), 200
         except ValueError as e:
             return {"error": str(e)}, 404
-    
+
+    @jwt_required()
     @api.expect(amenity_model)
     @api.response(200, 'Amenity updated successfully')
     @api.response(404, 'Amenity not found')
     @api.response(400, 'Invalid input data')
-    @jwt_required()
     def put(self, amenity_id):
         """Update an amenity's information"""
-        current_user = get_jwt()
-        if not current_user.get("is_admin", False):
+        claims = get_jwt()
+        if not claims.get("is_admin", False):
             return {'error': 'Admin privileges required'}, 403
 
+        data = request.get_json()
+        name = data.get("name", "").strip()
+
+        if not name:
+            return {"error": "Amenity name cannot be empty"}, 400
+
         try:
-            data = request.get_json()
             updated = facade.update_amenity(amenity_id, data)
             return updated, 200
         except ValueError as e:
