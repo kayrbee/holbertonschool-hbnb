@@ -2,12 +2,12 @@
 
 ## Table of Contents
 
-- [Part 3 app structure](/part3/README.md#part-3-app-structure)
+- [Part 3 Project Structure](/part3/README.md#part-3-app-structure)
 - [Part 3 Overview](/part3/README.md#Part-3-Overview)
 - Jump to [Application Setup Instructions](/part3/hbnb/README.md)
 - Jump to [Test Documentation](https://github.com/kayrbee/holbertonschool-hbnb/blob/master/part3/hbnb/tests/test_documentation.md)
 
-## Part 3 app structure
+## Part 3 Project Structure
 
 ```
 holbertonschool-hbnb/
@@ -59,7 +59,7 @@ holbertonschool-hbnb/
 
 ## Part 3 Overview
 
-## Enhanced Backend with Authentication and Database Integration
+### Enhanced Backend with Authentication and Database Integration
 
 Welcome to **Part 3 of the HBnB Project**, where you will extend the backend of the application by introducing **user authentication, authorization, and database integration** using **SQLAlchemy** and **SQLite** for development.  
 Later, you’ll configure **MySQL** for production environments. In this part, you will secure the backend, introduce persistent storage, and prepare the application for a scalable, real-world deployment.
