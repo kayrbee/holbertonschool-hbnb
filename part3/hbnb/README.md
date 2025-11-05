@@ -13,10 +13,16 @@ pip install -r requirements.txt
 
 This should install `flask_restx` and `bcrypt`, but if it doesn't, jump to Troubleshooting
 
+### 2. Create a `.env` file
 
-### 2. Run application
+Copy [.env-example](part3/hbnb/app/.env-example) and save it as `.env` in the same directory as the example file.
 
-There are two ways to launch the application. Take note of which directory you need to be in for each
+This will ensure that the app initialisation can discover the JWT_SECRET_KEY environment variable it needs.
+
+
+### 3. Run application
+
+There are two ways to launch the application. Take note of which directory you need to be in for each method.
 
 **Using run.py file**
 
@@ -33,9 +39,9 @@ flask run
 # Run with optional debugger
 flask run --debug
 ```
-### 3. Run tests
+### 4. Run tests
 
-Jump to (test_documentation.md)[]  # add link
+Jump to [test_documentation.md](part3/hbnb/tests/test_documentation.md)
 
 ### Troubleshooting
 
