@@ -1,7 +1,16 @@
-from app.models.base_class import Base
+from app import db
+from .base_class import Base
 
 
-class Review(Base):
+class Review(Base, db.Model):
+    __tablename__ = 'reviews'
+    
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    text = db.Column(db.String(1000), nullable=False)
+    rating = db.Column(db.Integer, nullable=False)
+    user = db.Column(db.String(60), nullable=False)
+    place = db.Column(db.String(60), nullable=False)
+    
     def __init__(self, rating: int, text: str, place: str, user: str):
         super().__init__()
         self.rating = rating
@@ -78,3 +87,7 @@ class Review(Base):
             "user": self.user,
             "place": self.place
         }
+
+# for debugging purpose: when print Review object, _repr_ shows useful information instead of a memory address
+    def __repr__(self):
+        return f"<Review {self.id}: {self.place}>"

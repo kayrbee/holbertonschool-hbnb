@@ -124,6 +124,6 @@ class Place(Base, db.Model):
             "reviews": self.reviews,
         }
     
-    # when print Place object, _repr_ shows useful information instead of a memory address
+    # for debugging purpose: when print Place object, _repr_ shows useful information instead of a memory address
     def __repr__(self):
         return f"<Place {self.id}: {self.title}>"

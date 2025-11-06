@@ -33,6 +33,6 @@ class Amenity(Base, db.Model):
             "updated at": str(self.updated_at)
         }
         
-    # when print Amenity object, _repr_ shows useful information instead of a memory address
+    # for debugging purpose: when print Amenity object, _repr_ shows useful information instead of a memory address
     def __repr__(self):
         return f"<Amenity {self.id}: {self.name}>"
