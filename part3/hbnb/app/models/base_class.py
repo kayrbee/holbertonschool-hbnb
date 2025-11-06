@@ -7,12 +7,20 @@ Place, Amenity, User and Review classes
 """
 
 
+from app import db
 import uuid
 from datetime import datetime
 # To do: is the from statement necessary?
 
 
-class Base:
+class Base(db.Model):
+    __abstract__ = True  # Ensures SQLAlchemy does not create a table for BaseModel
+
+    # Creates columns for id, created_at, and updated_at
+    id = db.Column(db.String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
     def __init__(self):
         self.id = str(uuid.uuid4())  # Generate random uuid
         self.created_at = datetime.now()
