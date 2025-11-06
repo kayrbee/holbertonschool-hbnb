@@ -146,21 +146,20 @@ class PlaceResource(Resource):
         """Update a place's information"""
         current_user_id = get_jwt_identity()
         
-        claims = get_jwt()
-        is_admin = claims.get('is_admin', False)
-        
         place = facade.get_place_by_id(place_id)
         if not place:
             return {"error": "Place not found"}, 404
         
-        # only admin or owners can update
-        if not is_admin and place.owner_id != current_user_id:
+        # only owners can update
+        if place.owner_id != current_user_id:
             return {'error': 'Unauthorized action'}, 403  
         
         try:    
             payload = api.payload or {}
             if "amenities" in payload and isinstance(payload["amenities"], str):
                 payload["amenities"] = [payload["amenities"]]
+            elif not isinstance(payload.get("amenities", []), list):
+                return {"error": "Invalid amenity format"}, 400
 
             # Update using facade
             updated = facade.update_place(place_id, payload)  # return model, not _serialize_place

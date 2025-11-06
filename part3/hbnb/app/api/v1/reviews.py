@@ -97,14 +97,11 @@ class ReviewResource(Resource):
     def put(self, review_id):
         """Update a review's information"""
         current_user_id = get_jwt_identity()
-        
-        claims = get_jwt()
-        is_admin = claims.get('is_admin', False)
-
+       
         review = facade.get_review(review_id)
 
         # if not admin and doesn't own a review
-        if not is_admin and review.user != current_user_id:
+        if review.user != current_user_id:
             return {'error': 'Unauthorized action'}, 403
 
         try:
@@ -114,17 +111,13 @@ class ReviewResource(Resource):
             if not review:
                 return {"error": "Review not found"}, 404
 
-            # only review owner can modify
-            if review.user != current_user_id:
-                return {"error": "Unauthorised action"}, 403
-
             update = facade.update_review(review_id, data)
             return update.to_dict(), 200
 
         except ValueError as e:
             if str(e) == "Review not found":
-                return {"error": str(e)}, 404
-            return {"error": str(e)}, 400
+                return {"error": f"{e}"}, 404
+            return {"error": f"{e}"}, 400
 
         except TypeError:
             return {"error": 'Invalid input data'}, 400
