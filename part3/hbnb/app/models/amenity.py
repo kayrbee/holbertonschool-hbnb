@@ -1,10 +1,16 @@
-from app.models.base_class import Base
-"""
-Defines the Amenity model, including validation and serialization logic
-"""
+from app import db
+from .base_class import Base
+
+
+"""Defines the Amenity model, including validation and serialization logic"""
 
 class Amenity(Base):
-    amenities = []
+    __tablename__ = 'amenities'
+    
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(50), nullable=False)
+    
+    # amenities = []
     def __init__(self, name: str):
         """
         Initializes an Amenity instance, validating that the name is a string
@@ -26,3 +32,7 @@ class Amenity(Base):
             "created at": str(self.created_at),
             "updated at": str(self.updated_at)
         }
+        
+    # for debugging purpose: when print Amenity object, _repr_ shows useful information instead of a memory address
+    def __repr__(self):
+        return f"<Amenity {self.id}: {self.name}>"

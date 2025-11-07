@@ -1,7 +1,17 @@
-from app.models.base_class import Base
-
+from app import db
+from .base_class import Base
 
 class Place(Base):
+    __tablename__ = 'places'
+    
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    title = db.Column(db.String(255), nullable=False)
+    description = db.Column(db.String(1000))
+    price = db.Column(db.Float, nullable=False)
+    latitude = db.Column(db.Float, nullable=False)
+    longitude = db.Column(db.Float, nullable=False)
+    owner_id = db.Column(db.String(60), nullable=False)
+    
     def __init__(
         self,
         title: str,
@@ -10,7 +20,6 @@ class Place(Base):
         latitude: float,
         longitude: float,
         owner_id: str,
-        # place_id: str = None,
         reviews: list = None,
         amenities: list = None
     ):
@@ -114,3 +123,7 @@ class Place(Base):
             "amenities": self.amenities,
             "reviews": self.reviews,
         }
+    
+    # for debugging purpose: when print Place object, _repr_ shows useful information instead of a memory address
+    def __repr__(self):
+        return f"<Place {self.id}: {self.title}>"
