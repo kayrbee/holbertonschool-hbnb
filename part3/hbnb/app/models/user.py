@@ -1,9 +1,20 @@
 import re  # module to implement email format validation check
+import uuid
 from app.models.base_class import Base
-from app import bcrypt
+from app import db, bcrypt
+from sqlalchemy.orm import validates
+from .base_class import Base
 
 
 class User(Base):
+    __tablename__ = 'users'
+
+    first_name = db.Column(db.String(50), nullable=False)
+    last_name = db.Column(db.String(50), nullable=False)
+    email = db.Column(db.String(120), nullable=False, unique=True)
+    password = db.Column(db.String(128), nullable=False)
+    is_admin = db.Column(db.Boolean, default=False)
+
     def __init__(
         self,
         first_name: str,
@@ -35,43 +46,31 @@ class User(Base):
         self.is_admin = is_admin
 
     # validate1: first_name must be a string and max 50 characters
-    @property
-    def first_name(self):
-        return self._first_name
-
-    @first_name.setter
-    def first_name(self, first_name):
-        if not isinstance(first_name, str):
+    @validates('first_name')
+    def validate_first_name(self, key, value):
+        if not isinstance(value, str):
             raise TypeError("first name must be a string")
-        if len(first_name) > 50:
+        if len(value) > 50:
             raise ValueError("first name cannot exceed 50 characters")
-        self._first_name = first_name
+        return value
 
     # validate2: last_name must be a string and max 50 characters
-    @property
-    def last_name(self):
-        return self._last_name
-
-    @last_name.setter
-    def last_name(self, last_name):
-        if not isinstance(last_name, str):
+    @validates('last_name')
+    def validate_last_name(self, key, value):
+        if not isinstance(value, str):
             raise TypeError("last name must be a string")
-        if len(last_name) > 50:
+        if len(value) > 50:
             raise ValueError("last name cannot exceed 50 characters")
-        self._last_name = last_name
+        return value
 
     # validate3: email must be a string and follow standard email format
-    @property
-    def email(self):
-        return self._email
-
-    @email.setter
-    def email(self, email):
-        if not isinstance(email, str):
+    @validates('email')
+    def validate_email(self, key, value):
+        if not isinstance(value, str):
             raise TypeError("email must be a string")
-        if not self.is_email_valid(email):
+        if not self.is_email_valid(value):
             raise ValueError("invalid email format")
-        self._email = email
+        return value
 
     def is_email_valid(self, email):
         """ Validate format of an email address using a regular expression """

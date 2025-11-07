@@ -18,6 +18,7 @@ jwt = JWTManager()
 # Instanstiates a SQLAlchemy class
 db = SQLAlchemy()
 
+
 def create_app(config_class="config.DevelopmentConfig"):
 
     app = Flask(__name__)
@@ -25,6 +26,7 @@ def create_app(config_class="config.DevelopmentConfig"):
 
     # Register bcrypt with the app instance
     bcrypt.init_app(app)
+
     app.config.from_object(config_class)
 
     # Register the jwt middleware with the app instance
