@@ -1,8 +1,5 @@
 from flask_restx import Namespace, Resource, fields
-from flask_jwt_extended import jwt_required, get_jwt
 from app.services import facade
-from flask import jsonify
-from flask import request
 
 api = Namespace('amenities', description='Amenity operations')
 
@@ -13,23 +10,6 @@ amenity_model = api.model('Amenity', {
 
 @api.route('/')
 class AmenityList(Resource):
-    @api.expect(amenity_model)
-    @api.response(201, 'Amenity successfully created')
-    @api.response(400, 'Invalid input data')
-    @jwt_required()
-    def post(self):
-        """Register a new amenity"""
-        current_user = get_jwt()
-        if not current_user.get("is_admin", False):
-            return {'error': 'Admin privileges required'}, 403
-
-        try:
-            data = request.get_json()
-            amenity = facade.create_amenity(data)
-            return {"id": amenity.id, "name": amenity.name}, 201
-        except Exception as e:
-            return {"error": str(e)}, 400
-
     @api.response(200, 'List of amenities retrieved successfully')
     def get(self):
         """Retrieve a list of all amenities"""
@@ -37,7 +17,7 @@ class AmenityList(Resource):
             amenities = facade.get_all_amenities()
             return [a.to_dict() for a in amenities], 200
         except ValueError as e:
-            return{"error": str(e)}, 404
+            return{'error': 'Invalid input data'}, 404
 
 @api.route('/<amenity_id>')
 class AmenityResource(Resource):
@@ -48,26 +28,5 @@ class AmenityResource(Resource):
         try:
             amenity = facade.get_amenity(amenity_id)
             return amenity.to_dict(), 200
-        except ValueError as e:
-            return {"error": str(e)}, 404
-    
-    @api.expect(amenity_model)
-    @api.response(200, 'Amenity updated successfully')
-    @api.response(404, 'Amenity not found')
-    @api.response(400, 'Invalid input data')
-    @jwt_required()
-    def put(self, amenity_id):
-        """Update an amenity's information"""
-        current_user = get_jwt()
-        if not current_user.get("is_admin", False):
-            return {'error': 'Admin privileges required'}, 403
-
-        try:
-            data = request.get_json()
-            updated = facade.update_amenity(amenity_id, data)
-            return updated, 200
-        except ValueError as e:
-            return {"error": "Amenity not found"}, 404
-        except Exception as e:
-            return {"error": "Invalid input data"}, 400
-        
+        except ValueError:
+            return {'error': 'Amenity not found'}, 404
