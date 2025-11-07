@@ -2,7 +2,7 @@ from app import db
 from .base_class import Base
 
 
-class Review(Base, db.Model):
+class Review(Base):
     __tablename__ = 'reviews'
     
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)

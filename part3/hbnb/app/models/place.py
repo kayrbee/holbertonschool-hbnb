@@ -1,7 +1,7 @@
 from app import db
 from .base_class import Base
 
-class Place(Base, db.Model):
+class Place(Base):
     __tablename__ = 'places'
     
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
