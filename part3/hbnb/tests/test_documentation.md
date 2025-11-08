@@ -11,38 +11,6 @@ This documentation illustrates the **testing and validation** process for the AP
 
 ---
 
-### To run the automated tests for this project
-
-
-**unittest tests**
-
-`unittest` is native to Python - no need to install it
-
-Navigate to the `/test` directory
-
-Ensure that `PYTHONPATH` is set, so that the interpreter can find `app`
-
-Run the desired test file/s
-
-```bash
-cd part2/hbnb/tests
-PYTHONPATH=.. python3 -m unittest <test_file>.py
-```
-
-**pytest tests**
-
-Install `pytest`
-
-Navigate to the project directory
-
-Run the test file using `pytest`
-
-```bash
-pip install pytest
-cd part3/hbnb
-pytest tests/<test_file>.py
-```
-
 ## Validation Rules Implemented:
 
 ### User model:
