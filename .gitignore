@@ -11,3 +11,6 @@ ENV/
 # Dev containers
 .devcontainer/
 .vscode/
+
+# MacOS
+*.DS_Store
