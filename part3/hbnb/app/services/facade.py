@@ -66,15 +66,17 @@ class HBnBFacade:
             raise ValueError("Invalid owner_id: user does not exist")
 
         description = place_data.get("description", "")
+
         new_place = Place(
-            title=place_data["title"],
-            description=description,
-            price=place_data["price"],
-            latitude=place_data["latitude"],
-            longitude=place_data["longitude"],
-            amenities=place_data["amenities"],
-            owner_id=owner_id
+            title=str(place_data["title"]),
+            description=str(description),
+            price=float(place_data["price"]),
+            latitude=float(place_data["latitude"]),
+            longitude=float(place_data["longitude"]),
+            owner_id=str(owner_id),
+            amenities=str(place_data["amenities"])
         )
+
         self.place_repo.add(new_place)
 
         return new_place
