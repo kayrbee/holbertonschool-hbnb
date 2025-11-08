@@ -227,6 +227,16 @@ class HBnBFacade:
         self.amenity_repo.update(amenity_id, amenity_data)
         return amenity_data
 
+    def delete_amenity(self, amenity_id):
+        """
+        Deletes an existing amenity
+        nb - sql delete doesn't return rows
+        which means there's no return value from a delete()
+        """
+        if not self.amenity_repo.get(amenity_id):
+            raise ValueError("Amenity not found")
+        self.amenity_repo.delete(amenity_id)
+
     # --- Reviews ---
     def create_review(self, review_data):
         """ create a new review (POST /reviews)"""
@@ -278,6 +288,7 @@ class HBnBFacade:
             raise ValueError("Review not found")
         place_id = review.place
         place = self.place_repo.get(place_id)
+        # Question: once we've got an operational database, can we remove this?
         # Remove this review from place's reviews list before deletion
         place.reviews = [r for r in place.reviews if r['id'] != review.id]
         self.review_repo.delete(review_id)
