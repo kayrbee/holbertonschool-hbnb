@@ -148,6 +148,22 @@ class AdminUserResource(Resource):
             print("SERVER ERROR:", e)
             return {'error': 'Internal server error'}, 500
 
+    @admin_required
+    @api.response(200, 'User deleted')
+    @api.response(401, 'Unauthorized')
+    @api.response(403, 'Admin privileges required')
+    @api.response(404, 'User not found')
+    @api.response(500, 'Internal server error')
+    def delete(self, user_id):
+        """ Delete a user by id """
+        try:
+            facade.delete_user(user_id)
+            return {'success': 'User deleted'}, 200
+        except ValueError:
+            return {'error': 'User not found'}, 404
+        except Exception:
+            return {'error': 'Internal server error'}, 500
+
 
 @api.route('/amenities/')
 class AdminAmenityCreate(Resource):

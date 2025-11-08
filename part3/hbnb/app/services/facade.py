@@ -46,6 +46,13 @@ class HBnBFacade:
         user.update(new_data)
         return user
 
+    def delete_user(self, user_id):
+        """ Delete a user """
+        user = self.get_user_by_id(user_id)
+        if not user:
+            raise ValueError("User not found")
+        self.user_repo.delete(user_id)
+
     # --- Place ---
     def create_place(self, place_data, owner_id):
         """
