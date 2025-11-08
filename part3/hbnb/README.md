@@ -1,7 +1,5 @@
 # How to run this application
 
-## Clean installation
-
 ### 1. Set up a Virtual Environment
 
 ```bash
@@ -41,7 +39,7 @@ flask run --debug
 ```
 ### 4. Run tests
 
-Jump to [test_documentation.md](part3/hbnb/tests/test_documentation.md)
+Jump to [test_documentation.md](/part3/hbnb/tests/test_documentation.md)
 
 ### Troubleshooting
 

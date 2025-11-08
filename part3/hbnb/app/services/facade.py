@@ -130,7 +130,7 @@ class HBnBFacade:
     def get_place_by_id(self, place_id):
         """Get a place by ID"""
         if not self.place_repo.get(place_id):
-            raise ValueError("Place not found")
+            raise LookupError("Place not found")
         return self.place_repo.get(place_id)
 
     def get_all_places(self):
@@ -192,7 +192,15 @@ class HBnBFacade:
 
         return self.place_repo.get(place_id)
 
+    def delete_place(self, place_id):
+        """ Deletes a place """
+        place = self.place_repo.get(place_id)
+        if not place:
+            raise LookupError("Place not found")
+        self.place_repo.delete(place_id)
+
     # --- Amenity ---
+
     def create_amenity(self, amenity_data):
         """
         Checks amenity ID and creates a new amenity

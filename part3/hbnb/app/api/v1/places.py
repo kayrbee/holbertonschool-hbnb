@@ -56,7 +56,7 @@ class PlaceList(Resource):
 
             place = facade.create_place(data, owner_id=current_user_id)
             d = place.to_dict()
-            
+
             if "id" not in d and hasattr(place, "id"):
                 d["id"] = place.id
 
@@ -78,7 +78,6 @@ class PlaceList(Resource):
         except Exception:
             return {"error": "Internal server error"}, 500
 
-
     @api.response(200, 'List of places retrieved successfully')
     @api.response(500, 'Internal server error')
     def get(self):
@@ -90,7 +89,8 @@ class PlaceList(Resource):
                 d = p.to_dict()
 
                 owner = facade.get_user_by_id(p.owner_id)
-                d["owner"] = owner.to_dict() if owner and hasattr(owner, "to_dict") else None
+                d["owner"] = owner.to_dict() if owner and hasattr(
+                    owner, "to_dict") else None
 
                 amenities = []
                 for amenity_id in d.get("amenities", []):
@@ -120,7 +120,8 @@ class PlaceResource(Resource):
             d = place.to_dict()
 
             owner = facade.get_user_by_id(place.owner_id)
-            d["owner"] = owner.to_dict() if owner and hasattr(owner, "to_dict") else None
+            d["owner"] = owner.to_dict() if owner and hasattr(
+                owner, "to_dict") else None
 
             amenities = []
             for amenity_id in d.get("amenities", []):
@@ -130,8 +131,8 @@ class PlaceResource(Resource):
             d["amenities"] = amenities
 
             return d, 200
-        except ValueError:
-            return {"error": "Place not found"}, 404
+        except LookupError or ValueError:
+            return {"error": "Place or owner not found"}, 404
         except Exception:
             return {"error": "Internal server error"}, 500
 
@@ -145,16 +146,17 @@ class PlaceResource(Resource):
     def put(self, place_id):
         """Update a place's information"""
         current_user_id = get_jwt_identity()
-        
-        place = facade.get_place_by_id(place_id)
-        if not place:
+
+        try:
+            place = facade.get_place_by_id(place_id)
+        except LookupError:
             return {"error": "Place not found"}, 404
-        
+
         # only owners can update
         if place.owner_id != current_user_id:
-            return {'error': 'Unauthorized action'}, 403  
-        
-        try:    
+            return {'error': 'Unauthorized action'}, 403
+
+        try:
             payload = api.payload or {}
             if "amenities" in payload and isinstance(payload["amenities"], str):
                 payload["amenities"] = [payload["amenities"]]
@@ -162,11 +164,13 @@ class PlaceResource(Resource):
                 return {"error": "Invalid amenity format"}, 400
 
             # Update using facade
-            updated = facade.update_place(place_id, payload)  # return model, not _serialize_place
+            # return model, not _serialize_place
+            updated = facade.update_place(place_id, payload)
             d = updated.to_dict()
 
             owner = facade.get_user_by_id(updated.owner_id)
-            d["owner"] = owner.to_dict() if owner and hasattr(owner, "to_dict") else None
+            d["owner"] = owner.to_dict() if owner and hasattr(
+                owner, "to_dict") else None
 
             amenities = []
             for amenity_id in d.get("amenities", []):
@@ -181,5 +185,30 @@ class PlaceResource(Resource):
             return {"error": "Place not found"}, 404
         except ValueError as e:
             return {"error": str(e)}, 400
+        except Exception:
+            return {"error": "Internal server error"}, 500
+
+    @jwt_required()
+    @api.response(200, 'Place deleted successfully')
+    @api.response(401, 'Unauthorized action')
+    @api.response(403, 'Unauthorized action')
+    @api.response(404, 'Place not found')
+    @api.response(500, 'Internal server error')
+    def delete(self, place_id):
+        """ Delete a place's information """
+        current_user_id = get_jwt_identity()
+
+        try:
+            place = facade.get_place_by_id(place_id)
+        except LookupError:
+            return {"error": "Place not found"}, 404
+
+        # only owners can delete
+        if place.owner_id != current_user_id:
+            return {'error': 'Unauthorized action'}, 403
+
+        try:
+            facade.delete_place(place_id)
+            return {'success': 'Place deleted successfully'}, 200
         except Exception:
             return {"error": "Internal server error"}, 500

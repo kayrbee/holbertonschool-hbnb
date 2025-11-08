@@ -205,7 +205,6 @@ class AdminAmenityModify(Resource):
             return {'error': 'Invalid input data'}, 400
 
     @admin_required
-    @api.expect(admin_amenity_model)
     @api.response(200, "Amenity deleted")
     @api.response(401, "Unauthorized")
     @api.response(403, "Admin privileges required")
@@ -262,6 +261,20 @@ class AdminPlaceModify(Resource):
             return {"error": "Place not found"}, 404
         except ValueError as e:
             return {"error": str(e)}, 400
+        except Exception:
+            return {"error": "Internal server error"}, 500
+
+    @admin_required
+    @api.response(200, 'Place deleted successfully')
+    @api.response(401, "Unauthorized")
+    @api.response(403, "Admin privileges required")
+    @api.response(404, 'Place not found')
+    @api.response(500, 'Internal server error')
+    def delete(self, place_id):
+        try:
+            facade.delete_place(place_id)
+        except LookupError:
+            return {"error": "Place not found"}, 404
         except Exception:
             return {"error": "Internal server error"}, 500
 
