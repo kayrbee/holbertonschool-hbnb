@@ -283,13 +283,16 @@ class HBnBFacade:
         return None
 
     def delete_review(self, review_id):
-        review = self.review_repo.get(review_id)
-        if not review:
-            raise ValueError("Review not found")
-        place_id = review.place
-        place = self.place_repo.get(place_id)
-        # Question: once we've got an operational database, can we remove this?
-        # Remove this review from place's reviews list before deletion
-        place.reviews = [r for r in place.reviews if r['id'] != review.id]
+        """ 
+        Delete a review
+
+        Note: the 404 validation check was
+        removed because it duplicated logic at the API layer and resulted
+        in an extra, unnecessary db call.
+
+        I chose to keep the 404 validation at the API layer for reviews
+        because it was already necessary to call the db to perform an
+        authorisation check on review owner
+
+        """
         self.review_repo.delete(review_id)
-        return "Review deleted"

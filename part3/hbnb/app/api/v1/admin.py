@@ -290,7 +290,5 @@ class AdminReviewDelete(Resource):
         try:
             facade.delete_review(review_id)
             return {"success": "Review deleted"}, 200
-        except ValueError:
-            return {"error": 'Review not found'}, 404
         except Exception:
             return {"error": "Internal server error"}, 500
