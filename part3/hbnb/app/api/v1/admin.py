@@ -7,6 +7,8 @@ from app.services import facade
 api = Namespace('admin', description='Admin-only operations')
 
 # admin role check decorator
+
+
 def admin_required(fn):
     @wraps(fn)
     @jwt_required()
@@ -16,6 +18,7 @@ def admin_required(fn):
             return {'error': 'Admin privileges required'}, 403
         return fn(*args, **kwargs)
     return wrapper
+
 
 # define the USER MODEL for input validation and documentation
 admin_user_model = api.model('AdminUser', {
@@ -70,6 +73,7 @@ admin_review_update_model = api.model('ReviewUpdate', {
     'user': fields.String()
 })
 
+
 @api.route('/users/')
 class AdminUserCreate(Resource):
     @admin_required
@@ -102,6 +106,7 @@ class AdminUserCreate(Resource):
             'id': new_user.id,
             'message': 'User registered successfully'
         }, 201
+
 
 @api.route('/users/<user_id>')
 class AdminUserResource(Resource):
@@ -143,6 +148,23 @@ class AdminUserResource(Resource):
             print("SERVER ERROR:", e)
             return {'error': 'Internal server error'}, 500
 
+    @admin_required
+    @api.response(200, 'User deleted')
+    @api.response(401, 'Unauthorized')
+    @api.response(403, 'Admin privileges required')
+    @api.response(404, 'User not found')
+    @api.response(500, 'Internal server error')
+    def delete(self, user_id):
+        """ Delete a user by id """
+        try:
+            facade.delete_user(user_id)
+            return {'success': 'User deleted'}, 200
+        except ValueError:
+            return {'error': 'User not found'}, 404
+        except Exception:
+            return {'error': 'Internal server error'}, 500
+
+
 @api.route('/amenities/')
 class AdminAmenityCreate(Resource):
     @admin_required
@@ -157,6 +179,7 @@ class AdminAmenityCreate(Resource):
             return {'id': amenity.id, 'name': amenity.name}, 201
         except Exception:
             return {'error': 'Invalid input data'}, 400
+
 
 @api.route('/amenities/<amenity_id>')
 class AdminAmenityModify(Resource):
@@ -181,6 +204,23 @@ class AdminAmenityModify(Resource):
         except Exception:
             return {'error': 'Invalid input data'}, 400
 
+    @admin_required
+    @api.response(200, "Amenity deleted")
+    @api.response(401, "Unauthorized")
+    @api.response(403, "Admin privileges required")
+    @api.response(404, "Amenity not found")
+    @api.response(500, "Internal server error")
+    def delete(self, amenity_id):
+        """ Delete an amenity """
+        try:
+            facade.delete_amenity(amenity_id)
+            return {'success': 'Amenity deleted'}, 200
+        except ValueError:
+            return {'error': 'Amenity not found'}, 404
+        except Exception:
+            return {'error': 'Internal server error'}, 500
+
+
 @api.route('/places/<place_id>')
 class AdminPlaceModify(Resource):
     @admin_required
@@ -194,17 +234,19 @@ class AdminPlaceModify(Resource):
         place = facade.get_place_by_id(place_id)
         if not place:
             return {"error": "Place not found"}, 404
-        try:    
+        try:
             payload = api.payload or {}
             if "amenities" in payload and isinstance(payload["amenities"], str):
                 payload["amenities"] = [payload["amenities"]]
 
             # Update using facade
-            updated = facade.update_place(place_id, payload)  # return model, not _serialize_place
+            # return model, not _serialize_place
+            updated = facade.update_place(place_id, payload)
             d = updated.to_dict()
 
             owner = facade.get_user_by_id(updated.owner_id)
-            d["owner"] = owner.to_dict() if owner and hasattr(owner, "to_dict") else None
+            d["owner"] = owner.to_dict() if owner and hasattr(
+                owner, "to_dict") else None
 
             amenities = []
             for amenity_id in d.get("amenities", []):
@@ -221,7 +263,21 @@ class AdminPlaceModify(Resource):
             return {"error": str(e)}, 400
         except Exception:
             return {"error": "Internal server error"}, 500
-   
+
+    @admin_required
+    @api.response(200, 'Place deleted successfully')
+    @api.response(401, "Unauthorized")
+    @api.response(403, "Admin privileges required")
+    @api.response(404, 'Place not found')
+    @api.response(500, 'Internal server error')
+    def delete(self, place_id):
+        try:
+            facade.delete_place(place_id)
+        except LookupError:
+            return {"error": "Place not found"}, 404
+        except Exception:
+            return {"error": "Internal server error"}, 500
+
 
 @api.route('/reviews/<review_id>')
 class AdminReviewModify(Resource):
@@ -234,7 +290,7 @@ class AdminReviewModify(Resource):
         """ Bypass ownership restrictions when Modifying Review """
         review = facade.review_repo.get(review_id)
         if not review:
-                return {"error": "Review not found"}, 404
+            return {"error": "Review not found"}, 404
 
         data = api.payload or {}
         try:
@@ -246,6 +302,7 @@ class AdminReviewModify(Resource):
             return {"error": str(e)}, 400
         except TypeError:
             return {"error": 'Invalid input data'}, 400
+
 
 @api.route('/reviews/<review_id>')
 class AdminReviewDelete(Resource):
@@ -262,7 +319,5 @@ class AdminReviewDelete(Resource):
         try:
             facade.delete_review(review_id)
             return {"success": "Review deleted"}, 200
-        except ValueError:
-            return {"error": 'Review not found'}, 404
         except Exception:
             return {"error": "Internal server error"}, 500

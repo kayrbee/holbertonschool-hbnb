@@ -66,3 +66,7 @@ class TestAuthEndpoints(unittest.TestCase):
 
             # Assert that jwt subject matches user_id
             self.assertEqual(decoded_token["sub"], self.user_id)
+
+
+if __name__ == '__main__':
+    unittest.main()
