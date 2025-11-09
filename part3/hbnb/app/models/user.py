@@ -48,28 +48,34 @@ class User(Base):
     # validate1: first_name must be a string and max 50 characters
     @validates('first_name')
     def validate_first_name(self, key, value):
+        if not value:
+            raise TypeError("First name must be provided")
         if not isinstance(value, str):
-            raise TypeError("first name must be a string")
+            raise TypeError("First name must be a string")
         if len(value) > 50:
-            raise ValueError("first name cannot exceed 50 characters")
+            raise ValueError("First name cannot exceed 50 characters")
         return value
 
     # validate2: last_name must be a string and max 50 characters
     @validates('last_name')
     def validate_last_name(self, key, value):
+        if not value:
+            raise TypeError("Last name must be provided")
         if not isinstance(value, str):
-            raise TypeError("last name must be a string")
+            raise TypeError("Last name must be a string")
         if len(value) > 50:
-            raise ValueError("last name cannot exceed 50 characters")
+            raise ValueError("Last name cannot exceed 50 characters")
         return value
 
     # validate3: email must be a string and follow standard email format
     @validates('email')
     def validate_email(self, key, value):
+        if not value:
+            raise TypeError("Email must be provided")
         if not isinstance(value, str):
-            raise TypeError("email must be a string")
+            raise TypeError("Email must be a string")
         if not self.is_email_valid(value):
-            raise ValueError("invalid email format")
+            raise ValueError("Invalid email format")
         return value
 
     def is_email_valid(self, email):
@@ -80,8 +86,10 @@ class User(Base):
 
     def hash_password(self, password):
         """Hashes the password before storing it."""
+        if not password:
+            raise TypeError("Password must be provided")
         if not isinstance(password, str):
-            raise TypeError("password must be a string")
+            raise TypeError("Password must be a string")
         # todo: add more validations (missing pw if not pw, raise error "pw must be included")
         return bcrypt.generate_password_hash(
             password).decode('utf-8')

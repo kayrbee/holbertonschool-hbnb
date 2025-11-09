@@ -46,6 +46,13 @@ class HBnBFacade:
         user.update(new_data)
         return user
 
+    def delete_user(self, user_id):
+        """ Delete a user """
+        user = self.get_user_by_id(user_id)
+        if not user:
+            raise ValueError("User not found")
+        self.user_repo.delete(user_id)
+
     # --- Place ---
     def create_place(self, place_data, owner_id):
         """
@@ -125,7 +132,7 @@ class HBnBFacade:
     def get_place_by_id(self, place_id):
         """Get a place by ID"""
         if not self.place_repo.get(place_id):
-            raise ValueError("Place not found")
+            raise LookupError("Place not found")
         return self.place_repo.get(place_id)
 
     def get_all_places(self):
@@ -187,7 +194,15 @@ class HBnBFacade:
 
         return self.place_repo.get(place_id)
 
+    def delete_place(self, place_id):
+        """ Deletes a place """
+        place = self.place_repo.get(place_id)
+        if not place:
+            raise LookupError("Place not found")
+        self.place_repo.delete(place_id)
+
     # --- Amenity ---
+
     def create_amenity(self, amenity_data):
         """
         Checks amenity ID and creates a new amenity
@@ -228,6 +243,16 @@ class HBnBFacade:
             raise ValueError("Amenity not found")
         self.amenity_repo.update(amenity_id, amenity_data)
         return amenity_data
+
+    def delete_amenity(self, amenity_id):
+        """
+        Deletes an existing amenity
+        nb - sql delete doesn't return rows
+        which means there's no return value from a delete()
+        """
+        if not self.amenity_repo.get(amenity_id):
+            raise ValueError("Amenity not found")
+        self.amenity_repo.delete(amenity_id)
 
     # --- Reviews ---
     def create_review(self, review_data):
@@ -275,12 +300,16 @@ class HBnBFacade:
         return None
 
     def delete_review(self, review_id):
-        review = self.review_repo.get(review_id)
-        if not review:
-            raise ValueError("Review not found")
-        place_id = review.place
-        place = self.place_repo.get(place_id)
-        # Remove this review from place's reviews list before deletion
-        place.reviews = [r for r in place.reviews if r['id'] != review.id]
+        """ 
+        Delete a review
+
+        Note: the 404 validation check was
+        removed because it duplicated logic at the API layer and resulted
+        in an extra, unnecessary db call.
+
+        I chose to keep the 404 validation at the API layer for reviews
+        because it was already necessary to call the db to perform an
+        authorisation check on review owner
+
+        """
         self.review_repo.delete(review_id)
-        return "Review deleted"

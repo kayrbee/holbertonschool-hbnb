@@ -97,7 +97,7 @@ class ReviewResource(Resource):
     def put(self, review_id):
         """Update a review's information"""
         current_user_id = get_jwt_identity()
-       
+
         review = facade.get_review(review_id)
 
         # if not admin and doesn't own a review
@@ -129,7 +129,6 @@ class ReviewResource(Resource):
     @api.response(500, 'Internal server error')
     def delete(self, review_id):
         """Delete a review"""
-        # Would like to discuss with Thomas/Jonathan methods here. get_jwt vs get_jwt_identity
         current_user_id = get_jwt_identity()
 
         claims = get_jwt()
@@ -140,16 +139,13 @@ class ReviewResource(Resource):
         if not review:
             return {"error": "Review not found"}, 404
 
-        # if not admin and doesn't own a review
+        # Authorisation check
         if not is_admin and review.user != current_user_id:
             return {'error': 'Unauthorized action'}, 403
 
         try:
             facade.delete_review(review_id)
             return {"success": "Review deleted"}, 200
-
-        except ValueError:
-            return {"error": 'Review not found'}, 404
         except Exception:
             return {"error": "Internal server error"}, 500
 
