@@ -4,7 +4,6 @@ from sqlalchemy.orm import validates
 class Place(Base):
     __tablename__ = 'places'
     
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.String(255), nullable=False)
     description = db.Column(db.String(1000))
     price = db.Column(db.Float, nullable=False)
@@ -86,7 +85,3 @@ class Place(Base):
             "amenities": self.amenities or "",
             "reviews": []   # reviews not stored yet
         }
-    
-    # for debugging purpose: when print Place object, _repr_ shows useful information instead of a memory address
-    def __repr__(self):
-        return f"<Place {self.id}: {self.title}>"
