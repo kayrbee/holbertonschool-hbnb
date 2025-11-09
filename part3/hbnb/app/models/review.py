@@ -1,11 +1,10 @@
 from app import db
 from .base_class import Base
-
+from sqlalchemy.orm import validates
 
 class Review(Base):
     __tablename__ = 'reviews'
     
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     text = db.Column(db.String(1000), nullable=False)
     rating = db.Column(db.Integer, nullable=False)
     user = db.Column(db.String(60), nullable=False)
@@ -13,58 +12,43 @@ class Review(Base):
     
     def __init__(self, rating: int, text: str, place: str, user: str):
         super().__init__()
-        self.rating = rating
         self.text = text
-        self.place = place
+        self.rating = rating
         self.user = user
+        self.place = place
 
-    @property
-    def user(self):
-        return self._user
-
-    @user.setter
-    def user(self, user: str):
-        if not user:
-            raise ValueError("User is mandatory")
-        if not isinstance(user, str):
-            raise TypeError("User must be a string uuid")
-        self._user = user
-
-    @property
-    def place(self):
-        return self._place
-
-    @place.setter
-    def place(self, place: str):
-        if not place:
-            raise ValueError("Place is mandatory")
-        if not isinstance(place, str):
-            raise TypeError("Place must be a string uuid")
-        self._place = place
-
-    @property
-    def rating(self):
-        return self._rating
-
-    @rating.setter
-    def rating(self, rating: int):
-        if not isinstance(rating, int):
-            raise TypeError("Rating must be an integer")
-        if rating < 1 or rating > 5:
-            raise ValueError("Rating must be between 1 and 5")
-        self._rating = rating
-
-    @property
-    def text(self):
-        return self._text
-
-    @text.setter
-    def text(self, text: str):
-        if not isinstance(text, str):
+    # --- Validations start here ----
+    @validates('text')
+    def validate_text(self, key, value):
+        if not isinstance(value, str):
             raise TypeError("Text must be a string")
-        if not text:
+        if not value.strip():
             raise ValueError("Text is a mandatory field")
-        self._text = text
+        return value
+    
+    @validates('rating')
+    def validate_rating(self, key, value):
+        if not isinstance(value, int):
+            raise TypeError("Rating must be an integer")
+        if value < 1 or value > 5:
+            raise ValueError("Rating must be between 1 and 5")
+        return value
+    
+    @validates('user')
+    def validate_user(self, key, value):
+        if not value:
+            raise ValueError("User is mandatory")
+        if not isinstance(value, str):
+            raise TypeError("User must be a string uuid")
+        return value
+    
+    @validates('place')
+    def validate_place(self, key, value):
+        if not value:
+            raise ValueError("Place is mandatory")
+        if not isinstance(value, str):
+            raise TypeError("Place must be a string uuid")
+        return value
 
     def update(self, data):
         """
@@ -87,7 +71,3 @@ class Review(Base):
             "user": self.user,
             "place": self.place
         }
-
-# for debugging purpose: when print Review object, _repr_ shows useful information instead of a memory address
-    def __repr__(self):
-        return f"<Review {self.id}: {self.place}>"

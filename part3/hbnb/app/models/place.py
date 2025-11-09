@@ -4,7 +4,6 @@ from sqlalchemy.orm import validates
 class Place(Base):
     __tablename__ = 'places'
     
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.String(255), nullable=False)
     description = db.Column(db.String(1000))
     price = db.Column(db.Float, nullable=False)
