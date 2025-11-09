@@ -86,7 +86,3 @@ class Place(Base):
             "amenities": self.amenities or "",
             "reviews": []   # reviews not stored yet
         }
-    
-    # for debugging purpose: when print Place object, _repr_ shows useful information instead of a memory address
-    def __repr__(self):
-        return f"<Place {self.id}: {self.title}>"

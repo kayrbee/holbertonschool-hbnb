@@ -149,10 +149,6 @@ class PlaceResource(Resource):
                     payload["amenities"] = ",".join(payload["amenities"])
                 elif not isinstance(payload["amenities"], str):
                     return {"error": "amenities must be a string or list of strings"}, 400
-            # if "amenities" in payload and isinstance(payload["amenities"], str):
-            #     payload["amenities"] = [payload["amenities"]]
-            # elif not isinstance(payload.get("amenities", []), list):
-            #     return {"error": "Invalid amenity format"}, 400
 
             # Update using facade
             # return model, not _serialize_place
@@ -162,9 +158,6 @@ class PlaceResource(Resource):
             # attach owner
             owner = facade.get_user_by_id(updated.owner_id)
             d["owner"] = owner.to_dict() if owner else None
-
-            # # amenities already a string from to_dict()
-            # d["amenities"] = d["amenities"]
 
             return d, 200
 

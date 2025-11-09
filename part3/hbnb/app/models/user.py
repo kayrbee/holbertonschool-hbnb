@@ -45,7 +45,7 @@ class User(Base):
         self.password = self.hash_password(password)
         self.is_admin = is_admin
 
-    # validate1: first_name must be a string and max 50 characters
+    # --- Validations start here ----
     @validates('first_name')
     def validate_first_name(self, key, value):
         if not value:
@@ -56,7 +56,6 @@ class User(Base):
             raise ValueError("First name cannot exceed 50 characters")
         return value
 
-    # validate2: last_name must be a string and max 50 characters
     @validates('last_name')
     def validate_last_name(self, key, value):
         if not value:
@@ -67,7 +66,6 @@ class User(Base):
             raise ValueError("Last name cannot exceed 50 characters")
         return value
 
-    # validate3: email must be a string and follow standard email format
     @validates('email')
     def validate_email(self, key, value):
         if not value:
