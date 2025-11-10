@@ -72,19 +72,8 @@ class HBnBFacade:
             raise ValueError(
                 f"Missing required field(s): {', '.join(missing)}")
 
-        # Validate numeric ranges
-        price = place_data.get("price")
-        latitude = place_data.get("latitude")
-        longitude = place_data.get("longitude")
-        if price is None or price < 0:
-            raise ValueError("Price must be a non-negative number")
-        if latitude is None or not (-90 <= latitude <= 90):
-            raise ValueError("Latitude must be between -90 and 90")
-        if longitude is None or not (-180 <= longitude <= 180):
-            raise ValueError("Longitude must be between -180 and 180")
-
         # Validate owner exists
-        owner = self.user_repo.get(owner_id)
+        owner = self.user_repo.get(place_data.get("owner_id"))          # Additional layer of validation
         if not owner:
             raise ValueError("Invalid owner_id: user does not exist")
 
@@ -93,13 +82,14 @@ class HBnBFacade:
         if not isinstance(raw_amenities, list):
             raise ValueError("Amenities must be a list of amenity IDs")
 
-        resolved_amenities = []
+        valid_amenities = []
         for amenity_id in raw_amenities:
             amenity = self.amenity_repo.get(amenity_id)                 # Links the payload ID with the repo ID
             if not isinstance(amenity, Amenity):                        # Validates existing ID
                 raise ValueError(f"Amenity ID {amenity_id} not found")
-            resolved_amenities.append(amenity)                          # Build list of valid Amenity model instances
+            valid_amenities.append(amenity)                             # Build list of valid Amenity model instances
 
+        # Create place
         new_place = Place(
             title=str(place_data["title"]),
             description=place_data.get("description", ""),
@@ -107,9 +97,10 @@ class HBnBFacade:
             latitude=float(place_data["latitude"]),
             longitude=float(place_data["longitude"]),
             owner_id=str(owner_id),
-            amenities=resolved_amenities
+            amenities=valid_amenities
         )
 
+        # Save and return
         self.place_repo.add(new_place)
         return new_place
 
@@ -125,7 +116,6 @@ class HBnBFacade:
 
     def update_place(self, place_id, place_data):
         """Update a place by ID"""
-
         place = self.place_repo.get(place_id)
         if not place:
             raise LookupError("Place not found")
