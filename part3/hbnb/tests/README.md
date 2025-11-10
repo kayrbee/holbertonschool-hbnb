@@ -1,6 +1,6 @@
 # How to run the automated tests for this project
 
-## Notes
+## Kat's WIP Notes
 
 - convert all tests to `unittest` framework
 - use test_client in tests
@@ -21,10 +21,10 @@ Extension: make sure every test file covers all CRUD operations and defined erro
 - add and configure test.db
 - test_auth_api.py
 - test_amenity_api.py
+- test_amenity_class.py
 
 ### To do
 
-- test_amenity_class.py
 - test_place_api.py
 - test_place_class.py
 - test_review_api.py
@@ -32,26 +32,14 @@ Extension: make sure every test file covers all CRUD operations and defined erro
 - test_user_api.py
 - test_user_class.py
 
-## Prerequisites
-Ensure that the Flask application is running first
-
-```bash
-flask run
-```
-
 **unittest tests**
 
-`unittest` is native to Python - no need to install it
+`unittest` is native to Python - no need to install it. Before running the tests, make sure you're in a `venv` environment (see [set up a virtual environment](/part3/hbnb/README.md)). 
 
-Navigate to the `/test` directory
-
-Ensure that `PYTHONPATH` is set, so that the interpreter can find `app`
-
-Run the desired test file/s
-
+To run the tests:
 ```bash
-cd part3/hbnb/tests
-PYTHONPATH=.. python3 -m unittest <test_file>.py
+cd part3/hbnb
+python3 -m unittest tests/<test_file>.py
 ```
 
 **pytest tests**

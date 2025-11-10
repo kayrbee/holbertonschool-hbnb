@@ -64,6 +64,8 @@ class TestAmenityEndpoints(unittest.TestCase):
         self.user_auth_header = {
             "Authorization": f"Bearer {self.user_token}"}
 
+    # --- Tests start here ---
+
     def test_create_amenity_as_admin(self):
         response = self.client.post(
             '/api/v1/amenities/',
