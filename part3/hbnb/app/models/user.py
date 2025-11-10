@@ -1,5 +1,4 @@
 import re  # module to implement email format validation check
-import uuid
 from app.models.base_class import Base
 from app import db, bcrypt
 from sqlalchemy.orm import validates
@@ -14,6 +13,9 @@ class User(Base):
     email = db.Column(db.String(120), nullable=False, unique=True)
     password = db.Column(db.String(128), nullable=False)
     is_admin = db.Column(db.Boolean, default=False)
+
+    places = db.relationship('Place', backref='user', lazy=True)  # relationship w Place
+    reviews = db.relationship('Review', backref='user', lazy=True)  # relationship w Review
 
     def __init__(
         self,
