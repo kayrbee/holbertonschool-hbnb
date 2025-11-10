@@ -89,7 +89,7 @@ class PlaceList(Resource):
                 
             return results, 200
         
-        except Exception:
+        except Exception as e:
             print("DEBUG ERROR:", e)
             return {"error": "Internal server error"}, 500
 @api.route('/<place_id>')
@@ -165,7 +165,7 @@ class PlaceResource(Resource):
             return {"error": "Place not found"}, 404
         except ValueError as e:
             return {"error": str(e)}, 400
-        except Exception:
+        except Exception as e:
             print("DEBUG ERROR:", e)
             return {"error": "Internal server error"}, 500
 
