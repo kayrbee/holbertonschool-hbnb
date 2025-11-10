@@ -13,11 +13,10 @@ class AmenityList(Resource):
     @api.response(200, 'List of amenities retrieved successfully')
     def get(self):
         """Retrieve a list of all amenities"""
-        try:
-            amenities = facade.get_all_amenities()
-            return [a.to_dict() for a in amenities], 200
-        except ValueError as e:
-            return{'error': 'Invalid input data'}, 404
+        amenities = facade.get_all_amenities()
+        if not amenities:
+            return {'message': 'No amenities found', 'data': []}, 200
+        return [a.to_dict() for a in amenities], 200
 
 @api.route('/<amenity_id>')
 class AmenityResource(Resource):
