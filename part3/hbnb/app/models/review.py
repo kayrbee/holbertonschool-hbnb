@@ -7,9 +7,12 @@ class Review(Base):
     
     text = db.Column(db.String(1000), nullable=False)
     rating = db.Column(db.Integer, nullable=False)
-    user = db.Column(db.String(60), nullable=False)
-    place = db.Column(db.String(60), nullable=False)
-    
+#    user = db.Column(db.String(60), nullable=False)
+#    place = db.Column(db.String(60), nullable=False)
+
+    place_id = db.Column(db.String(36), db.ForeignKey('places.id'), nullable=False)  # foreign key ref'g Place
+    user_id = db.Column(db.String(36), db.ForeignKey('users.id'), nullable=False)  # foreign key ref'g User
+
     def __init__(self, rating: int, text: str, place: str, user: str):
         super().__init__()
         self.text = text

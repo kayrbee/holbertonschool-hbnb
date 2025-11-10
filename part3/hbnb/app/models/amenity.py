@@ -16,6 +16,7 @@ class Amenity(Base):
         and no longer than 50 characters
         """
         super().__init__()
+        self.name = name
 
     # --- Validations start here ----
     @validates('name')
@@ -30,6 +31,6 @@ class Amenity(Base):
         return {
             "id": self.id,
             "name": self.name,
-            "created at": str(self.created_at),
-            "updated at": str(self.updated_at)
+            "created_at": str(self.created_at),
+            "updated_at": str(self.updated_at)
         }
