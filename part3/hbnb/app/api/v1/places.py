@@ -70,7 +70,7 @@ class PlaceList(Resource):
 
         except ValueError as e:
             return {"error": str(e)}, 400
-        except Exception:
+        except Exception as e:
             print("DEBUG ERROR:", e)
             return {"error": "Internal server error"}, 500
 
