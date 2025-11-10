@@ -1,5 +1,22 @@
 # How to run the automated tests for this project
 
+## Notes
+
+- add and configure test.db
+- convert all tests to unittest
+- use test_client in tests
+
+### Decisions
+
+- chose unittest
+- chose to not implement an absolute path to db in config
+
+## Prerequisites
+Ensure that the Flask application is running first
+
+```bash
+flask run
+```
 
 **unittest tests**
 
