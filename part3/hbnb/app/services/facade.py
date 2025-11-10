@@ -59,6 +59,11 @@ class HBnBFacade:
         Create a place with including validation
         for price, latitude, and longitude
         """
+        # Amenities to List
+        amenities = place_data.get("amenities", [])
+        if isinstance(amenities, str):
+            amenities = [amenities]
+        place_data["amenities"] = amenities
 
         # Required fields
         required = ["title", "price", "latitude", "longitude", "amenities"]
@@ -66,27 +71,6 @@ class HBnBFacade:
         if missing:
             raise ValueError(
                 f"Missing required field(s): {', '.join(missing)}")
-
-        # Validate owner exists
-        owner = self.user_repo.get(owner_id)
-        if not owner:
-            raise ValueError("Invalid owner_id: user does not exist")
-
-        description = place_data.get("description", "")
-
-        new_place = Place(
-            title=str(place_data["title"]),
-            description=str(description),
-            price=float(place_data["price"]),
-            latitude=float(place_data["latitude"]),
-            longitude=float(place_data["longitude"]),
-            owner_id=str(owner_id),
-            amenities=str(place_data["amenities"])
-        )
-
-        self.place_repo.add(new_place)
-
-        return new_place
 
         # Validate numeric ranges
         price = place_data.get("price")
@@ -99,35 +83,35 @@ class HBnBFacade:
         if longitude is None or not (-180 <= longitude <= 180):
             raise ValueError("Longitude must be between -180 and 180")
 
-        # Normalise amenities to list[str]
-        amenities = place_data.get("amenities", [])
-        if isinstance(amenities, str):
-            amenities = [amenities]
-        if not isinstance(amenities, list):
+        # Validate owner exists
+        owner = self.user_repo.get(owner_id)
+        if not owner:
+            raise ValueError("Invalid owner_id: user does not exist")
+
+        # Convert amenity IDs from payload into Amenity model instances
+        raw_amenities = place_data["amenities"]
+        if not isinstance(raw_amenities, list):
             raise ValueError("Amenities must be a list of amenity IDs")
 
-        # Validate amenities exist
-        valid_amenity_ids = []
-        for amenity_id in amenities:
-            if not self.amenity_repo.get(amenity_id):
-                raise ValueError(
-                    f"Invalid amenity_id: {amenity_id} does not exist")
-            valid_amenity_ids.append(amenity_id)
+        resolved_amenities = []
+        for amenity_id in raw_amenities:
+            amenity = self.amenity_repo.get(amenity_id)                 # Links the payload ID with the repo ID
+            if not isinstance(amenity, Amenity):                        # Validates existing ID
+                raise ValueError(f"Amenity ID {amenity_id} not found")
+            resolved_amenities.append(amenity)                          # Build list of valid Amenity model instances
 
-        init_args = {
-            "title": place_data["title"],
-            "description": place_data.get("description", ""),
-            "price": price,
-            "latitude": latitude,
-            "longitude": longitude,
-            "owner_id": owner_id,
-            "amenities": valid_amenity_ids,
-            "reviews": place_data.get("reviews", []),
-        }
+        new_place = Place(
+            title=str(place_data["title"]),
+            description=place_data.get("description", ""),
+            price=float(place_data["price"]),
+            latitude=float(place_data["latitude"]),
+            longitude=float(place_data["longitude"]),
+            owner_id=str(owner_id),
+            amenities=resolved_amenities
+        )
 
-        place = Place(**init_args)
-        self.place_repo.add(place)
-        return place
+        self.place_repo.add(new_place)
+        return new_place
 
     def get_place_by_id(self, place_id):
         """Get a place by ID"""
@@ -137,8 +121,6 @@ class HBnBFacade:
 
     def get_all_places(self):
         """Get all places"""
-        if not self.place_repo.get_all():
-            raise ValueError("No Places found")
         return self.place_repo.get_all()
 
     def update_place(self, place_id, place_data):
@@ -228,10 +210,8 @@ class HBnBFacade:
     def get_all_amenities(self):
         """
         Retrieves amenity list or returns
-        error if list is empty
+        empty list if none exist
         """
-        if not self.amenity_repo.get_all():
-            raise ValueError("No Amenities found")
         return self.amenity_repo.get_all()
 
     def update_amenity(self, amenity_id, amenity_data):
