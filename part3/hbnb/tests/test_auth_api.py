@@ -4,7 +4,7 @@ from config import TestConfig
 from flask_jwt_extended import decode_token
 
 
-def create_test_admin_helper():
+def create_test_admin():
     from app.models import User
     admin = User(first_name="Mary", last_name="Admin",
                  email="mary1@admin.com", password="password", is_admin=True)
@@ -28,16 +28,17 @@ class TestAuthEndpoints(unittest.TestCase):
         self.client = self.app.test_client()
 
         # Create test user before the test runs - user must exist
-        self.admin = create_test_admin_helper()
+        self.admin = create_test_admin()
 
-        # Construct a valid login dataset
-        self.valid_auth_data = {
+        # Construct a valid login data set & modify as needed
+        self.auth_data = {
             "email": self.admin.email,
             "password": "password"
         }
 
+    # The test config is currently using an in-memory test db
     # Teardown is only necessary with a persistent test db
-    # - the test config is currently using: memory:
+    # Left here for future reference
 
     # def tearDown(self):
     #     db.session.remove()
@@ -49,7 +50,7 @@ class TestAuthEndpoints(unittest.TestCase):
         an existing user """
         response = self.client.post(
             "/api/v1/auth/login",
-            json=self.valid_auth_data,
+            json=self.auth_data,
             content_type="application/json"
         )
 
@@ -68,6 +69,38 @@ class TestAuthEndpoints(unittest.TestCase):
 
         # Assert that jwt subject matches user_id
         self.assertEqual(decoded_token["sub"], self.admin.id)
+
+    def test_login_with_invalid_password(self):
+        self.auth_data["password"] = "wrongpassword"
+        response = self.client.post(
+            "/api/v1/auth/login",
+            json=self.auth_data,
+            content_type="application/json"
+        )
+
+        self.assertEqual(response.status_code, 401)
+
+        data = response.get_json()
+        self.assertEqual(data, {'error': 'Invalid credentials'})
+
+    def test_login_with_invalid_email(self):
+        self.auth_data["email"] = "fake@example.com"
+        response = self.client.post(
+            "/api/v1/auth/login",
+            json=self.auth_data,
+            content_type="application/json"
+        )
+
+        # Check error code
+        self.assertEqual(response.status_code, 401)
+
+        data = response.get_json()
+
+        # Check that no jwt generated
+        self.assertNotIn("access_token", data)
+
+        # Check response message
+        self.assertEqual(data, {'error': 'Invalid credentials'})
 
 
 if __name__ == '__main__':
