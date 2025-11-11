@@ -16,7 +16,7 @@ class Place(Base):
     price = db.Column(db.Float, nullable=False)
     latitude = db.Column(db.Float, nullable=False)
     longitude = db.Column(db.Float, nullable=False)
-#    amenities = db.Column(db.String(255), nullable=True, default="")
+    amenities = db.Column(db.String(255), nullable=True, default="")
 #    owner_id = db.Column(db.String(60), nullable=False)
     
     user_id = db.Column(db.String(36), db.ForeignKey('users.id'), nullable=False) # foreign key to ref User
@@ -42,8 +42,8 @@ class Place(Base):
         self.price = price
         self.latitude = latitude
         self.longitude = longitude
-        self.owner_id = owner_id
-        self.amenities = ",".join(amenities) if isinstance(amenities, list) else (amenities or "")
+        self.user_id = owner_id
+        self.amenities = amenities if amenities else []
         self.reviews = reviews if reviews else []
 
     # --- Validations start here ----
@@ -94,7 +94,7 @@ class Place(Base):
             "price": self.price,
             "latitude": self.latitude,
             "longitude": self.longitude,
-            "owner_id": self.owner_id,
-            "amenities": self.amenities or "",
+            "owner_id": self.user_id,
+            "amenities": [a.to_dict() for a in self.amenities],     #type: ignore
             "reviews": []   # reviews not stored yet
         }
