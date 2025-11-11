@@ -65,13 +65,6 @@ class HBnBFacade:
             amenities = [amenities]
         place_data["amenities"] = amenities
 
-        # Required fields
-        required = ["title", "price", "latitude", "longitude", "amenities"]
-        missing = [f for f in required if f not in place_data]
-        if missing:
-            raise ValueError(
-                f"Missing required field(s): {', '.join(missing)}")
-
         # Validate owner exists
         owner = self.user_repo.get(place_data.get("owner_id"))          # Additional layer of validation
         if not owner:
@@ -119,52 +112,15 @@ class HBnBFacade:
         place = self.place_repo.get(place_id)
         if not place:
             raise LookupError("Place not found")
-
-        updates = place_data
-
-        if "price" in updates and updates["price"] is not None:
-            if updates["price"] < 0:
-                raise ValueError("Price must be a positive number")
-
-        if "latitude" in updates and updates["latitude"] is not None:
-            if not (-90 <= updates["latitude"] <= 90):
-                raise ValueError("Latitude must be between -90 and 90")
-
-        if "longitude" in updates and updates["longitude"] is not None:
-            if not (-180 <= updates["longitude"] <= 180):
-                raise ValueError("Longitude must be between -180 and 180")
-
-        if "amenities" in updates:
-            amenities = updates["amenities"]
-
-            # allow string or list
-            if isinstance(amenities, str):
-                amenities = [amenities]
-
-            if not isinstance(amenities, list):
-                raise ValueError("Amenities must be a list of amenity IDs")
-
-            # Verify each amenity ID exists in the repository
-            for amenity_id in amenities:
-                if not self.amenity_repo.get(amenity_id):
-                    raise ValueError(
-                        f"Invalid amenity_id: {amenity_id} does not exist")
-
-            # Replace the original value with the cleaned list
-            updates["amenities"] = amenities
-
-        allowed = {"title", "description", "price",
-                   "latitude", "longitude", "amenities"}
-
-        # new dictionary containing only valid update keys
-        safe_updates = {}
-        for key, value in updates.items():
+        
+        # Update allowed fields
+        allowed = {"title", "description", "price", "latitude", "longitude", "amenities"}
+        for key, value in place_data.items():
             if key in allowed:
-                safe_updates[key] = value
-
-        self.place_repo.update(place_id, safe_updates)
-
-        return self.place_repo.get(place_id)
+                setattr(place, key, value)
+        
+        self.place_repo.update(place)
+        return place
 
     def delete_place(self, place_id):
         """ Deletes a place """
