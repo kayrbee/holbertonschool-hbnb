@@ -19,7 +19,7 @@ class Place(Base):
     amenities = db.Column(db.String(255), nullable=True, default="")
 #    owner_id = db.Column(db.String(60), nullable=False)
     
-    user_id = db.Column(db.String(36), db.ForeignKey('users.id'), nullable=False) # foreign key to ref User
+    owner_id = db.Column(db.String(36), db.ForeignKey('users.id'), nullable=False) # foreign key to ref User
     reviews = db.relationship('Review', backref='place', lazy=True)  # foreign key to ref Review
 
     amenities = db.relationship('Amenity', secondary=place_amenity, lazy='subquery',
@@ -42,7 +42,7 @@ class Place(Base):
         self.price = price
         self.latitude = latitude
         self.longitude = longitude
-        self.user_id = owner_id
+        self.owner_id = owner_id
         self.amenities = amenities if amenities else []
         self.reviews = reviews if reviews else []
 
@@ -94,7 +94,7 @@ class Place(Base):
             "price": self.price,
             "latitude": self.latitude,
             "longitude": self.longitude,
-            "owner_id": self.user_id,
+            "owner_id": self.owner_id,
             "amenities": [a.to_dict() for a in self.amenities],     #type: ignore
             "reviews": []   # reviews not stored yet
         }

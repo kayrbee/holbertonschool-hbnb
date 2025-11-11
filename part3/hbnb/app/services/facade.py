@@ -185,14 +185,14 @@ class HBnBFacade:
         """ create a new review (POST /reviews)"""
         review = Review(**review_data)
         # Validate user and place before saving review
-        place = self.place_repo.get(review.place)
-        user = self.user_repo.get(review.user)
+        place = self.place_repo.get(review.place_id)
+        user = self.user_repo.get(review.user_id)
         if not place:
             raise ValueError("Place not found, cannot submit review")
         if not user:
             raise ValueError("User not found, cannot submit review")
         self.review_repo.add(review)
-        place.add_review(review.to_dict())
+        place.add_review(review)
         return review
 
     def get_review(self, review_id):

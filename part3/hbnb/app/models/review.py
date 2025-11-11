@@ -17,8 +17,8 @@ class Review(Base):
         super().__init__()
         self.text = text
         self.rating = rating
-        self.user = user
-        self.place = place
+        self.user_id = user
+        self.place_id = place
 
     # --- Validations start here ----
     @validates('text')
@@ -37,7 +37,7 @@ class Review(Base):
             raise ValueError("Rating must be between 1 and 5")
         return value
     
-    @validates('user')
+    @validates('user_id')
     def validate_user(self, key, value):
         if not value:
             raise ValueError("User is mandatory")
@@ -45,7 +45,7 @@ class Review(Base):
             raise TypeError("User must be a string uuid")
         return value
     
-    @validates('place')
+    @validates('place_id')
     def validate_place(self, key, value):
         if not value:
             raise ValueError("Place is mandatory")
@@ -71,6 +71,6 @@ class Review(Base):
             "id": self.id,
             "rating": self.rating,
             "text": self.text,
-            "user": self.user,
-            "place": self.place
+            "user": self.user_id,
+            "place": self.place_id
         }
