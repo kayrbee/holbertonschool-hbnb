@@ -9,6 +9,7 @@ from app.models.user import User
 from app.models.place import Place
 from app.models.amenity import Amenity
 from app.models.review import Review
+import uuid
 
 
 class HBnBFacade:
@@ -71,12 +72,15 @@ class HBnBFacade:
             raise ValueError("Invalid owner_id: user does not exist")
 
         # Convert amenity IDs from payload into Amenity model instances
-        raw_amenities = place_data["amenities"]
+        raw_amenities = place_data.get("amenities", [])
         if not isinstance(raw_amenities, list):
             raise ValueError("Amenities must be a list of amenity IDs")
 
         valid_amenities = []
         for amenity_id in raw_amenities:
+            if not amenity_id or not isinstance(amenity_id, str):
+                continue  # skip invalid entries
+
             amenity = self.amenity_repo.get(amenity_id)                 # Links the payload ID with the repo ID
             if not isinstance(amenity, Amenity):                        # Validates existing ID
                 raise ValueError(f"Amenity ID {amenity_id} not found")
@@ -147,10 +151,15 @@ class HBnBFacade:
         Retrieves amenity or returns error if it
         doesn't exist
         """
-        existing = self.amenity_repo.get(amenity_id)
+        try:
+            uuid.UUID(amenity_id)
+        except ValueError:
+            raise ValueError('Amenity ID must be a valid UUID, not a name')
 
+        existing = self.amenity_repo.get(amenity_id)
         if existing is None:
             raise ValueError("Amenity not found")
+
         return existing
 
     def get_all_amenities(self):
@@ -185,14 +194,14 @@ class HBnBFacade:
         """ create a new review (POST /reviews)"""
         review = Review(**review_data)
         # Validate user and place before saving review
-        place = self.place_repo.get(review.place)
-        user = self.user_repo.get(review.user)
+        place = self.place_repo.get(review.place_id)
+        user = self.user_repo.get(review.user_id)
         if not place:
             raise ValueError("Place not found, cannot submit review")
         if not user:
             raise ValueError("User not found, cannot submit review")
         self.review_repo.add(review)
-        place.add_review(review.to_dict())
+        place.add_review(review)
         return review
 
     def get_review(self, review_id):
