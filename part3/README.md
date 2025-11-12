@@ -153,26 +153,26 @@ In this part of the project, the tasks are organized in a way that builds progre
 
    #### Base Database Schema
    The first diagram below illustrates the **core entities** and their relationships:
-   - **User**
-   - **Place**
-   - **Review**
-   - **Amenity**
-   - **Place_Amenity** (join table for many-to-many relationship between Place and Amenity)
+   - User
+   - Place
+   - Review
+   - Amenity
+   - Place_Amenity (join table for many-to-many relationship between Place and Amenity)
 
-   This visualization shows how users own places, write reviews, and how places can have multiple amenities.
+   This visualisation shows how users own places, write reviews, and how places can have multiple amenities.
 
-   **Base ER Diagram**
+   Base ER Diagram
    ![Base ER Diagram](hbnb/images/Base.png)
 
    #### Extended Schema (Understanding Relationships)
    To demonstrate understanding of database relationships and scalability, additional entities were added:
-   - **Reservation** – links a user to a place booking  
-   - **Payment** – records transactions for reservations  
-   - **Message** – allows communication between users
+   - Reservation - links a user to a place booking  
+   - Payment - records transactions for reservations  
+   - Message - allows communication between users
 
    These additions show one-to-many and many-to-one relationships in a real-world application context.
 
-   **Extended ER Diagram**
+   Extended ER Diagram
    ![Extended ER Diagram](hbnb/images/Test_understanding.png)
 
 ---
