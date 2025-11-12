@@ -16,7 +16,7 @@ class Place(Base):
     price = db.Column(db.Float, nullable=False)
     latitude = db.Column(db.Float, nullable=False)
     longitude = db.Column(db.Float, nullable=False)
-    amenities = db.Column(db.String(255), nullable=True, default="")
+#    amenities = db.Column(db.String(255), nullable=True, default="")
 #    owner_id = db.Column(db.String(60), nullable=False)
     
     owner_id = db.Column(db.String(36), db.ForeignKey('users.id'), nullable=False) # foreign key to ref User
