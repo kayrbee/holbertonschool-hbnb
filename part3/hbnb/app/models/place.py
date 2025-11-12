@@ -95,6 +95,6 @@ class Place(Base):
             "latitude": self.latitude,
             "longitude": self.longitude,
             "owner_id": self.owner_id,
-            "amenities": [a.to_dict() for a in self.amenities],     #type: ignore
-            "reviews": []   # reviews not stored yet
+            "amenities": [a.to_dict() for a in self.amenities],     # type: ignore
+            "reviews": []                                           # reviews not stored yet
         }
