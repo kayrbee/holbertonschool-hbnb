@@ -11,6 +11,7 @@
 
 ```
 holbertonschool-hbnb/
+├── .github/  # GitHub Actions config to run automated tests
 ├── part1/    # truncated for clarity
 ├── part2/    # truncated for clarity
 ├── part3/
@@ -53,20 +54,20 @@ holbertonschool-hbnb/
 │   │   │   │       ├── user_repository.py
 │   │   │   │   ├── __init__.py
 │   │   │   │   ├── facade.py
-│   │   │   ├── __init__.py  # Contains def create_app()
-│   │   ├── images/
+│   │   │   ├── __init__.py                     # Contains def create_app()
+│   │   ├── images/                             # Mermaid diagrams
 │   │   │   ├── Base.png
 │   │   │   ├── Test_understanding.png
 │   │   ├── instance/
 │   │   │   ├── development.db
 │   │   ├── tests/
 │   │   │   ├── __init__.py
+│   │   │   ├── curl_tests.md
 │   │   │   ├── helper_methods.py
-│   │   │   ├── README.md
+│   │   │   ├── README.md                        # How to run the project's test suites
 │   │   │   ├── test_amenity_api.py
 │   │   │   ├── test_amenity_class.py
-│   │   │   ├── test_auth_api.py
-│   │   │   ├── test_documentation.md  # How to run the project's test suites
+│   │   │   ├── test_auth_api.py     
 │   │   │   ├── test_place_api.py
 │   │   │   ├── test_place_class.py
 │   │   │   ├── test_review_api.py
@@ -75,10 +76,10 @@ holbertonschool-hbnb/
 │   │   │   ├── test_user_class.py
 │   │   ├── .env-example
 │   │   ├── config.py
-│   │   ├── README.md    # How to run the application
+│   │   ├── README.md                        # How to run the application
 │   │   ├── requirements.txt
 │   │   ├── run.py
-│   ├── README.md    # You are here
+│   ├── README.md                            # You are here
 ├── .gitignore
 ├── README.md
 ```
