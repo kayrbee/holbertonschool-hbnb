@@ -56,6 +56,52 @@ class TestPlaceEndpoints(unittest.TestCase):
         self.assertIn("id", data)
         self.assertEqual(data["title"], "Beach House")
 
+    def test_get_all_places_when_place_list_is_empty(self):
+        response = self.client.get('/api/v1/places/')
+        self.assertEqual(response.status_code, 200)
+        data = response.get_json()
+        self.assertEqual(data, [])
+
+    def test_get_all_places_when_place_list_not_empty(self):
+        # Create a place
+        amenity_id = setup.create_amenity("Pool").id
+        self.place_payload["amenities"] = [amenity_id]
+        response = self.client.post(
+            '/api/v1/places/',
+            headers=self.non_admin_auth_header,
+            json=self.place_payload
+        )
+        place = response.get_json()
+        place_id = place["id"]
+
+        # Check the list is not empty
+        response = self.client.get('/api/v1/places/')
+        self.assertEqual(response.status_code, 200)
+        data = response.get_json()
+        self.assertIsInstance(data, list)
+        self.assertGreater(len(data), 0)
+
+        # Check the list contains the place id
+        place_ids = [p["id"] for p in data]
+        self.assertIn(place_id, place_ids)
+
+    def test_get_place_by_id(self):
+        # Create a place
+        amenity_id = setup.create_amenity("Pool").id
+        self.place_payload["amenities"] = [amenity_id]
+        response = self.client.post(
+            '/api/v1/places/',
+            headers=self.non_admin_auth_header,
+            json=self.place_payload
+        )
+
+        place = response.get_json()
+        place_id = place["id"]
+
+        # Retrieve it by ID
+        response = self.client.get(f"/api/v1/places/{place_id}")
+        self.assertIn(response.status_code, [200])
+
     # # Commented out because the test fails without amenities
     # and we need to debug it
     # def test_create_place_with_no_amenities(self):
@@ -191,87 +237,43 @@ class TestPlaceEndpoints(unittest.TestCase):
         )
         self.assertEqual(response.status_code, 400)
 
-    def test_get_all_places_when_place_list_is_empty(self):
-        response = self.client.get('/api/v1/places/')
-        self.assertEqual(response.status_code, 200)
-        data = response.get_json()
-        self.assertEqual(data, [])
+    # <-- Kat is still working on these ones -->
 
-    def test_get_all_places_when_place_list_not_empty(self):
-        # Create a place
-        amenity_id = setup.create_amenity("Pool").id
-        self.place_payload["amenities"] = [amenity_id]
-        response = self.client.post(
-            '/api/v1/places/',
-            headers=self.non_admin_auth_header,
-            json=self.place_payload
-        )
-        place = response.get_json()
-        place_id = place["id"]
+    # def test_update_place_invalid_data(self):
+    #     """Test updating a place with invalid price, latitude, and longitude."""
+    #     # create valid place
+    #     create_resp = self.client.post('/api/v1/places/', json={
+    #         "title": "Updatable Place",
+    #         "description": "Nice spot",
+    #         "price": 100,
+    #         "latitude": -37.8,
+    #         "longitude": 144.9,
+    #         "owner_id": "user123",
+    #         "amenities": ["wifi"]
+    #     })
+    #     self.assertIn(create_resp.status_code, [200, 400])
+    #     place_id = create_resp.get_json().get("id")
 
-        # Check the list is not empty
-        response = self.client.get('/api/v1/places/')
-        self.assertEqual(response.status_code, 200)
-        data = response.get_json()
-        self.assertIsInstance(data, list)
-        self.assertGreater(len(data), 0)
+    #     # invalid price
+    #     resp_price = self.client.put(
+    #         f"/api/v1/places/{place_id}", json={"price": -5})
+    #     data_price = resp_price.get_json() or {}
+    #     self.assertEqual(resp_price.status_code, 400)
+    #     self.assertIn("price", (data_price.get("error") or "").lower())
 
-        # Check the list contains the place id
-        place_ids = [p["id"] for p in data]
-        self.assertIn(place_id, place_ids)
+    #     # invalid latitude (> 90)
+    #     resp_lat = self.client.put(
+    #         f"/api/v1/places/{place_id}", json={"latitude": 123.45})
+    #     data_lat = resp_lat.get_json() or {}
+    #     self.assertEqual(resp_lat.status_code, 400)
+    #     self.assertIn("latitude", (data_lat.get("error") or "").lower())
 
-    def test_get_place_by_id(self):
-        # Create a place
-        amenity_id = setup.create_amenity("Pool").id
-        self.place_payload["amenities"] = [amenity_id]
-        response = self.client.post(
-            '/api/v1/places/',
-            headers=self.non_admin_auth_header,
-            json=self.place_payload
-        )
-
-        place = response.get_json()
-        place_id = place["id"]
-
-        # Retrieve it by ID
-        response = self.client.get(f"/api/v1/places/{place_id}")
-        self.assertIn(response.status_code, [200])
-
-    def test_update_place_invalid_data(self):
-        """Test updating a place with invalid price, latitude, and longitude."""
-        # create valid place
-        create_resp = self.client.post('/api/v1/places/', json={
-            "title": "Updatable Place",
-            "description": "Nice spot",
-            "price": 100,
-            "latitude": -37.8,
-            "longitude": 144.9,
-            "owner_id": "user123",
-            "amenities": ["wifi"]
-        })
-        self.assertIn(create_resp.status_code, [200, 400])
-        place_id = create_resp.get_json().get("id")
-
-        # invalid price
-        resp_price = self.client.put(
-            f"/api/v1/places/{place_id}", json={"price": -5})
-        data_price = resp_price.get_json() or {}
-        self.assertEqual(resp_price.status_code, 400)
-        self.assertIn("price", (data_price.get("error") or "").lower())
-
-        # invalid latitude (> 90)
-        resp_lat = self.client.put(
-            f"/api/v1/places/{place_id}", json={"latitude": 123.45})
-        data_lat = resp_lat.get_json() or {}
-        self.assertEqual(resp_lat.status_code, 400)
-        self.assertIn("latitude", (data_lat.get("error") or "").lower())
-
-        # invalid longitude (< -180)
-        resp_long = self.client.put(
-            f"/api/v1/places/{place_id}", json={"longitude": -190.0})
-        data_long = resp_long.get_json() or {}
-        self.assertEqual(resp_long.status_code, 400)
-        self.assertIn("longitude", (data_long.get("error") or "").lower())
+    #     # invalid longitude (< -180)
+    #     resp_long = self.client.put(
+    #         f"/api/v1/places/{place_id}", json={"longitude": -190.0})
+    #     data_long = resp_long.get_json() or {}
+    #     self.assertEqual(resp_long.status_code, 400)
+    #     self.assertIn("longitude", (data_long.get("error") or "").lower())
 
 
 if __name__ == "__main__":

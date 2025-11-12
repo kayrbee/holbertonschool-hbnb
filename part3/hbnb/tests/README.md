@@ -25,7 +25,7 @@ Extension: make sure every test file covers all CRUD operations and defined erro
 
 ### To do
 
-- test_place_api.py
+- test_place_api.py [in progress]
 - test_place_class.py
 - test_review_api.py
 - test_review_class.py
@@ -39,7 +39,12 @@ Extension: make sure every test file covers all CRUD operations and defined erro
 To run the tests:
 ```bash
 cd part3/hbnb
-python3 -m unittest tests/<test_file>.py
+
+# Run individual file by file_name
+python3 -m unittest tests/<file_name>.py
+
+# Run all tests
+python3 -m unittest
 ```
 
 **pytest tests**
