@@ -95,32 +95,31 @@ class ReviewResource(Resource):
     @api.response(403, 'Unauthorized action')
     @api.response(404, 'Review not found')
     def put(self, review_id):
-        """Update a review's information"""
+        """Update a review's information (admin override supported)"""
         current_user_id = get_jwt_identity()
+        claims = get_jwt()
+        is_admin = claims.get('is_admin', False)
 
         review = facade.get_review(review_id)
+        if not review:
+            return {"error": "Review not found"}, 404
 
-        # if not admin and doesn't own a review
-        if review.user != current_user_id:
+        data = api.payload or {}
+
+        if is_admin:
+            return admin_review_update_exception(review_id, data)
+
+        if review.user_id != current_user_id:
             return {'error': 'Unauthorized action'}, 403
 
         try:
-            review = facade.review_repo.get(review_id)
-            data = api.payload or {}
-
-            if not review:
-                return {"error": "Review not found"}, 404
-
             update = facade.update_review(review_id, data)
             return update.to_dict(), 200
-
         except ValueError as e:
-            if str(e) == "Review not found":
-                return {"error": f"{e}"}, 404
-            return {"error": f"{e}"}, 400
-
+            return {"error": str(e)}, 400
         except TypeError:
-            return {"error": 'Invalid input data'}, 400
+            return {"error": "Invalid input data"}, 400
+
 
     @jwt_required()
     @api.response(200, 'Review deleted successfully')
@@ -128,19 +127,19 @@ class ReviewResource(Resource):
     @api.response(404, 'Review not found')
     @api.response(500, 'Internal server error')
     def delete(self, review_id):
-        """Delete a review"""
+        """Delete a review (admin override supported)"""
         current_user_id = get_jwt_identity()
-
         claims = get_jwt()
         is_admin = claims.get('is_admin', False)
 
         review = facade.get_review(review_id)
-
         if not review:
             return {"error": "Review not found"}, 404
 
-        # Authorisation check
-        if not is_admin and review.user != current_user_id:
+        if is_admin:
+            return admin_review_delete_exception(review_id)
+
+        if review.user_id != current_user_id:
             return {'error': 'Unauthorized action'}, 403
 
         try:
@@ -148,7 +147,6 @@ class ReviewResource(Resource):
             return {"success": "Review deleted"}, 200
         except Exception:
             return {"error": "Internal server error"}, 500
-
 
 @api.route('/places/<place_id>/reviews')
 class PlaceReviewList(Resource):
@@ -164,3 +162,26 @@ class PlaceReviewList(Resource):
             return {"error": "Place not found"}, 404
         except Exception:
             return {"error": "Internal server error"}, 500
+
+def admin_review_update_exception(review_id, data):
+    review = facade.review_repo.get(review_id)
+    if not review:
+        return {"error": "Review not found"}, 404
+    try:
+        update = facade.update_review(review_id, data)
+        return update.to_dict(), 200
+    except ValueError as e:
+        return {"error": str(e)}, 400
+    except TypeError:
+        return {"error": "Invalid input data"}, 400
+
+def admin_review_delete_exception(review_id):
+    review = facade.get_review(review_id)
+    if not review:
+        return {"error": "Review not found"}, 404
+    try:
+        facade.delete_review(review_id)
+        return {"success": "Review deleted"}, 200
+    except Exception:
+        return {"error": "Internal server error"}, 500
+
