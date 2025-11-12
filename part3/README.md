@@ -19,6 +19,7 @@ holbertonschool-hbnb/
 │   │   │   ├── api/
 │   │   │   │   ├── v1/
 │   │   │   │       ├── __init__.py
+│   │   │   │       ├── admin.py
 │   │   │   │       ├── amenities.py
 │   │   │   │       ├── auth.py
 │   │   │   │       ├── places.py
@@ -33,21 +34,46 @@ holbertonschool-hbnb/
 │   │   │   │   ├── review.py
 │   │   │   │   ├── user.py
 │   │   │   ├── persistence/
-│   │   │       ├── __init__.py
-│   │   │       ├── repository.py
+│   │   │   │   ├── sql/
+│   │   │   │       ├── amenity_table.sql
+│   │   │   │       ├── development.db
+│   │   │   │       ├── insert_admin_user.sql
+│   │   │   │       ├── insert_initial_amenities.sql
+│   │   │   │       ├── place_amenity_table.sql
+│   │   │   │       ├── place_table.sql
+│   │   │   │       ├── review_table.sql
+│   │   │   │       ├── user_table.sql
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── repository.py
 │   │   │   ├── services/
+│   │   │   │   ├── repositories/
+│   │   │   │       ├── amenity_repository.py
+│   │   │   │       ├── place_repository.py
+│   │   │   │       ├── review_repository.py
+│   │   │   │       ├── user_repository.py
 │   │   │   │   ├── __init__.py
 │   │   │   │   ├── facade.py
 │   │   │   ├── __init__.py  # Contains def create_app()
-│   │   │   ├── .env-example
+│   │   ├── images/
+│   │   │   ├── Base.png
+│   │   │   ├── Test_understanding.png
+│   │   ├── instance/
+│   │   │   ├── development.db
 │   │   ├── tests/
-│   │   │   ├── test_amenity.py
+│   │   │   ├── __init__.py
+│   │   │   ├── helper_methods.py
+│   │   │   ├── README.md
+│   │   │   ├── test_amenity_api.py
+│   │   │   ├── test_amenity_class.py
+│   │   │   ├── test_auth_api.py
 │   │   │   ├── test_documentation.md  # How to run the project's test suites
-│   │   │   ├── test_place.py
+│   │   │   ├── test_place_api.py
+│   │   │   ├── test_place_class.py
 │   │   │   ├── test_review_api.py
 │   │   │   ├── test_review_class.py
-│   │   │   ├── test_review_class.py
-│   │   │   ├── users_test.py
+│   │   │   ├── test_user_api.py
+│   │   │   ├── test_user_class.py
+│   │   ├── .env-example
 │   │   ├── config.py
 │   │   ├── README.md    # How to run the application
 │   │   ├── requirements.txt
