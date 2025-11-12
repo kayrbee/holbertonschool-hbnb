@@ -50,6 +50,17 @@ class TestUserEndpoints(unittest.TestCase):
         self.assertIn("id", data)
         self.assertIn(data["message"], "User registered successfully")
 
+    def test_delete_user(self):
+        # Create a user
+        user = setup.create_test_user()
+        user_id = user.id
+
+        # Call delete
+        response = self.client.delete(
+            f"{BASE_URL}{user_id}",
+            headers=self.admin_auth_header)
+        self.assertEqual(response.status_code, 200)
+
     # <-- PUT test needs to be debugged -->
 
     # def test_update_user(self):
