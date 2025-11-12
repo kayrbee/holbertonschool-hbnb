@@ -1,9 +1,9 @@
 # How to run the automated tests for this project
 
-## Kat's WIP Notes
+## Kat's WIP Test Notes
 
 - convert all tests to `unittest` framework
-- use test_client in tests
+- use test_client config in tests
 - improve coverage in all test files
 
 ### Decision Record
@@ -25,13 +25,13 @@ Extension: make sure every test file covers all CRUD operations and defined erro
 - test_amenity_class.py
 - test_place_class.py
 - test_review_class.py
+- test_review_api.py
+- test_user_class.py
 
 ### To do
 
 - test_place_api.py [in progress]
-- test_review_api.py
-- test_user_api.py
-- test_user_class.py
+- test_user_api.py [in progress]
 
 **unittest tests**
 

@@ -1,10 +1,7 @@
 import unittest
-import json
-import uuid
 from app import create_app, db
 from config import TestConfig
 import tests.helper_methods as setup
-from flask_jwt_extended import decode_token
 
 
 class TestReviewEndpoints(unittest.TestCase):
