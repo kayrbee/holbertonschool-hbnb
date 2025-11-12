@@ -4,13 +4,16 @@ from sqlalchemy.orm import validates
 
 """ Association table (keep at top pls)"""
 place_amenity = db.Table('place_amenity',
-    db.Column('place_id', db.String(36), db.ForeignKey('places.id'), primary_key=True),
-    db.Column('amenity_id', db.String(36), db.ForeignKey('amenities.id'), primary_key=True)
-)
+                         db.Column('place_id', db.String(36), db.ForeignKey(
+                             'places.id'), primary_key=True),
+                         db.Column('amenity_id', db.String(36), db.ForeignKey(
+                             'amenities.id'), primary_key=True)
+                         )
+
 
 class Place(Base):
     __tablename__ = 'places'
-    
+
     title = db.Column(db.String(255), nullable=False)
     description = db.Column(db.String(1000))
     price = db.Column(db.Float, nullable=False)
@@ -18,9 +21,11 @@ class Place(Base):
     longitude = db.Column(db.Float, nullable=False)
 #    amenities = db.Column(db.String(255), nullable=True, default="")
 #    owner_id = db.Column(db.String(60), nullable=False)
-    
-    owner_id = db.Column(db.String(36), db.ForeignKey('users.id'), nullable=False)  # foreign key to ref User
-    reviews = db.relationship('Review', backref='place', lazy=True)                 # foreign key to ref Review
+
+    owner_id = db.Column(db.String(36), db.ForeignKey(
+        'users.id'), nullable=False)  # foreign key to ref User
+    # foreign key to ref Review
+    reviews = db.relationship('Review', backref='place', lazy=True)
 
     amenities = db.relationship('Amenity', secondary=place_amenity, lazy='subquery',
                                 backref=db.backref('places', lazy=True))
@@ -28,17 +33,17 @@ class Place(Base):
     def __init__(
         self,
         title: str,
-        description: str,
         price: float,
         latitude: float,
         longitude: float,
         owner_id: str,
+        description: str = "",  # Moved to avoid "non-default argument follows default argument"
         amenities: list = None,
         reviews: list = None
     ):
         super().__init__()
         self.title = title
-        self.description = description or ""
+        self.description = description
         self.price = price
         self.latitude = latitude
         self.longitude = longitude
@@ -64,13 +69,13 @@ class Place(Base):
         if not (-90 <= value <= 90):
             raise ValueError("Latitude must be between -90 and 90.")
         return value
-    
+
     @validates('longitude')
     def validate_longitude(self, key, value):
         if not (-180 <= value <= 180):
             raise ValueError("Longitude must be between -180 and 180.")
         return value
-    
+
     @validates('owner_id')
     def validate_owner(self, key, value):
         if not value:
@@ -95,6 +100,7 @@ class Place(Base):
             "latitude": self.latitude,
             "longitude": self.longitude,
             "owner_id": self.owner_id,
-            "amenities": [a.to_dict() for a in self.amenities],     # type: ignore
-            "reviews": []                                           # reviews not stored yet
+            # type: ignore
+            "amenities": [a.to_dict() for a in self.amenities],
+            "reviews": []
         }
