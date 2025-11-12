@@ -5,7 +5,7 @@
 - [Part 3 Project Structure](/part3/README.md#part-3-app-structure)
 - [Part 3 Overview](/part3/README.md#Part-3-Overview)
 - Jump to [Application Setup Instructions](/part3/hbnb/README.md)
-- Jump to [Test Documentation](https://github.com/kayrbee/holbertonschool-hbnb/blob/master/part3/hbnb/tests/test_documentation.md)
+- Jump to [Test Documentation](/part3/hbnb/tests/README.md)
 
 ## Part 3 Project Structure
 
