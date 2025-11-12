@@ -72,12 +72,15 @@ class HBnBFacade:
             raise ValueError("Invalid owner_id: user does not exist")
 
         # Convert amenity IDs from payload into Amenity model instances
-        raw_amenities = place_data["amenities"]
+        raw_amenities = place_data.get("amenities", [])
         if not isinstance(raw_amenities, list):
             raise ValueError("Amenities must be a list of amenity IDs")
 
         valid_amenities = []
         for amenity_id in raw_amenities:
+            if not amenity_id or not isinstance(amenity_id, str):
+                continue  # skip invalid entries
+
             amenity = self.amenity_repo.get(amenity_id)                 # Links the payload ID with the repo ID
             if not isinstance(amenity, Amenity):                        # Validates existing ID
                 raise ValueError(f"Amenity ID {amenity_id} not found")

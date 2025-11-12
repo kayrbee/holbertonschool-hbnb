@@ -41,7 +41,7 @@ place_model = api.model('Place', {
 @api.route('/')
 class PlaceList(Resource):
     @jwt_required()
-    @api.expect(place_model)
+    @api.expect(place_model, validate=True)
     @api.response(201, 'Place successfully created')
     @api.response(400, 'Invalid input data')
     @api.response(500, 'Internal server error')
@@ -51,7 +51,7 @@ class PlaceList(Resource):
 
         try:
             data = api.payload or {}
-            
+
             # normalise amenities to a string
             amenity_value = data.get("amenities")
             if isinstance(amenity_value, list):
@@ -81,17 +81,19 @@ class PlaceList(Resource):
         try:
             places = facade.get_all_places()
             results = []
-            
+
             for p in places:
                 d = p.to_dict()
 
                 results.append(d)
-                
+
             return results, 200
-        
+
         except Exception as e:
             print("DEBUG ERROR:", e)
             return {"error": "Internal server error"}, 500
+
+
 @api.route('/<place_id>')
 class PlaceResource(Resource):
     @api.response(200, 'Place details retrieved successfully')
@@ -127,11 +129,11 @@ class PlaceResource(Resource):
 
         # only owners can update
         if place.owner_id != current_user_id:
-            return {'error': 'Unauthorized action'}, 403  
-        
+            return {'error': 'Unauthorized action'}, 403
+
         try:
             print("RAW DATA:", request.data)
-        
+
             # Handle missing or invalid JSON
             if not request.data or request.data == b'':
                 return {"error": "Request body is empty"}, 400
@@ -139,10 +141,10 @@ class PlaceResource(Resource):
             # Ensure valid JSON before access api.payload
             if not request.is_json:
                 return {"error": "Request must be JSON"}, 400
-            
+
             # Call api.payload
             payload = api.payload or {}
-            
+
             # normalise amenities to a string
             if "amenities" in payload:
                 if isinstance(payload["amenities"], list):
