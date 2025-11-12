@@ -63,7 +63,7 @@ class TestUserEndpoints(unittest.TestCase):
 
     # <-- PUT test needs to be debugged -->
 
-    # def test_update_user(self):
+    # def test_update_user_as_admin(self):
     #     # Create a user
     #     response = self.client.post(
     #         f"{BASE_URL}",
@@ -86,6 +86,30 @@ class TestUserEndpoints(unittest.TestCase):
     #     self.assertEqual(update_response.status_code, 200)
     #     updated = update_response.get_json()
     #     self.assertEqual(updated["first_name"], "Jack")
+
+    def test_update_user_as_self(self):
+        """ Can update first name and last name fields only """
+        # Create a user
+        user = setup.create_test_user()
+        user_id = user.id
+        user_token = setup.login(user)
+        user_auth_header = {
+            "Authorization": f'Bearer {user_token}'}
+
+        # Construct limited payload
+        user_payload = {
+            "first_name": "Jack",
+            "last_name": "Doe"
+        }
+
+        response = self.client.put(
+            f"{BASE_URL}{user_id}",
+            headers=user_auth_header,
+            json=user_payload
+        )
+        data = response.get_json()
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(data["first_name"], "Jack")
 
     # <-- This section covers successful GET requests -->
 
@@ -171,6 +195,32 @@ class TestUserEndpoints(unittest.TestCase):
         self.assertIn("errors", data)
         self.assertIn("first_name", data["errors"])
         self.assertIn("required", data["errors"]["first_name"].lower())
+
+    def test_update_email_as_self(self):
+        # Create a user
+        user = setup.create_test_user()
+        user_id = user.id
+        user_token = setup.login(user)
+        user_auth_header = {
+            "Authorization": f'Bearer {user_token}'}
+
+        # Construct limited payload
+        user_payload = {
+            "first_name": "Jack",
+            "last_name": "Doe",
+            "email": "new@email.com"
+        }
+
+        print(self.user_payload)
+
+        response = self.client.put(
+            f"{BASE_URL}{user_id}",
+            headers=user_auth_header,
+            json=user_payload
+        )
+        data = response.get_json()
+        self.assertEqual(response.status_code, 400)
+        self.assertIn(data["error"], "You cannot modify email or password")
 
 
 if __name__ == "__main__":
