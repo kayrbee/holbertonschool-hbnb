@@ -1,5 +1,5 @@
 from flask_restx import Namespace, Resource, fields
-from flask_jwt_extended import jwt_required, get_jwt
+from flask_jwt_extended import verify_jwt_in_request, get_jwt
 from flask import request
 from functools import wraps
 from app.services import facade
@@ -11,8 +11,8 @@ api = Namespace('admin', description='Admin-only operations')
 
 def admin_required(fn):
     @wraps(fn)
-    @jwt_required()
     def wrapper(*args, **kwargs):
+        verify_jwt_in_request()
         claims = get_jwt()
         if not claims.get('is_admin'):
             return {'error': 'Admin privileges required'}, 403
@@ -275,49 +275,5 @@ class AdminPlaceModify(Resource):
             facade.delete_place(place_id)
         except LookupError:
             return {"error": "Place not found"}, 404
-        except Exception:
-            return {"error": "Internal server error"}, 500
-
-
-@api.route('/reviews/<review_id>')
-class AdminReviewModify(Resource):
-    @admin_required
-    @api.expect(admin_review_update_model, validate=True)
-    @api.response(200, 'Review updated successfully')
-    @api.response(400, 'Invalid input or update failure')
-    @api.response(404, 'Review not found')
-    def put(self, review_id):
-        """ Bypass ownership restrictions when Modifying Review """
-        review = facade.review_repo.get(review_id)
-        if not review:
-            return {"error": "Review not found"}, 404
-
-        data = api.payload or {}
-        try:
-            update = facade.update_review(review_id, data)
-            return update.to_dict(), 200
-        except ValueError as e:
-            if str(e) == "Review not found":
-                return {"error": str(e)}, 404
-            return {"error": str(e)}, 400
-        except TypeError:
-            return {"error": 'Invalid input data'}, 400
-
-
-@api.route('/reviews/<review_id>')
-class AdminReviewDelete(Resource):
-    @admin_required
-    @api.response(200, 'Review deleted successfully')
-    @api.response(404, 'Review not found')
-    @api.response(500, 'Internal server error')
-    def delete(self, review_id):
-        """ Bypass ownership restrictions when Deleting Review """
-        review = facade.get_review(review_id)
-        if not review:
-            return {"error": "Review not found"}, 404
-
-        try:
-            facade.delete_review(review_id)
-            return {"success": "Review deleted"}, 200
         except Exception:
             return {"error": "Internal server error"}, 500
