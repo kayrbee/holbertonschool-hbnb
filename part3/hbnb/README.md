@@ -1,5 +1,12 @@
 # How to run this application
 
+## Running the tests
+
+
+For information on how to run the automated test suites, jump to [test documentation](/part3/hbnb/tests/README.md)
+
+## Running the application
+
 ### 1. Set up a Virtual Environment
 
 ```bash
@@ -13,7 +20,7 @@ This should install `flask_restx` and `bcrypt`, but if it doesn't, jump to Troub
 
 ### 2. Create a `.env` file
 
-Copy [.env-example](part3/hbnb/app/.env-example) and save it as `.env` in the same directory as the example file.
+Copy [.env-example](/part3/hbnb/app/.env-example) and save it as `.env` in the same directory as the example file.
 
 This will ensure that the app initialisation can discover the JWT_SECRET_KEY environment variable it needs.
 
@@ -37,9 +44,6 @@ flask run
 # Run with optional debugger
 flask run --debug
 ```
-### 4. Run tests
-
-Jump to [test_documentation.md](/part3/hbnb/tests/test_documentation.md)
 
 ### Troubleshooting
 

@@ -44,7 +44,7 @@ class ReviewList(Resource):
                 return {"error": "Place not found"}, 404
 
             if place.owner_id == current_user_id:
-                return {"error": "You cannot review your own place"}, 400
+                return {"error": "You cannot review your own place"}, 403
 
             existing_reviews = facade.get_review_by_user_and_place(
                 current_user_id, place_id)
@@ -120,7 +120,6 @@ class ReviewResource(Resource):
         except TypeError:
             return {"error": "Invalid input data"}, 400
 
-
     @jwt_required()
     @api.response(200, 'Review deleted successfully')
     @api.response(403, 'Unauthorised action')
@@ -148,6 +147,7 @@ class ReviewResource(Resource):
         except Exception:
             return {"error": "Internal server error"}, 500
 
+
 @api.route('/places/<place_id>/reviews')
 class PlaceReviewList(Resource):
     @api.response(200, 'List of reviews for the place retrieved successfully')
@@ -157,11 +157,12 @@ class PlaceReviewList(Resource):
         """Get all reviews for a specific place"""
         try:
             reviews = facade.get_reviews_by_place(place_id)
-            return [review for review in reviews], 200
+            return [review.to_dict() for review in reviews], 200
         except ValueError:
             return {"error": "Place not found"}, 404
         except Exception:
             return {"error": "Internal server error"}, 500
+
 
 def admin_review_update_exception(review_id, data):
     review = facade.review_repo.get(review_id)
@@ -175,6 +176,7 @@ def admin_review_update_exception(review_id, data):
     except TypeError:
         return {"error": "Invalid input data"}, 400
 
+
 def admin_review_delete_exception(review_id):
     review = facade.get_review(review_id)
     if not review:
@@ -184,4 +186,3 @@ def admin_review_delete_exception(review_id):
         return {"success": "Review deleted"}, 200
     except Exception:
         return {"error": "Internal server error"}, 500
-

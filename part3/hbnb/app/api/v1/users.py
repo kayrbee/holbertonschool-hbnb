@@ -24,6 +24,7 @@ user_update_model = api.model('UserUpdate', {
     'password': fields.String(),
 })
 
+
 @api.route('/')
 class UserList(Resource):
     def get(self):
@@ -63,11 +64,11 @@ class UserResource(Resource):
     def put(self, user_id):
         """ Update user info - except email and password"""
         current_user_id = get_jwt_identity()
-                
+
         is_self = str(user_id) == str(current_user_id)
         if not is_self:
             return {'error': 'Unauthorized action'}, 403
-        
+
         user = facade.get_user_by_id(user_id)
         if not user:
             return {'error': 'User not found'}, 404
@@ -87,7 +88,7 @@ class UserResource(Resource):
                 'first_name': updated_user.first_name,
                 'last_name': updated_user.last_name,
                 'email': updated_user.email,
-            }
+            }, 200
 
         except Exception as e:
             print("SERVER ERROR:", e)

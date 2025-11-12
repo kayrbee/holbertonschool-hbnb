@@ -10,7 +10,7 @@ def create_test_user(is_admin=False):
     unique_email = f"john.doe_{uuid.uuid4().hex}@example.com"
     user = User(
         first_name="Mary",
-        last_name="Admin",
+        last_name="Contrary",
         email=unique_email,
         password="password",
         is_admin=is_admin
@@ -55,3 +55,18 @@ def create_place(user_id):
     db.session.commit()
 
     return place
+
+
+def create_review(place_id, reviewer_id):
+    from app.models import Review
+    review = Review(
+        text="Highly recommend",
+        rating=5,
+        place=place_id,
+        user=reviewer_id
+    )
+
+    db.session.add(review)
+    db.session.commit()
+
+    return review

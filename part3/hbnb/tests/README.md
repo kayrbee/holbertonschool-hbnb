@@ -1,36 +1,5 @@
 # How to run the automated tests for this project
 
-## Kat's WIP Notes
-
-- convert all tests to `unittest` framework
-- use test_client in tests
-- improve coverage in all test files
-
-### Decisions
-
-- chose unittest
-- chose to not implement an absolute path to db in config (yet)
-- chose to configure test.db to run in-memory (avoids need for tearDown() method)
-
-### Done
-
-MVP definition of done: test file uses `unittest`, tests in the file use a test db, and all tests in the file passed when run from the CLI
-
-Extension: make sure every test file covers all CRUD operations and defined error paths
-
-- add and configure test.db
-- test_auth_api.py
-- test_amenity_api.py
-- test_amenity_class.py
-
-### To do
-
-- test_place_api.py [in progress]
-- test_place_class.py
-- test_review_api.py
-- test_review_class.py
-- test_user_api.py
-- test_user_class.py
 
 **unittest tests**
 
@@ -47,22 +16,43 @@ python3 -m unittest tests/<file_name>.py
 python3 -m unittest
 ```
 
-**pytest tests**
 
-Install `pytest`
+## Kat's WIP Test Notes
 
-Navigate to the project directory `part3/hbnb`
+### General Objective of the Test Refactor
 
-Run the tests using `pytest`
+- convert all tests to `unittest` framework
+- remove `pytest`
+- use test_client config in tests to avoid filling development.db with junk data
+- improve coverage in all test files
 
-```bash
-pip install pytest
-cd part3/hbnb
+### Decision Record
 
-# Run a single file
-pytest tests/<test_file>.py
+- chose `unittest` over `pytest`
+- chose to not implement an absolute path to db in config (yet)
+- chose to configure a test db that runs in-memory (avoids need for tearDown() method)
+- chose to isolate class tests from the db because the db is included in the api tests
 
-# Run all tests
-pytest
-```
+### Done
 
+MVP definition of done: 
+- test file uses `unittest`, 
+- tests in the file use a test db (api tests) or are isolated from the db (class tests), and 
+- all tests in the file passed when run from the CLI
+
+Extension: make sure every test file covers all CRUD operations and defined error paths
+
+- add and configure test.db
+- test_auth_api.py
+- test_amenity_api.py
+- test_amenity_class.py
+- test_place_class.py
+- test_review_class.py
+- test_review_api.py
+- test_user_class.py
+- test_user_api.py
+
+### To do
+
+- test_place_api.py [in progress - waiting on Mel]
+- Debugging of known issues on admin
