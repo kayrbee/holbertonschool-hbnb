@@ -62,8 +62,12 @@ class HBnBFacade:
         """
         # Amenities to List
         amenities = place_data.get("amenities", [])
+        
         if isinstance(amenities, str):
-            amenities = [amenities]
+            amenities = [a.strip() for a in amenities.split(",") if a.strip()]
+        elif not isinstance(amenities, list):
+            raise ValueError("Amenities must be a list of amenity IDs")
+        
         place_data["amenities"] = amenities
 
         # Validate owner exists
