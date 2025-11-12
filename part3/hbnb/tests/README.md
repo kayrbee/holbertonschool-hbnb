@@ -27,11 +27,12 @@ Extension: make sure every test file covers all CRUD operations and defined erro
 - test_review_class.py
 - test_review_api.py
 - test_user_class.py
+- test_user_api.py
 
 ### To do
 
-- test_place_api.py [in progress]
-- test_user_api.py [in progress]
+- test_place_api.py [in progress - waiting on Mel]
+- Debugging of known issues on admin
 
 **unittest tests**
 
