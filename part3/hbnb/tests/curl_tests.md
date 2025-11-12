@@ -1,4 +1,4 @@
-# API Testing Documentation
+# API Testing Documentation - curl testing suite
 
 ## Table of Contents
 1. [User Management Tests](#user-management-tests)
