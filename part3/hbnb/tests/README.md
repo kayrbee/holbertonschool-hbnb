@@ -5,7 +5,7 @@
 
 `unittest` is native to Python - no need to install it. Before running the tests, make sure you're in a `venv` environment (see [set up a virtual environment](/part3/hbnb/README.md)). 
 
-To run the tests:
+To run the automated tests:
 ```bash
 cd part3/hbnb
 
@@ -16,6 +16,9 @@ python3 -m unittest tests/<file_name>.py
 python3 -m unittest
 ```
 
+**curl tests**
+
+For guidance on how to run curl tests, see [curl tests](/part3/hbnb/tests/curl_tests.md)
 
 ## Kat's WIP Test Notes
 
