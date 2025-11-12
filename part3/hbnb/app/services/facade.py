@@ -121,13 +121,25 @@ class HBnBFacade:
         if not place:
             raise LookupError("Place not found")
         
+        if "amenities" in place_data:
+            resolved = []
+            for aid in place_data["amenities"]:
+                amenity = self.amenity_repo.get(aid)
+                if not amenity:
+                    raise ValueError(f"Amenity ID {aid} not found")
+                resolved.append(amenity)
+            place.amenities = resolved
+
+        if not isinstance(place.amenities, list):
+            raise TypeError("place.amenities must be a list of Amenity instances")
+
         # Update allowed fields
         allowed = {"title", "description", "price", "latitude", "longitude", "amenities"}
         for key, value in place_data.items():
-            if key in allowed:
+            if key in allowed and key != "amenities":
                 setattr(place, key, value)
-        
-        self.place_repo.update(place)
+
+        self.place_repo.update(place.id, {})
         return place
 
     def delete_place(self, place_id):
