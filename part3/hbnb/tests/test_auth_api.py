@@ -1,16 +1,8 @@
 import unittest
 from app import create_app, db
 from config import TestConfig
+import tests.helper_methods as setup
 from flask_jwt_extended import decode_token
-
-
-def create_test_admin():
-    from app.models import User
-    admin = User(first_name="Mary", last_name="Admin",
-                 email="mary1@admin.com", password="password", is_admin=True)
-    db.session.add(admin)
-    db.session.commit()
-    return admin
 
 
 class TestAuthEndpoints(unittest.TestCase):
@@ -28,7 +20,7 @@ class TestAuthEndpoints(unittest.TestCase):
         self.client = self.app.test_client()
 
         # Create test user before the test runs - user must exist
-        self.admin = create_test_admin()
+        self.admin = setup.create_test_user(is_admin=True)
 
         # Construct a valid login data set & modify as needed
         self.auth_data = {
