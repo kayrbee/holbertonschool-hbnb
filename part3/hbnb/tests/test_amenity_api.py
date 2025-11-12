@@ -1,33 +1,8 @@
 #!/usr/bin/python3
 import unittest
-import uuid
 from app import create_app, db
 from config import TestConfig
-from flask_jwt_extended import create_access_token
-
-
-def create_test_user(is_admin=False):
-    from app.models import User
-    unique_email = f"john.doe_{uuid.uuid4().hex}@example.com"
-    user = User(
-        first_name="Mary",
-        last_name="Admin",
-        email=unique_email,
-        password="password",
-        is_admin=is_admin
-    )
-    db.session.add(user)
-    db.session.commit()
-    return user
-
-
-def login(user):
-    access_token = create_access_token(
-        identity=str(user.id),
-        additional_claims={"is_admin": user.is_admin}
-    )
-
-    return access_token
+import tests.helper_methods as setup
 
 
 class TestAmenityEndpoints(unittest.TestCase):
@@ -45,20 +20,20 @@ class TestAmenityEndpoints(unittest.TestCase):
         self.client = self.app.test_client()
 
         # Create an admin and a non-admin to test amenity creation
-        self.admin = create_test_user(is_admin=True)
+        self.admin = setup.create_test_user(is_admin=True)
 
         # Create a valid admin jwt
-        self.admin_token = login(self.admin)
+        self.admin_token = setup.login(self.admin)
 
         # Create auth header
         self.admin_auth_header = {
             "Authorization": f"Bearer {self.admin_token}"}
 
         # Create a non-admin user to test protected endpoints
-        self.non_admin = create_test_user()
+        self.non_admin = setup.create_test_user()
 
         #  Create a valid non-admin jwt
-        self.user_token = login(self.non_admin)
+        self.user_token = setup.login(self.non_admin)
 
         # Create auth header
         self.user_auth_header = {
