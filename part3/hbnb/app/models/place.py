@@ -19,8 +19,8 @@ class Place(Base):
 #    amenities = db.Column(db.String(255), nullable=True, default="")
 #    owner_id = db.Column(db.String(60), nullable=False)
     
-    owner_id = db.Column(db.String(36), db.ForeignKey('users.id'), nullable=False) # foreign key to ref User
-    reviews = db.relationship('Review', backref='place', lazy=True)  # foreign key to ref Review
+    owner_id = db.Column(db.String(36), db.ForeignKey('users.id'), nullable=False)  # foreign key to ref User
+    reviews = db.relationship('Review', backref='place', lazy=True)                 # foreign key to ref Review
 
     amenities = db.relationship('Amenity', secondary=place_amenity, lazy='subquery',
                                 backref=db.backref('places', lazy=True))
