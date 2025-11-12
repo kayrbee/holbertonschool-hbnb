@@ -39,7 +39,8 @@ class TestAmenityEndpoints(unittest.TestCase):
         self.user_auth_header = {
             "Authorization": f"Bearer {self.user_token}"}
 
-    # --- Tests start here ---
+    # <-- Tests start here -->
+    # <-- This section tests for successful amenity CRUD operations -->
 
     def test_create_amenity_as_admin(self):
         response = self.client.post(
@@ -49,62 +50,6 @@ class TestAmenityEndpoints(unittest.TestCase):
             content_type="application/json"
         )
         self.assertEqual(response.status_code, 201)
-
-    def test_create_amenity_as_non_admin(self):
-        response = self.client.post(
-            '/api/v1/amenities/',
-            headers=self.user_auth_header,
-            json={"name": "Pool"},
-            content_type="application/json"
-        )
-        self.assertEqual(response.status_code, 403)
-
-    def test_create_amenity_too_long(self):
-        response = self.client.post(
-            '/api/v1/amenities/',
-            headers=self.admin_auth_header,
-            json={"name": "Aesop hand wash from the himalayas with plastic microbeads, which noone wants"})
-        self.assertEqual(response.status_code, 400)
-
-    def test_create_amenity_not_string(self):
-        response = self.client.post('/api/v1/amenities/', json={
-            "name": 1586813485
-        })
-        self.assertEqual(response.status_code, 400)
-
-    def test_create_amenity_empty_name(self):
-        response = self.client.post(
-            '/api/v1/amenities/',
-            headers=self.admin_auth_header,
-            json={"name": None})
-        self.assertEqual(response.status_code, 400)
-
-    def test_get_all_amenities(self):
-        # First, create an amenity to return
-        self.client.post(
-            '/api/v1/amenities/',
-            headers=self.admin_auth_header,
-            json={"name": "Pool"},
-            content_type="application/json"
-        )
-
-        response = self.client.get('/api/v1/amenities/')
-        self.assertEqual(response.status_code, 200)
-
-    def test_get_amenity_by_id(self):
-        # First, create an amenity to return
-        response = self.client.post(
-            '/api/v1/amenities/',
-            headers=self.admin_auth_header,
-            json={"name": "Pool"},
-            content_type="application/json"
-        )
-        amenity = response.get_json()
-        amenity_id = amenity["id"]
-
-        # Pass the amenity_id to the endpoint for testing
-        response = self.client.get(f'/api/v1/amenities/{amenity_id}')
-        self.assertEqual(response.status_code, 200)
 
     def test_modify_amenity_as_admin(self):
         # First, create an amenity to modify
@@ -146,6 +91,46 @@ class TestAmenityEndpoints(unittest.TestCase):
         )
         self.assertEqual(response.status_code, 200)
 
+    # <-- This section tests successful GET operations -->
+
+    def test_get_all_amenities(self):
+        # First, create an amenity to return
+        self.client.post(
+            '/api/v1/amenities/',
+            headers=self.admin_auth_header,
+            json={"name": "Pool"},
+            content_type="application/json"
+        )
+
+        response = self.client.get('/api/v1/amenities/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_get_amenity_by_id(self):
+        # First, create an amenity to return
+        response = self.client.post(
+            '/api/v1/amenities/',
+            headers=self.admin_auth_header,
+            json={"name": "Pool"},
+            content_type="application/json"
+        )
+        amenity = response.get_json()
+        amenity_id = amenity["id"]
+
+        # Pass the amenity_id to the endpoint for testing
+        response = self.client.get(f'/api/v1/amenities/{amenity_id}')
+        self.assertEqual(response.status_code, 200)
+
+    # <-- This section tests authorisation  -->
+
+    def test_create_amenity_as_non_admin(self):
+        response = self.client.post(
+            '/api/v1/amenities/',
+            headers=self.user_auth_header,
+            json={"name": "Pool"},
+            content_type="application/json"
+        )
+        self.assertEqual(response.status_code, 403)
+
     def test_delete_amenity_as_non_admin(self):
         # First, create an amenity to delete
         response = self.client.post(
@@ -163,6 +148,28 @@ class TestAmenityEndpoints(unittest.TestCase):
             headers=self.user_auth_header
         )
         self.assertEqual(response.status_code, 403)
+
+    # <-- This section tests validation handling -->
+
+    def test_create_amenity_too_long(self):
+        response = self.client.post(
+            '/api/v1/amenities/',
+            headers=self.admin_auth_header,
+            json={"name": "Aesop hand wash from the himalayas with plastic microbeads, which noone wants"})
+        self.assertEqual(response.status_code, 400)
+
+    def test_create_amenity_not_string(self):
+        response = self.client.post('/api/v1/amenities/', json={
+            "name": 1586813485
+        })
+        self.assertEqual(response.status_code, 400)
+
+    def test_create_amenity_empty_name(self):
+        response = self.client.post(
+            '/api/v1/amenities/',
+            headers=self.admin_auth_header,
+            json={"name": None})
+        self.assertEqual(response.status_code, 400)
 
 
 if __name__ == "__main__":
