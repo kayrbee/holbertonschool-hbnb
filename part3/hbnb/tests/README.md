@@ -6,11 +6,12 @@
 - use test_client in tests
 - improve coverage in all test files
 
-### Decisions
+### Decision Record
 
-- chose unittest
+- chose `unittest` over `pytest`
 - chose to not implement an absolute path to db in config (yet)
-- chose to configure test.db to run in-memory (avoids need for tearDown() method)
+- chose to configure a test db that runs in-memory (avoids need for tearDown() method)
+- chose to isolate class tests from the db because the db is included in the api tests
 
 ### Done
 
@@ -22,13 +23,13 @@ Extension: make sure every test file covers all CRUD operations and defined erro
 - test_auth_api.py
 - test_amenity_api.py
 - test_amenity_class.py
+- test_place_class.py
+- test_review_class.py
 
 ### To do
 
 - test_place_api.py [in progress]
-- test_place_class.py
 - test_review_api.py
-- test_review_class.py
 - test_user_api.py
 - test_user_class.py
 
