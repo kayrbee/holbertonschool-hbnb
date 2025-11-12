@@ -9,6 +9,7 @@ from app.models.user import User
 from app.models.place import Place
 from app.models.amenity import Amenity
 from app.models.review import Review
+import uuid
 
 
 class HBnBFacade:
@@ -147,10 +148,15 @@ class HBnBFacade:
         Retrieves amenity or returns error if it
         doesn't exist
         """
-        existing = self.amenity_repo.get(amenity_id)
+        try:
+            uuid.UUID(amenity_id)
+        except ValueError:
+            raise ValueError('Amenity ID must be a valid UUID, not a name')
 
+        existing = self.amenity_repo.get(amenity_id)
         if existing is None:
             raise ValueError("Amenity not found")
+
         return existing
 
     def get_all_amenities(self):
