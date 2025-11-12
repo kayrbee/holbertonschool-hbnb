@@ -143,7 +143,7 @@ class AdminUserResource(Resource):
                 'last_name': updated_user.last_name,
                 'email': updated_user.email,
                 'is_admin': updated_user.is_admin,
-            }
+            }, 200
         except Exception as e:
             print("SERVER ERROR:", e)
             return {'error': 'Internal server error'}, 500

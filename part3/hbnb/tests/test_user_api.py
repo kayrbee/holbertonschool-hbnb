@@ -36,7 +36,10 @@ class TestUserEndpoints(unittest.TestCase):
             "password": "password"
         }
 
-    # --- POST - Create a User ---
+    # <-- Tests start here -->
+
+    # <-- This section covers successful CRUD operations -->
+
     def test_create_user_valid(self):
         response = self.client.post(
             f"{BASE_URL}",
@@ -47,30 +50,34 @@ class TestUserEndpoints(unittest.TestCase):
         self.assertIn("id", data)
         self.assertIn(data["message"], "User registered successfully")
 
-    def test_create_user_invalid_email(self):
-        self.user_payload["email"] = "fake"
-        response = self.client.post(
-            f"{BASE_URL}",
-            headers=self.admin_auth_header,
-            json=self.user_payload)
-        self.assertEqual(response.status_code, 400)
-        data = response.get_json()
-        self.assertEqual(data["error"], "Invalid Email. Try again")
+    # <-- PUT test needs to be debugged -->
 
-    # def test_create_user_missing_field(self):
-    #     unique_email = f"sarah_{uuid.uuid4().hex}@example.com"
-    #     payload = {
-    #         "last_name": "Sarah",
-    #         "email": unique_email
-    #     }
-    #     response = self.client.post(f"{BASE_URL}", json=payload)
-    #     self.assertEqual(response.status_code, 400)
-    #     data = response.get_json()
-    #     self.assertIn("errors", data)
-    #     self.assertIn("first_name", data["errors"])
-    #     self.assertIn("required", data["errors"]["first_name"].lower())
+    # def test_update_user(self):
+    #     # Create a user
+    #     response = self.client.post(
+    #         f"{BASE_URL}",
+    #         headers=self.admin_auth_header,
+    #         json=self.user_payload)
 
-    # --- GET - Retrieve Users ---
+    #     user = response.get_json()
+    #     user_id = user["id"]
+
+    #     # Update payload
+    #     self.user_payload["first_name"] = "Jack"
+    #     self.user_payload["last_name"] = "Doe"
+    #     self.user_payload["email"] = "changed@email.com"
+
+    #     update_response = self.client.put(
+    #         f"{BASE_URL}{user_id}",
+    #         headers=self.admin_auth_header,
+    #         json=self.user_payload
+    #     )
+    #     self.assertEqual(update_response.status_code, 200)
+    #     updated = update_response.get_json()
+    #     self.assertEqual(updated["first_name"], "Jack")
+
+    # <-- This section covers successful GET requests -->
+
     def test_retrieve_all_users_empty_list(self):
         response = self.client.get(f"{BASE_URL}")
         self.assertEqual(response.status_code, 200)
@@ -120,6 +127,20 @@ class TestUserEndpoints(unittest.TestCase):
         self.assertEqual(data["last_name"], self.user_payload["last_name"])
         self.assertEqual(data["email"], self.user_payload["email"])
 
+    # <-- This section tests authorisation -->
+
+    def test_create_user_invalid_email(self):
+        self.user_payload["email"] = "fake"
+        response = self.client.post(
+            f"{BASE_URL}",
+            headers=self.admin_auth_header,
+            json=self.user_payload)
+        self.assertEqual(response.status_code, 400)
+        data = response.get_json()
+        self.assertEqual(data["error"], "Invalid Email. Try again")
+
+    # <-- This section tests validation scenarios -->
+
     def test_retrieve_non_existent_user(self):
         fake_id = "00000000-0000-0000-0000-000000000000"
         response = self.client.get(f"{BASE_URL}{fake_id}")
@@ -127,32 +148,18 @@ class TestUserEndpoints(unittest.TestCase):
         data = response.get_json()
         self.assertEqual(data["error"], "User not found")
 
-    # <-- Needs to be debugged -->
-
-    # # # --- PUT - Update User ---
-    # def test_update_user(self):
-    #     # Create a user
-    #     response = self.client.post(
-    #         f"{BASE_URL}",
-    #         headers=self.admin_auth_header,
-    #         json=self.user_payload)
-
-    #     user = response.get_json()
-    #     user_id = user["id"]
-
-    #     # Update payload
-    #     self.user_payload["first_name"] = "Jack"
-    #     self.user_payload["last_name"] = "Doe"
-    #     self.user_payload["email"] = "changed@email.com"
-
-    #     update_response = self.client.put(
-    #         f"{BASE_URL}{user_id}",
-    #         headers=self.admin_auth_header,
-    #         json=self.user_payload
-    #     )
-    #     self.assertEqual(update_response.status_code, 200)
-    #     updated = update_response.get_json()
-    #     self.assertEqual(updated["first_name"], "Jack")
+    def test_create_user_missing_field(self):
+        unique_email = f"sarah_{uuid.uuid4().hex}@example.com"
+        payload = {
+            "last_name": "Sarah",
+            "email": unique_email
+        }
+        response = self.client.post(f"{BASE_URL}", json=payload)
+        self.assertEqual(response.status_code, 400)
+        data = response.get_json()
+        self.assertIn("errors", data)
+        self.assertIn("first_name", data["errors"])
+        self.assertIn("required", data["errors"]["first_name"].lower())
 
 
 if __name__ == "__main__":
