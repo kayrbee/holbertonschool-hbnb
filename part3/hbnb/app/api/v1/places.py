@@ -106,9 +106,11 @@ class PlaceResource(Resource):
             d = place.to_dict()
 
             return d, 200
-        except LookupError or ValueError:
+        except LookupError or ValueError as e:
+            print("DEBUG ERROR:", e)
             return {"error": "Place or owner not found"}, 404
-        except Exception:
+        except Exception as e:
+            print("DEBUG ERROR:", e)
             return {"error": "Internal server error"}, 500
 
     @jwt_required()
@@ -132,8 +134,6 @@ class PlaceResource(Resource):
             return {'error': 'Unauthorized action'}, 403
 
         try:
-            print("RAW DATA:", request.data)
-
             # Handle missing or invalid JSON
             if not request.data or request.data == b'':
                 return {"error": "Request body is empty"}, 400
@@ -143,18 +143,28 @@ class PlaceResource(Resource):
                 return {"error": "Request must be JSON"}, 400
 
             # Call api.payload
-            payload = api.payload or {}
+            data = api.payload or {}
 
-            # normalise amenities to a string
-            if "amenities" in payload:
-                if isinstance(payload["amenities"], list):
-                    payload["amenities"] = ",".join(payload["amenities"])
-                elif not isinstance(payload["amenities"], str):
+            # Prevent accidental ownership overrides
+            if "owner_id" in data and data["owner_id"] != current_user_id:
+                 return {"error": "Cannot reassign ownership"}, 403
+
+            # Normalise amenities to a string
+            if "amenities" in data:
+                raw = data["amenities"]
+                if isinstance(raw, list):
+                    data["amenities"] = [a.strip() for a in raw if isinstance(a, str) and a.strip()]
+                elif isinstance(raw, str):
+                    data["amenities"] = [a.strip() for a in raw.split(",") if a.strip()]
+                else:
                     return {"error": "amenities must be a string or list of strings"}, 400
+            else:
+                # Preserve existing amenities if not provided
+                data["amenities"] = [a.id for a in place.amenities]
 
             # Update using facade
             # return model, not _serialize_place
-            updated = facade.update_place(place_id, payload)
+            updated = facade.update_place(place_id, data)
             d = updated.to_dict()
 
             # attach owner
