@@ -64,9 +64,11 @@ class UserResource(Resource):
     def put(self, user_id):
         """ Update user info - except email and password"""
         current_user_id = get_jwt_identity()
+        claims = get_jwt()
 
         is_self = str(user_id) == str(current_user_id)
-        if not is_self:
+        is_admin = claims.get("is_admin", False)
+        if not (is_self or is_admin):
             return {'error': 'Unauthorized action'}, 403
 
         user = facade.get_user_by_id(user_id)
