@@ -21,11 +21,11 @@ class AmenityList(Resource):
 @api.route('/<amenity_id>')
 class AmenityResource(Resource):
     @api.response(200, 'Amenity details retrieved successfully')
-    @api.response(404, 'Amenity not found')
+    @api.response(400, 'Amenity not found or Amenity ID must be a valid UUID, not a name.')
     def get(self, amenity_id):
         """Get amenity details by ID"""
         try:
             amenity = facade.get_amenity(amenity_id)
             return amenity.to_dict(), 200
-        except ValueError:
-            return {'error': 'Amenity not found'}, 404
+        except ValueError as e:
+            return {'error': str(e)}, 400
