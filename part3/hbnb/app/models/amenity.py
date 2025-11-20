@@ -8,6 +8,9 @@ class Amenity(Base):
     __tablename__ = 'amenities'
     
     name = db.Column(db.String(50), nullable=False)
+
+    places = db.relationship('Place', secondary=place_amenity, lazy='subquery',
+                                backref=db.backref('places', lazy=True))
     
     def __init__(self, name: str):
         """
