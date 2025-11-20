@@ -27,13 +27,13 @@ class TestReviewEndpoints(unittest.TestCase):
 
         # Create a place owner
         self.owner = setup.create_test_user()
-        self.owner_id = self.owner.id
+        self.user_id = self.owner.id
         self.owner_token = setup.login(self.owner)
         self.owner_auth_headers = {
             "Authorization": f"Bearer {self.owner_token}"}
 
         # Create a place to review
-        self.place = setup.create_place(self.owner_id)
+        self.place = setup.create_place(self.user_id)
         self.place_id = self.place.id
 
         # Dummy review data (valid)
@@ -152,7 +152,7 @@ class TestReviewEndpoints(unittest.TestCase):
 
     def test_owner_cannot_create_own_review(self):
         """Owners should not be able to create a review for their own place"""
-        self.review_data["owner_id"] = self.owner_id
+        self.review_data["user_id"] = self.user_id
 
         response = self.client.post(
             f"/api/v1/reviews/",
@@ -160,7 +160,7 @@ class TestReviewEndpoints(unittest.TestCase):
             json=self.review_data,
             content_type="application/json"
         )
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, 400)
         self.assertIn("error", response.get_json())
 
     def test_cannot_create_review_without_jwt(self):

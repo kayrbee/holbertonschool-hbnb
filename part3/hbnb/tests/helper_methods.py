@@ -48,7 +48,7 @@ def create_place(user_id):
         price=200,
         latitude=-37.8,
         longitude=144.9,
-        owner_id=user_id,
+        user_id=user_id,
         amenities=[amenity]
     )
     db.session.add(place)

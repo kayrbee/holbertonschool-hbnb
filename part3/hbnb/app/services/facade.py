@@ -55,7 +55,7 @@ class HBnBFacade:
         self.user_repo.delete(user_id)
 
     # --- Place ---
-    def create_place(self, place_data, owner_id):
+    def create_place(self, place_data, user_id):
         """
         Create a place with including validation
         for price, latitude, and longitude
@@ -71,9 +71,9 @@ class HBnBFacade:
         place_data["amenities"] = amenities
 
         # Validate owner exists
-        owner = self.user_repo.get(place_data.get("owner_id"))          # Additional layer of validation
+        owner = self.user_repo.get(place_data.get("user_id"))          # Additional layer of validation
         if not owner:
-            raise ValueError("Invalid owner_id: user does not exist")
+            raise ValueError("Invalid user_id: user does not exist")
 
         # Convert amenity IDs from payload into Amenity model instances
         raw_amenities = place_data.get("amenities", [])
@@ -97,7 +97,7 @@ class HBnBFacade:
             price=float(place_data["price"]),
             latitude=float(place_data["latitude"]),
             longitude=float(place_data["longitude"]),
-            owner_id=str(owner_id),
+            user_id=str(user_id),
             amenities=valid_amenities
         )
 

@@ -60,7 +60,7 @@ admin_place_model = api.model('Place', {
     'price': fields.Float(required=True, description='Price per night'),
     'latitude': fields.Float(required=True, description='Latitude of the place'),
     'longitude': fields.Float(required=True, description='Longitude of the place'),
-    'owner_id': fields.String(required=True, description='ID of the owner'),
+    'user_id': fields.String(required=True, description='ID of the owner'),
     'amenities': fields.List(fields.String, required=True, description="List of amenities ID's"),
     'reviews': fields.List(fields.Nested(review_model), description='List of reviews')
 })
@@ -244,7 +244,7 @@ class AdminPlaceModify(Resource):
             updated = facade.update_place(place_id, payload)
             d = updated.to_dict()
 
-            owner = facade.get_user_by_id(updated.owner_id)
+            owner = facade.get_user_by_id(updated.user_id)
             d["owner"] = owner.to_dict() if owner and hasattr(
                 owner, "to_dict") else None
 

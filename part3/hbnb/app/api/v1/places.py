@@ -32,7 +32,7 @@ place_model = api.model('Place', {
     'price': fields.Float(required=True, description='Price per night'),
     'latitude': fields.Float(required=True, description='Latitude of the place'),
     'longitude': fields.Float(required=True, description='Longitude of the place'),
-    'owner_id': fields.String(required=True, description='ID of the owner'),
+    'user_id': fields.String(required=True, description='ID of the owner'),
     'amenities': fields.List(fields.String, required=True, description="List of amenities ID's"),
     'reviews': fields.List(fields.Nested(review_model), description='List of reviews')
 })
@@ -61,7 +61,7 @@ class PlaceList(Resource):
             elif not isinstance(amenity_value, str):
                 return {"error": "amenities must be a string or a list of strings"}, 400
 
-            place = facade.create_place(data, owner_id=current_user_id)
+            place = facade.create_place(data, user_id=current_user_id)
             d = place.to_dict()
 
             if "id" not in d and hasattr(place, "id"):
@@ -130,7 +130,7 @@ class PlaceResource(Resource):
             return {"error": "Place not found"}, 404
 
         # only owners can update
-        if place.owner_id != current_user_id:
+        if place.user_id != current_user_id:
             return {'error': 'Unauthorized action'}, 403
 
         try:
@@ -146,7 +146,7 @@ class PlaceResource(Resource):
             data = api.payload or {}
 
             # Prevent accidental ownership overrides
-            if "owner_id" in data and data["owner_id"] != current_user_id:
+            if "user_id" in data and data["user_id"] != current_user_id:
                  return {"error": "Cannot reassign ownership"}, 403
 
             # Normalise amenities to a string
@@ -168,7 +168,7 @@ class PlaceResource(Resource):
             d = updated.to_dict()
 
             # attach owner
-            owner = facade.get_user_by_id(updated.owner_id)
+            owner = facade.get_user_by_id(updated.user_id)
             d["owner"] = owner.to_dict() if owner else None
 
             return d, 200
@@ -197,7 +197,7 @@ class PlaceResource(Resource):
             return {"error": "Place not found"}, 404
 
         # only owners can delete
-        if place.owner_id != current_user_id:
+        if place.user_id != current_user_id:
             return {'error': 'Unauthorized action'}, 403
 
         try:
