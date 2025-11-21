@@ -75,7 +75,7 @@ class UserResource(Resource):
         if not user:
             return {'error': 'User not found'}, 404
 
-        data = request.get_json()
+        data = api.payload or {}
         if "email" in data or "password" in data:
             return {"error": "You cannot modify email or password"}, 400
 
