@@ -32,9 +32,12 @@ class User(Base):
             first_name (str): User's first name. Max length 50 characters
             last_name (str): User's last name. Max length 50 characters
             email (str): User's email address. Must be valid email format
+            password (str): Plain text password to be hashed
             is_admin (bool): admin status (defaults to false)
-            created_at: timestamp when the user is created
-            updated_at (DateTime):timestamp when the user is last updated
+
+        Note:
+            `id`, `created_at`, and `updated_at` are inherited from Base and automatically managed.
+
         Raises:
             TypeError: if any argument has incorrect type
             ValueError: if first_name or last_name exceeds 50 characters

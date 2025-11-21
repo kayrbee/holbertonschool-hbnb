@@ -19,13 +19,11 @@ class Place(Base):
     price = db.Column(db.Float, nullable=False)
     latitude = db.Column(db.Float, nullable=False)
     longitude = db.Column(db.Float, nullable=False)
-#    amenities = db.Column(db.String(255), nullable=True, default="")
-#    owner_id = db.Column(db.String(60), nullable=False)
 
-    owner_id = db.Column(db.String(36), db.ForeignKey(
-        'users.id'), nullable=False)  # foreign key to ref User
-    # foreign key to ref Review
-    reviews = db.relationship('Review', backref='place', lazy=True)
+    user_id = db.Column(db.String(36), db.ForeignKey(
+        'users.id'), nullable=False)                                    # foreign key to ref User
+    owner = db.relationship('User', lazy=True, overlaps="user,places")
+    reviews = db.relationship('Review', backref='place', lazy=True)     # foreign key to ref Review
 
     amenities = db.relationship('Amenity', secondary=place_amenity, lazy='subquery',
                                 backref=db.backref('places', lazy=True))
@@ -36,7 +34,7 @@ class Place(Base):
         price: float,
         latitude: float,
         longitude: float,
-        owner_id: str,
+        user_id: str,
         description: str = "",  # Moved to avoid "non-default argument follows default argument"
         amenities: list = None,
         reviews: list = None
@@ -47,7 +45,7 @@ class Place(Base):
         self.price = price
         self.latitude = latitude
         self.longitude = longitude
-        self.owner_id = owner_id
+        self.user_id = user_id
         self.amenities = amenities if amenities else []
         self.reviews = reviews if reviews else []
 
@@ -76,10 +74,10 @@ class Place(Base):
             raise ValueError("Longitude must be between -180 and 180.")
         return value
 
-    @validates('owner_id')
-    def validate_owner(self, key, value):
+    @validates('user_id')
+    def validate_user_id(self, key, value):
         if not value:
-            raise ValueError("Owner ID cannot be empty.")
+            raise ValueError("User ID cannot be empty.")
         return value
 
     def add_review(self, review):
@@ -99,7 +97,7 @@ class Place(Base):
             "price": self.price,
             "latitude": self.latitude,
             "longitude": self.longitude,
-            "owner_id": self.owner_id,
+            "user_id": self.user_id,
             # type: ignore
             "amenities": [a.to_dict() for a in self.amenities],
             "reviews": []

@@ -28,7 +28,7 @@ class TestPlaceModel(unittest.TestCase):
             "price": 120.0,
             "latitude": 45.0,
             "longitude": -122.0,
-            "owner_id": "user-1",
+            "user_id": "user-1",
             "reviews": []
         }
 
@@ -40,7 +40,7 @@ class TestPlaceModel(unittest.TestCase):
         self.assertEqual(place.price, 120.0)
         self.assertEqual(place.latitude, 45.0)
         self.assertEqual(place.longitude, -122.0)
-        self.assertEqual(place.owner_id, "user-1")
+        self.assertEqual(place.user_id, "user-1")
         self.assertEqual(place.description, "A cozy place in the woods")
         self.assertEqual(place.amenities, [])
         self.assertEqual(place.reviews, [])
@@ -74,9 +74,9 @@ class TestPlaceModel(unittest.TestCase):
         with self.assertRaises(ValueError):
             Place(**payload)
 
-    def test_empty_owner_id_raises(self):
+    def test_empty_user_id_raises(self):
         payload = self.base_payload.copy()
-        payload["owner_id"] = ""
+        payload["user_id"] = ""
         with self.assertRaises(ValueError):
             Place(**payload)
 
@@ -113,7 +113,7 @@ class TestPlaceModel(unittest.TestCase):
 
         # Basic structure
         expected_keys = {"id", "title", "description", "price", "latitude",
-                         "longitude", "owner_id", "amenities", "reviews"}
+                         "longitude", "user_id", "amenities", "reviews"}
         self.assertTrue(expected_keys.issubset(result.keys()))
         self.assertIsInstance(result["amenities"], list)
         self.assertEqual(result["amenities"][0]["name"], "WiFi")

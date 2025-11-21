@@ -246,7 +246,7 @@ Content-Type: application/json
   "price": 5000.0,
   "latitude": -7.8136,
   "longitude": 14.9631,
-  "owner_id": "52c448d4-9b1d-4186-ab35-bb9276da9cfb"
+  "user_id": "52c448d4-9b1d-4186-ab35-bb9276da9cfb"
 }
 ```
 
@@ -259,7 +259,7 @@ Content-Type: application/json
   "price": 5000.0,
   "latitude": -7.8136,
   "longitude": 14.9631,
-  "owner_id": "52c448d4-9b1d-4186-ab35-bb9276da9cfb",
+  "user_id": "52c448d4-9b1d-4186-ab35-bb9276da9cfb",
   "amenities": [],
   "reviews": []
 }
@@ -284,7 +284,7 @@ Content-Type: application/json
   "price": 5000.0,
   "latitude": -7.8136,
   "longitude": 14.9631,
-  "owner_id": "e9c83c77-8cb7-437b-8bb8-24c5c6df34fa",
+  "user_id": "e9c83c77-8cb7-437b-8bb8-24c5c6df34fa",
   "amenities": ["62caa8d8-b830-4e33-bac9-866617a692d5"]
 }
 ```
@@ -298,7 +298,7 @@ Content-Type: application/json
   "price": 5000.0,
   "latitude": -7.8136,
   "longitude": 14.9631,
-  "owner_id": "e9c83c77-8cb7-437b-8bb8-24c5c6df34fa",
+  "user_id": "e9c83c77-8cb7-437b-8bb8-24c5c6df34fa",
   "amenities": [
     {
       "id": "62caa8d8-b830-4e33-bac9-866617a692d5",
@@ -328,7 +328,7 @@ Content-Type: application/json
   "price": 5000.0,
   "latitude": -7.8136,
   "longitude": 14.9631,
-  "owner_id": "52c448d4-9b1d-4186-ab35-bb9276da9cfb",
+  "user_id": "52c448d4-9b1d-4186-ab35-bb9276da9cfb",
   "amenities": [
     "f85aa03c-7369-4c40-b80e-ef6070787d12",
     "10c4f8b9-7e14-43af-8493-f84eca66dd3f"
@@ -345,7 +345,7 @@ Content-Type: application/json
   "price": 5000.0,
   "latitude": -7.8136,
   "longitude": 14.9631,
-  "owner_id": "52c448d4-9b1d-4186-ab35-bb9276da9cfb",
+  "user_id": "52c448d4-9b1d-4186-ab35-bb9276da9cfb",
   "amenities": [
     {
       "id": "10c4f8b9-7e14-43af-8493-f84eca66dd3f",
@@ -370,7 +370,7 @@ Content-Type: application/json
 **Request:**
 ```bash
 PUT /api/v1/places/eee7f910-9fcf-44ab-a1fb-36cb7e351902
-Authorization: Bearer {owner_token}
+Authorization: Bearer {user_token}
 Content-Type: application/json
 
 {
@@ -379,7 +379,7 @@ Content-Type: application/json
   "price": 5200.0,
   "latitude": -7.8136,
   "longitude": 14.9631,
-  "owner_id": "52c448d4-9b1d-4186-ab35-bb9276da9cfb",
+  "user_id": "52c448d4-9b1d-4186-ab35-bb9276da9cfb",
   "amenities": ["f85aa03c-7369-4c40-b80e-ef6070787d12"]
 }
 ```
@@ -393,7 +393,7 @@ Content-Type: application/json
   "price": 5200.0,
   "latitude": -7.8136,
   "longitude": 14.9631,
-  "owner_id": "52c448d4-9b1d-4186-ab35-bb9276da9cfb",
+  "user_id": "52c448d4-9b1d-4186-ab35-bb9276da9cfb",
   "amenities": [
     {
       "id": "f85aa03c-7369-4c40-b80e-ef6070787d12",
@@ -401,7 +401,7 @@ Content-Type: application/json
     }
   ],
   "reviews": [],
-  "owner": {
+  "user": {
     "id": "52c448d4-9b1d-4186-ab35-bb9276da9cfb",
     "first_name": "Admin",
     "last_name": "User5",
@@ -424,7 +424,7 @@ Content-Type: application/json
 **Request:**
 ```bash
 POST /api/v1/reviews/
-Authorization: Bearer {owner_token}
+Authorization: Bearer {user_token}
 Content-Type: application/json
 
 {

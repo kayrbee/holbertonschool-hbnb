@@ -5,8 +5,8 @@ CREATE TABLE IF NOT EXISTS Place (
     price DECIMAL(10, 2),
     latitude FLOAT,
     longitude FLOAT,
-    owner_id CHAR(36),
+    user_id CHAR(36),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (owner_id) REFERENCES User(id)
+    FOREIGN KEY (user_id) REFERENCES User(id)
 );

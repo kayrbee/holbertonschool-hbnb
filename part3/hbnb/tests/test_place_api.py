@@ -33,7 +33,7 @@ class TestPlaceEndpoints(unittest.TestCase):
             "price": 200,
             "latitude": -37.8,
             "longitude": 144.9,
-            "owner_id": self.user_id,
+            "user_id": self.user_id,
             "amenities": []
         }
 
@@ -56,7 +56,7 @@ class TestPlaceEndpoints(unittest.TestCase):
         self.assertIn("id", data)
         self.assertEqual(data["title"], "Beach House")
 
-    def test_update_place_as_owner(self):
+    def test_update_place_as_user(self):
         # Create a place
         place = setup.create_place(self.user_id)
         place_id = place.id
@@ -75,7 +75,7 @@ class TestPlaceEndpoints(unittest.TestCase):
 
         self.assertEqual(response.status_code, 200)
 
-    def test_delete_place_as_owner(self):
+    def test_delete_place_as_user(self):
         amenity_id = setup.create_amenity("Pool").id
         self.place_payload["amenities"] = [amenity_id]
 
@@ -160,11 +160,11 @@ class TestPlaceEndpoints(unittest.TestCase):
         )
         self.assertIn(response.status_code, [401])
 
-    def test_create_place_invalid_owner_id_fails(self):
-        """Creating a place with a non-existent owner_id should fail."""
+    def test_create_place_invalid_user_id_fails(self):
+        """Creating a place with a non-existent user_id should fail."""
         amenity_id = setup.create_amenity("Pool").id
         self.place_payload["amenities"] = [amenity_id]
-        self.place_payload["owner_id"] = "d0a60784-05d5-47b9-b7e7-ed2c83cfc598"
+        self.place_payload["user_id"] = "d0a60784-05d5-47b9-b7e7-ed2c83cfc598"
 
         response = self.client.post(
             '/api/v1/places/',
