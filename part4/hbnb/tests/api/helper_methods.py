@@ -15,6 +15,7 @@ def create_test_user(is_admin=False):
         password="password",
         is_admin=is_admin
     )
+    user.hash_password("password")
     db.session.add(user)
     db.session.commit()
     return user

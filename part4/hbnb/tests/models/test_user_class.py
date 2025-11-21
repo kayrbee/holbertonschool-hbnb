@@ -15,15 +15,13 @@ class TestUser(unittest.TestCase):
             "is_admin": False
         }
 
-    @patch('app.models.user.bcrypt.generate_password_hash')
-    def test_user_initialization_valid(self, mock_hash):
+    def test_user_initialization_valid(self):
         """Test creating a user with valid data."""
-        mock_hash.return_value.decode.return_value = "hashed_pw"
         user = User(**self.valid_data)
         self.assertEqual(user.first_name, "John")
         self.assertEqual(user.last_name, "Doe")
         self.assertEqual(user.email, "john.doe@example.com")
-        self.assertEqual(user.password, "hashed_pw")
+        self.assertEqual(user.password, "SecurePass123!")
         self.assertFalse(user.is_admin)
 
     def test_first_name_validation(self):
@@ -86,6 +84,8 @@ class TestUser(unittest.TestCase):
         mock_check.return_value = True
 
         user = User(**self.valid_data)
+        self.assertEqual(user.password, "SecurePass123!")
+        user.hash_password("SecurePass123!")
         self.assertEqual(user.password, "hashed_pw")
         self.assertTrue(user.verify_password("SecurePass123!"))
         mock_check.assert_called_with("hashed_pw", "SecurePass123!")
