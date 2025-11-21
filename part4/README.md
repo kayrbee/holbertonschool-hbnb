@@ -67,19 +67,23 @@ holbertonschool-hbnb/
 │   │   ├── instance/
 │   │   │   ├── development.db
 │   │   ├── tests/
+│   │   │   ├── api/
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── helper_methods.py
+│   │   │   │   ├── test_amenity_api.py
+│   │   │   │   ├── test_auth_api.py     
+│   │   │   │   ├── test_place_api.py
+│   │   │   │   ├── test_review_api.py
+│   │   │   │   ├── test_user_api.py
+│   │   │   ├── models/
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── test_amenity_class.py
+│   │   │   │   ├── test_place_class.py
+│   │   │   │   ├── test_review_class.py
+│   │   │   │   ├── test_user_class.py
 │   │   │   ├── __init__.py
 │   │   │   ├── curl_tests.md
-│   │   │   ├── helper_methods.py
-│   │   │   ├── README.md                        # How to run the project's test suites
-│   │   │   ├── test_amenity_api.py
-│   │   │   ├── test_amenity_class.py
-│   │   │   ├── test_auth_api.py     
-│   │   │   ├── test_place_api.py
-│   │   │   ├── test_place_class.py
-│   │   │   ├── test_review_api.py
-│   │   │   ├── test_review_class.py
-│   │   │   ├── test_user_api.py
-│   │   │   ├── test_user_class.py
+│   │   │   ├── README.md                    # How to run the project's test suites
 │   │   ├── .env-example
 │   │   ├── config.py
 │   │   ├── README.md                        # How to run the application
