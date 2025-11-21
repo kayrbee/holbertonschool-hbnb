@@ -111,7 +111,7 @@ class AdminUserResource(Resource):
     @api.response(500, 'Internal server error')
     def put(self, user_id):
         """ Update user info """
-        data = request.json
+        data = api.payload or {}
         email = data.get('email')
 
         # Check if email is already in use
