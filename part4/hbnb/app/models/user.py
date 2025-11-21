@@ -32,7 +32,7 @@ class User(Base):
             first_name (str): User's first name. Max length 50 characters
             last_name (str): User's last name. Max length 50 characters
             email (str): User's email address. Must be valid email format
-            password (str): Plain text password to be hashed
+            password (str): User's plain text password
             is_admin (bool): admin status (defaults to false)
 
         Note:
@@ -47,7 +47,7 @@ class User(Base):
         self.first_name = first_name
         self.last_name = last_name
         self.email = email
-        self.password = self.hash_password(password)
+        self.password = password
         self.is_admin = is_admin
 
     # --- Validations start here ----
@@ -88,14 +88,14 @@ class User(Base):
         return re.match(pattern, email) is not None
 
     def hash_password(self, password):
-        """Hashes the password before storing it."""
+        """Hashes the password and stores it on the user instance."""
         if not password:
             raise TypeError("Password must be provided")
         if not isinstance(password, str):
             raise TypeError("Password must be a string")
-        # todo: add more validations (missing pw if not pw, raise error "pw must be included")
-        return bcrypt.generate_password_hash(
-            password).decode('utf-8')
+
+        hashed = bcrypt.generate_password_hash(password).decode("utf-8")
+        self.password = hashed
 
     def verify_password(self, password):
         """Verifies if the provided password matches the hashed password."""
