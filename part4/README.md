@@ -2,11 +2,11 @@
 ---
 **💁‍♀️ 🔗 Handy navigation links 🔗 💁‍♀️**
 
-You are in the Part 4 Project Guide 🗺️
+You are in the Part 4 Project Guide  ---------------------- 🗺️ `/part4`
 
-- ➡️ Jump to -------- [Application Setup Guide](/part4/hbnb/README.md)
-- ➡️ Jump to -------- [Test Documentation](/part4/hbnb/tests/README.md)
-- ⬅️ Jump back to --- [Repository Root](/README.md)
+- Jump to [Application Setup Guide](/part4/hbnb/README.md) ------------------- ➡️ `/part4/hbnb`
+- Jump to [ Test Documentation](/part4/hbnb/tests/README.md) ----------------------- ➡️  `/part4/hbnb/tests`
+- Jump back to [Repository Root](/README.md) ---------------------- ⬅️ `/`
 ---
 
 # Part 4 Project Guide

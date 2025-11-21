@@ -2,11 +2,11 @@
 ---
 **💁‍♀️ 🔗 Handy navigation links 🔗 💁‍♀️**
 
-You are in the Testing Guide 🗺️ 
+You are in the Testing Guide ---------------------------- 🗺️ `/part4/hbnb/tests`
 
-- ⬅️ Jump back to --- [Part 4 Project Guide](/part4/hbnb/README.md)
-- ⬅️ Jump back to --- [Application Setup Guide](/part4/hbnb/README.md)
-- ⬅️ Jump back to --- [Repository Root](/README.md)
+- Jump back to [Application Setup Guide](/part4/hbnb/README.md) ------------- ⬅️ `/part4/hbnb`
+- Jump back to [Part 4 Project Guide](/part4/README.md) ----------------- ⬅️ `/part4 `
+- Jump back to [Repository Root](/README.md) --------------------- ⬅️ `/`
 ---
 
 # Testing Guide
