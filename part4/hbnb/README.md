@@ -1,9 +1,19 @@
-# How to run this application
+# Application Setup Guide
 
-## Running the tests
+This README details the instructions for running the Part 4 application.
 
+## Table of Contents
 
-For information on how to run the automated test suites, jump to [test documentation](/part4/hbnb/tests/README.md)
+- [Starting the application](/part4/hbnb/README.md#Running-the-application)
+- [Using the application](/part4/hbnb/README.md#Using-the-application)
+- [Swagger documentation](/part4/hbnb/README.md#Swagger-documentation)
+- [API Endpoints](/part4/hbnb/README.md#Endpoints)
+
+**Handy links**
+- ➡️ Jump to [Test Documentation](/part4/hbnb/tests/README.md)
+- ⬅️ Jump back to [Part 4 Project Guide](/part4/hbnb/README.md)
+- ⬅️ Jump back to [Repository Root](/README.md)
+
 
 ## Running the application
 
@@ -50,9 +60,18 @@ sqlite3 instance/development.db < seed.sql
 
 There are two ways to launch the application. 
 
+**Using `run.py`**
+
+This option is the preferred method of running the application, because it respects any config that's been passed in via `run.py`.
+
+```bash
+cd holbertonschool-hbnb/part4
+python3 hbnb/run.py
+```
+
 **Using `flask run`**
 
-This is the preferred method because (I think) there's a bug in `run.py` we haven't fixed yet
+This option creates an instance of a flask application, but it bypasses any config that's been passed in via `run.py`. Instead, it uses Flask's standard config options. Good as a shortcut for local testing where you don't need to worry about configuration. 
 
 ```bash
 cd holbertonschool-hbnb/part4/hbnb
@@ -62,23 +81,49 @@ flask run
 flask run --debug
 ```
 
-**Using `run.py`**
 
-```bash
-cd holbertonschool-hbnb/part4
-python3 hbnb/run.py
-```
+## Using the application
 
-
-### Using the application
-
-### Validate the setup
+### Optional step - Validate the setup
 
 Verify on the CLI that the database was seeded. You should see one admin user returned in the response, which will allow you to perform CRUD operations via the application endpoints.
 
 ```bash
 curl http://127.0.0.1:5000/api/v1/users/
 ```
+
+### Access the web front-end
+
+The web front-end is available at the below URL when the application:
+
+```
+http://127.0.0.1:5000/
+```
+
+**Log in as the admin**
+
+To do - update these instructions
+
+```
+http://127.0.0.1:5000/
+```
+### Pages
+
+To do - fill in as we go
+
+## Using the endpoints directly
+
+The following information has been copied across from Part 3. The endpoints are still available for direct interaction without the front-end, so we've included the instructions for completeness.
+
+### Swagger documentation
+
+The Swagger API will be available at:
+
+```bash
+http://127.0.0.1:5000/api/v1/
+```
+
+### API Endpoints
 
 Login as the admin. The password is available on the intranet - make sure to replace it in the below command before executing it. It should return a valid jwt token. 
 
@@ -90,16 +135,6 @@ curl -X POST "http://127.0.0.1:5000/api/v1/auth/login" \
   "password": "{password}"
 }' 
 ```
-
-### Swagger documentation
-
-The Swagger API will be available at:
-
-```bash
-http://127.0.0.1:5000/api/v1/
-```
-
-### Endpoints
 
 **Users**
 
