@@ -10,7 +10,7 @@ You are in the Application Setup Guide ------------------ 🗺️ `/part4/hbnb`
 ---
 # Application Setup Guide
 
-This README details the instructions for running the Part 4 application.
+This README details the instructions for running and using the Part 4 application.
 
 ## Table of Contents
 

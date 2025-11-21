@@ -5,7 +5,7 @@
 You are in the Part 4 Project Guide  ---------------------- 🗺️ `/part4`
 
 - Jump to [Application Setup Guide](/part4/hbnb/README.md) ------------------- ➡️ `/part4/hbnb`
-- Jump to [ Test Documentation](/part4/hbnb/tests/README.md) ----------------------- ➡️  `/part4/hbnb/tests`
+- Jump to [Testing Guide](/part4/hbnb/tests/README.md) ------------------------------ ➡️  `/part4/hbnb/tests`
 - Jump back to [Repository Root](/README.md) ---------------------- ⬅️ `/`
 ---
 
@@ -21,11 +21,11 @@ This README details the application's structure and the task instructions for pa
         - [Objectives](/part4/README.md#objectives)
         - [Learning goals](/part4/README.md#learning-goals)
     - [Task breakdown](/part4/README.md#tasks-breakdown)
-        - [Part 4 Project Structure](/part4/README.md#design-task-1)
-        - [Part 4 Project Structure](/part4/README.md#login-task-2)
-        - [Part 4 Project Structure](/part4/README.md#list-of-places-task-3)
-        - [Part 4 Project Structure](/part4/README.md#place-details-task-4)
-        - [Part 4 Project Structure](/part4/README.md#add-review-task-5)
+        - [1. Design](/part4/README.md#design-task-1)
+        - [2. Login](/part4/README.md#login-task-2)
+        - [3. List of places](/part4/README.md#list-of-places-task-3)
+        - [4. Place details](/part4/README.md#place-details-task-4)
+        - [5. Add review](/part4/README.md#add-review-task-5)
 
 
 ## Part 4 Project Structure
@@ -177,10 +177,10 @@ For a deeper understanding of CORS and how to configure your Flask API, refer to
 
 ### Resources
 
-[HTML5 Documentation]()  # add link  
-[CSS3 Documentation]()  # add link  
-[JavaScript ES6 Features]()  # add link  
-[Fetch API]()  # add link  
-[Responsive Web Design Basics]()  # add link  
-[Handling Cookies in JavaScript]()  # add link  
-[Client-Side Form Validation]()  # add link
+[HTML5 Documentation](https://developer.mozilla.org/en-US/docs/Glossary/HTML5) 
+[CSS3 Documentation](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS3)
+[JavaScript ES6 Features](https://developer.mozilla.org/en-US/docs/Web/JavaScript/New_in_JavaScript/ECMAScript_2015) 
+[Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)
+[Responsive Web Design Basics](https://web.dev/articles/responsive-web-design-basics)
+[Handling Cookies in JavaScript](https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie)
+[Client-Side Form Validation](https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Forms/Form_validation)
