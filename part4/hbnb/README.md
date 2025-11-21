@@ -3,7 +3,7 @@
 ## Running the tests
 
 
-For information on how to run the automated test suites, jump to [test documentation](/part3/hbnb/tests/README.md)
+For information on how to run the automated test suites, jump to [test documentation](/part4/hbnb/tests/README.md)
 
 ## Running the application
 
@@ -11,7 +11,7 @@ For information on how to run the automated test suites, jump to [test documenta
 
 ```bash
 git clone https://github.com/kayrbee/holbertonschool-hbnb
-cd holbertonschool-hbnb/part3/hbnb
+cd holbertonschool-hbnb/part4/hbnb
 ```
 
 ### 2. Set up a Virtual Environment
@@ -34,7 +34,7 @@ pip install -r requirements.txt
 
 ### 3. Create a `.env` file
 
-Copy [.env-example](/part3/hbnb/app/.env-example) and save it as `.env` in the same directory as the example file.
+Copy [.env-example](/part4/hbnb/app/.env-example) and save it as `.env` in the same directory as the example file.
 
 This will ensure that the app initialisation can discover the JWT_SECRET_KEY environment variable it needs.
 
@@ -55,7 +55,7 @@ There are two ways to launch the application.
 This is the preferred method because (I think) there's a bug in `run.py` we haven't fixed yet
 
 ```bash
-cd holbertonschool-hbnb/part3/hbnb
+cd holbertonschool-hbnb/part4/hbnb
 flask run
 
 # Run with optional debugger
@@ -65,8 +65,8 @@ flask run --debug
 **Using `run.py`**
 
 ```bash
-cd holbertonschool-hbnb/part3
-python3 -m hbnb/run.py
+cd holbertonschool-hbnb/part4
+python3 hbnb/run.py
 ```
 
 
@@ -162,8 +162,8 @@ GET /api/v1/amenities/{amenity_id}  # Get amenity details
 
 ## More CURL examples
 
-[curl examples](/part3/hbnb/tests/curl_tests.md)
+[curl examples](/part4/hbnb/tests/curl_tests.md)
 
 ## Automated testing (test coverage includes all CRUD operations)
 
-[Running the automated testing for API and class entities](/part3/hbnb/tests/README.md)
+[Running the automated testing for API and class entities](/part4/hbnb/tests/README.md)

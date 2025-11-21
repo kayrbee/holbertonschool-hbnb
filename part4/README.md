@@ -1,13 +1,13 @@
-# Part 3
+# Part 4
 
 ## Table of Contents
 
-- [Part 3 Project Structure](/part3/README.md#part-3-app-structure)
-- [Part 3 Overview](/part3/README.md#Part-3-Overview)
-- Jump to the run guide: [Application Setup Instructions](/part3/hbnb/README.md)
-- Jump to tests: [Test Documentation](/part3/hbnb/tests/README.md)
+- [Part 4 Project Structure](/part4/README.md#part-4-app-structure)
+- [Part 4 Overview](/part4/README.md#Part-4-Overview)
+- Jump to the run guide:   [Application Setup Instructions](/part4/hbnb/README.md)
+- Jump to tests:           [Test Documentation](/part4/hbnb/tests/README.md)
 
-## Part 3 Project Structure
+## Part 4 Project Structure
 
 ```
 holbertonschool-hbnb/
@@ -84,7 +84,7 @@ holbertonschool-hbnb/
 ├── README.md
 ```
 
-## Part 3 Overview
+## Part 4 Overview
 
 ### Enhanced Backend with Authentication and Database Integration
 
