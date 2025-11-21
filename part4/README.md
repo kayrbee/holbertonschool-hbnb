@@ -1,3 +1,14 @@
+
+---
+**💁‍♀️ 🔗 Handy navigation links 🔗 💁‍♀️**
+
+You are in the Part 4 Project Guide  ---------------------- 🗺️ `/part4`
+
+- Jump to [Application Setup Guide](/part4/hbnb/README.md) ------------------- ➡️ `/part4/hbnb`
+- Jump to [ Test Documentation](/part4/hbnb/tests/README.md) ----------------------- ➡️  `/part4/hbnb/tests`
+- Jump back to [Repository Root](/README.md) ---------------------- ⬅️ `/`
+---
+
 # Part 4 Project Guide
 
 This README details the application's structure and the task instructions for part 4.
@@ -6,11 +17,15 @@ This README details the application's structure and the task instructions for pa
 
 - [Part 4 Project Structure](/part4/README.md#part-4-app-structure)
 - [Part 4 Task Overview](/part4/README.md#Part-4-Task-Overview)
-
-**Handy links**
-- ➡️ Jump to [Application Setup Guide](/part4/hbnb/README.md)
-- ➡️ Jump to [Test Documentation](/part4/hbnb/tests/README.md)
-- ⬅️ Jump back to [Repository Root](/README.md)
+    - [Build a simple web client](/part4/README.md#build-a-simple-web-client)
+        - [Objectives](/part4/README.md#objectives)
+        - [Learning goals](/part4/README.md#learning-goals)
+    - [Task breakdown](/part4/README.md#tasks-breakdown)
+        - [Part 4 Project Structure](/part4/README.md#design-task-1)
+        - [Part 4 Project Structure](/part4/README.md#login-task-2)
+        - [Part 4 Project Structure](/part4/README.md#list-of-places-task-3)
+        - [Part 4 Project Structure](/part4/README.md#place-details-task-4)
+        - [Part 4 Project Structure](/part4/README.md#add-review-task-5)
 
 
 ## Part 4 Project Structure
@@ -94,13 +109,15 @@ holbertonschool-hbnb/
 ├── README.md
 ```
 
-## Part 4 – Simple Web Client
+## Part 4 Task Overview
+
+### Build a Simple Web Client
 
 In this phase, you’ll be focusing on the front-end development of your application using **HTML5**, **CSS3**, and **JavaScript ES6**. Your task is to design and implement an interactive user interface that connects with the back-end services you developed in previous parts of the project.
 
 ---
 
-### Objectives
+#### Objectives
 
 - Develop a user-friendly interface following provided design specifications.
 - Implement client-side functionality to interact with the back-end API.
@@ -109,7 +126,7 @@ In this phase, you’ll be focusing on the front-end development of your applica
 
 ---
 
-### Learning Goals
+#### Learning Goals
 
 - Understand and apply HTML5, CSS3, and JavaScript ES6 in a real-world project.
 - Learn to interact with back-end services using AJAX/Fetch API.

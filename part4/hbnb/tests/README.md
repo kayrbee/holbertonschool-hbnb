@@ -1,3 +1,14 @@
+
+---
+**💁‍♀️ 🔗 Handy navigation links 🔗 💁‍♀️**
+
+You are in the Testing Guide ---------------------------- 🗺️ `/part4/hbnb/tests`
+
+- Jump back to [Application Setup Guide](/part4/hbnb/README.md) ------------- ⬅️ `/part4/hbnb`
+- Jump back to [Part 4 Project Guide](/part4/README.md) ----------------- ⬅️ `/part4 `
+- Jump back to [Repository Root](/README.md) --------------------- ⬅️ `/`
+---
+
 # Testing Guide
 
 This README details information about the application's testing. 
@@ -7,15 +18,11 @@ We have configured Github Actions to automatically run our unit and API tests on
 ## Table of Contents
 
 - [Test approach](/part4/hbnb/tests/README.md#unittest-tests)
+    - [Run all tests in part 4](/part4/hbnb/tests/README.md#run-all-tests-in-part-4)
     - [Unit tests](/part4/hbnb/tests/README.md#)
-    - [API tests]()
-- [Testing manually with curl](/part4/hbnb/tests/README.md#testing-manually-with-curl)
-
-**Handy links**
-
-- ⬅️ Jump back to [Part 4 Project Guide](/part4/hbnb/README.md)
-- ⬅️ Jump back to [Application Setup Guide](/part4/hbnb/README.md)
-- ⬅️ Jump back to [Repository Root](/README.md)
+        - [Run all unit tests](/part4/hbnb/tests/README.md#run-all-unit-tests)
+    - [API tests](/part4/hbnb/tests/README.md#run-all-api-tests)
+    - [Testing manually with curl](/part4/hbnb/tests/README.md#testing-manually-with-curl)
 
 ## Test approach
 
@@ -24,7 +31,7 @@ Our automated tests are written with the `unittest` framework. We created test c
 > ℹ️ `unittest` is native to Python - no need to install it.
 
 
-To run all of the tests in the part 4 project:
+### Run all tests in part 4
 
 ```bash
 # Ensure that you're in the correct directory
@@ -41,7 +48,8 @@ python3 -m unittest
 ### Unit tests
 The unit tests are in `/tests/models`, and are written to test each class model in isolation from both class dependencies and the database. They protect against breaking changes to the class models that the application depends on. 
 
-To run the unit tests:
+#### Run all unit tests
+
 ```bash
 # Ensure that you're in the correct directory
 cd part4/hbnb
@@ -59,7 +67,8 @@ The API tests are in `/tests/api`, and are written to test the CRUD behaviour of
 
 We've also defined some helper functions to support the API tests in `/tests/api/helper_methods.py`.
 
-To run the API tests:
+#### Run all API tests
+
 ```bash
 # Ensure that you're in the correct directory
 cd part4/hbnb
@@ -71,6 +80,6 @@ python3 -m unittest tests/api/<file_name>.py
 python -m unittest discover -s tests/api
 ```
 
-## Testing manually with CURL
+### Testing manually with CURL
 
 For guidance on how to test individual endpoints with curl commands, see [curl tests](/part4/hbnb/tests/curl_tests.md)

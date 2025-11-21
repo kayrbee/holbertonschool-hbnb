@@ -1,18 +1,32 @@
+
+---
+**💁‍♀️ 🔗 Handy navigation links 🔗 💁‍♀️**
+
+You are in the Application Setup Guide ------------------ 🗺️ `/part4/hbnb`
+
+- Jump to [Testing Guide](/part4/hbnb/tests/README.md) ----------------------------- ➡️ `/part4/hbnb/tests`
+- Jump back to [Part 4 Project Guide](/part4/README.md) ----------------- ⬅️ `/part4`
+- Jump back to [Repository Root](/README.md) --------------------- ⬅️ `/`
+---
 # Application Setup Guide
 
 This README details the instructions for running the Part 4 application.
 
 ## Table of Contents
 
-- [Starting the application](/part4/hbnb/README.md#Running-the-application)
+- [Running the application](/part4/hbnb/README.md#Running-the-application)
+  - [1. Clone the repo](/part4/hbnb/README.md#1-clone-the-repository)
+  - [2. Set up a virtual environment](/part4/hbnb/README.md#2-set-up-a-virtual-environment)
+  - [3. Create a .env file](/part4/hbnb/README.md#3-create-a-env-file)
+  - [4. Seed the database](/part4/hbnb/README.md#4-seed-the-database)
+  - [5. Run the application](/part4/hbnb/README.md#5-run-the-application)
 - [Using the application](/part4/hbnb/README.md#Using-the-application)
-- [Swagger documentation](/part4/hbnb/README.md#Swagger-documentation)
-- [API Endpoints](/part4/hbnb/README.md#Endpoints)
-
-**Handy links**
-- ➡️ Jump to [Test Documentation](/part4/hbnb/tests/README.md)
-- ⬅️ Jump back to [Part 4 Project Guide](/part4/hbnb/README.md)
-- ⬅️ Jump back to [Repository Root](/README.md)
+  - [1. Optional step - validate the setup](/part4/hbnb/README.md#1-optional-step---validate-the-setup)
+  - [2. Access the web front-end](/part4/hbnb/README.md#2-access-the-web-front-end)
+  - [3. About the application's pages](/part4/hbnb/README.md#3-visit-application-pages)
+- [Using the API Endpoints directly](/part4/hbnb/README.md#using-the-endpoints-directly)
+  - [Swagger documentation](/part4/hbnb/README.md#1-swagger-documentation)
+  - [About the endpoints](/part4/hbnb/README.md#2-about-the-endpoints)
 
 
 ## Running the application
@@ -48,7 +62,7 @@ Copy [.env-example](/part4/hbnb/app/.env-example) and save it as `.env` in the s
 
 This will ensure that the app initialisation can discover the JWT_SECRET_KEY environment variable it needs.
 
-### 5. Seed the database
+### 4. Seed the database
 
 A db file with empty tables already exists in this project. This step seeds the users table with an `admin_user` to enable testing the API. 
 
@@ -56,7 +70,7 @@ A db file with empty tables already exists in this project. This step seeds the 
 sqlite3 instance/development.db < seed.sql
 ```
 
-### 6. Run application
+### 5. Run the application
 
 There are two ways to launch the application. 
 
@@ -84,7 +98,7 @@ flask run --debug
 
 ## Using the application
 
-### Optional step - Validate the setup
+### 1. Optional step - Validate the setup
 
 Verify on the CLI that the database was seeded. You should see one admin user returned in the response, which will allow you to perform CRUD operations via the application endpoints.
 
@@ -92,7 +106,7 @@ Verify on the CLI that the database was seeded. You should see one admin user re
 curl http://127.0.0.1:5000/api/v1/users/
 ```
 
-### Access the web front-end
+### 2. Access the web front-end
 
 The web front-end is available at the below URL when the application:
 
@@ -107,15 +121,15 @@ To do - update these instructions
 ```
 http://127.0.0.1:5000/
 ```
-### Pages
+### 3. About the application's pages
 
 To do - fill in as we go
 
-## Using the endpoints directly
+## Using the API endpoints directly
 
 The following information has been copied across from Part 3. The endpoints are still available for direct interaction without the front-end, so we've included the instructions for completeness.
 
-### Swagger documentation
+### 1. Swagger documentation
 
 The Swagger API will be available at:
 
@@ -123,7 +137,7 @@ The Swagger API will be available at:
 http://127.0.0.1:5000/api/v1/
 ```
 
-### API Endpoints
+### 2. About the endpoints
 
 Login as the admin. The password is available on the intranet - make sure to replace it in the below command before executing it. It should return a valid jwt token. 
 
