@@ -75,6 +75,21 @@ holbertonschool-hbnb/
 │   │   │   │       ├── user_repository.py
 │   │   │   │   ├── __init__.py
 │   │   │   │   ├── facade.py
+│   │   │   ├── static/
+│   │   │   │   ├── css/
+│   │   │   │       ├── styles.css
+│   │   │   │   ├── images/
+│   │   │   │       ├── logo.png
+│   │   │   │   ├── js/
+│   │   │   │       ├── scripts.js
+│   │   │   ├── templates/
+│   │   │   │   ├── add_review.html
+│   │   │   │   ├── footer.html
+│   │   │   │   ├── header.html
+│   │   │   │   ├── index.html
+│   │   │   │   ├── login.html
+│   │   │   │   ├── place.html
+│   │   │   ├── services/
 │   │   │   ├── __init__.py                     # Contains def create_app()
 │   │   ├── images/                             # Mermaid diagrams
 │   │   │   ├── Base.png
