@@ -2,7 +2,7 @@ import unittest
 from app import create_app, db
 from config import TestConfig
 # from flask_jwt_extended import create_access_token
-import tests.helper_methods as setup
+import tests.api.helper_methods as setup
 
 
 class TestPlaceEndpoints(unittest.TestCase):
