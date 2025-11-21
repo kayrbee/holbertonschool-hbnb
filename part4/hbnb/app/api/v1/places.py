@@ -123,11 +123,16 @@ class PlaceResource(Resource):
     def put(self, place_id):
         """Update a place's information"""
         current_user_id = get_jwt_identity()
+        claims = get_jwt()
+        is_admin = claims.get('is_admin', False)
 
         try:
             place = facade.get_place_by_id(place_id)
         except LookupError:
             return {"error": "Place not found"}, 404
+
+        if is_admin:
+            return admin_update_place_exception(self, place_id)
 
         # only owners can update
         if place.user_id != current_user_id:
@@ -190,13 +195,19 @@ class PlaceResource(Resource):
     def delete(self, place_id):
         """ Delete a place's information """
         current_user_id = get_jwt_identity()
+        claims = get_jwt()
+        is_admin = claims.get('is_admin', False)
 
         try:
             place = facade.get_place_by_id(place_id)
         except LookupError:
             return {"error": "Place not found"}, 404
 
-        # only owners can delete
+        # admin exception for delete access
+        if is_admin:
+            return admin_delete_place_exception(place_id)
+
+        # otherwise only owners can delete
         if place.user_id != current_user_id:
             return {'error': 'Unauthorized action'}, 403
 
@@ -205,3 +216,49 @@ class PlaceResource(Resource):
             return {'success': 'Place deleted successfully'}, 200
         except Exception:
             return {"error": "Internal server error"}, 500
+
+def admin_delete_place_exception(place_id):
+    """ Bypass ownership restrictions when deleting Place"""
+    place = facade.get_place_by_id(place_id)
+    try:
+        facade.delete_place(place_id)
+        return {'success': 'Place deleted successfully'}, 200
+    except LookupError:
+        return {"error": "Place not found"}, 404
+    except Exception:
+        return {"error": "Internal server error"}, 500
+
+def admin_update_place_exception(self, place_id):
+    """ Bypass ownership restrictions when Modifying Place """
+    place = facade.get_place_by_id(place_id)
+    if not place:
+        return {"error": "Place not found"}, 404
+    try:
+        payload = api.payload or {}
+        if "amenities" in payload and isinstance(payload["amenities"], str):
+            payload["amenities"] = [payload["amenities"]]
+
+        # Update using facade
+        # return model, not _serialize_place
+        updated = facade.update_place(place_id, payload)
+        d = updated.to_dict()
+
+        owner = facade.get_user_by_id(updated.user_id)
+        d["owner"] = owner.to_dict() if owner and hasattr(
+            owner, "to_dict") else None
+
+        amenities = []
+        for amenity_id in d.get("amenities", []):
+            a = facade.amenity_repo.get(amenity_id)
+            if a and hasattr(a, "to_dict"):
+                amenities.append(a.to_dict())
+        d["amenities"] = amenities
+
+        return d, 200
+
+    except LookupError:
+        return {"error": "Place not found"}, 404
+    except ValueError as e:
+        return {"error": str(e)}, 400
+    except Exception:
+        return {"error": "Internal server error"}, 500

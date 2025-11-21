@@ -65,14 +65,6 @@ admin_place_model = api.model('Place', {
     'reviews': fields.List(fields.Nested(review_model), description='List of reviews')
 })
 
-# REVIEW UPDATE MODEL for updating review data, specifically removes required fields
-admin_review_update_model = api.model('ReviewUpdate', {
-    'text': fields.String(),
-    'rating': fields.Integer(),
-    'place': fields.String(),
-    'user': fields.String()
-})
-
 
 @api.route('/users/')
 class AdminUserCreate(Resource):
@@ -219,61 +211,3 @@ class AdminAmenityModify(Resource):
             return {'error': 'Amenity not found'}, 404
         except Exception:
             return {'error': 'Internal server error'}, 500
-
-
-@api.route('/places/<place_id>')
-class AdminPlaceModify(Resource):
-    @admin_required
-    @api.expect(admin_place_model)
-    @api.response(200, 'Place updated successfully')
-    @api.response(400, 'Invalid input or amenity format')
-    @api.response(404, 'Place not found')
-    @api.response(500, 'Internal server error')
-    def put(self, place_id):
-        """ Bypass ownership restrictions when Modifying Place """
-        place = facade.get_place_by_id(place_id)
-        if not place:
-            return {"error": "Place not found"}, 404
-        try:
-            payload = api.payload or {}
-            if "amenities" in payload and isinstance(payload["amenities"], str):
-                payload["amenities"] = [payload["amenities"]]
-
-            # Update using facade
-            # return model, not _serialize_place
-            updated = facade.update_place(place_id, payload)
-            d = updated.to_dict()
-
-            owner = facade.get_user_by_id(updated.user_id)
-            d["owner"] = owner.to_dict() if owner and hasattr(
-                owner, "to_dict") else None
-
-            amenities = []
-            for amenity_id in d.get("amenities", []):
-                a = facade.amenity_repo.get(amenity_id)
-                if a and hasattr(a, "to_dict"):
-                    amenities.append(a.to_dict())
-            d["amenities"] = amenities
-
-            return d, 200
-
-        except LookupError:
-            return {"error": "Place not found"}, 404
-        except ValueError as e:
-            return {"error": str(e)}, 400
-        except Exception:
-            return {"error": "Internal server error"}, 500
-
-    @admin_required
-    @api.response(200, 'Place deleted successfully')
-    @api.response(401, "Unauthorized")
-    @api.response(403, "Admin privileges required")
-    @api.response(404, 'Place not found')
-    @api.response(500, 'Internal server error')
-    def delete(self, place_id):
-        try:
-            facade.delete_place(place_id)
-        except LookupError:
-            return {"error": "Place not found"}, 404
-        except Exception:
-            return {"error": "Internal server error"}, 500
