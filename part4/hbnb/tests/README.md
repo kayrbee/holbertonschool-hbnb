@@ -1,61 +1,76 @@
-# How to run the automated tests for this project
+# Testing Guide
+
+This README details information about the application's testing. 
+
+We have configured Github Actions to automatically run our unit and API tests on every merge to master. The results of each test run are available via the GitHub UI > Actions.
+
+## Table of Contents
+
+- [Test approach](/part4/hbnb/tests/README.md#unittest-tests)
+    - [Unit tests](/part4/hbnb/tests/README.md#)
+    - [API tests]()
+- [Testing manually with curl](/part4/hbnb/tests/README.md#testing-manually-with-curl)
+
+**Handy links**
+
+- ⬅️ Jump back to [Part 4 Project Guide](/part4/hbnb/README.md)
+- ⬅️ Jump back to [Application Setup Guide](/part4/hbnb/README.md)
+- ⬅️ Jump back to [Repository Root](/README.md)
+
+## Test approach
+
+Our automated tests are written with the `unittest` framework. We created test coverage of the class models and the API endpoints (using unit tests and api tests, respectively). There's no need to have the application running before running the tests, but it is necessary to be in a [virtual environment](/part4/hbnb/README.md#2-set-up-a-virtual-environment), otherwise `unittest` will throw ImportModule errors. 
+
+> ℹ️ `unittest` is native to Python - no need to install it.
 
 
-**unittest tests**
+To run all of the tests in the part 4 project:
 
-`unittest` is native to Python - no need to install it. Before running the tests, make sure you're in a `venv` environment (see [set up a virtual environment](/part4/hbnb/README.md)). 
-
-To run the automated tests:
 ```bash
+# Ensure that you're in the correct directory
 cd part4/hbnb
 
-# Run individual file by file_name
-python3 -m unittest tests/<file_name>.py
+# Ensure that you're in a virtual env
+source venv/bin/activate
 
-# Run all tests
+# Run all of the tests in the part 4 project
 python3 -m unittest
 ```
 
-**curl tests**
 
-For guidance on how to run curl tests, see [curl tests](/part4/hbnb/tests/curl_tests.md)
+### Unit tests
+The unit tests are in `/tests/models`, and are written to test each class model in isolation from both class dependencies and the database. They protect against breaking changes to the class models that the application depends on. 
 
-## Kat's WIP Test Notes
+To run the unit tests:
+```bash
+# Ensure that you're in the correct directory
+cd part4/hbnb
 
-### General Objective of the Test Refactor
+# Run an individual unit test file by file_name
+python3 -m unittest tests/models/<file_name>.py
 
-- convert all tests to `unittest` framework
-- remove `pytest`
-- use test_client config in tests to avoid filling development.db with junk data
-- improve coverage in all test files
+# Run all of the unit tests
+python -m unittest discover -s tests/models
+```
 
-### Decision Record
+### API tests
 
-- chose `unittest` over `pytest`
-- chose to not implement an absolute path to db in config (yet)
-- chose to configure a test db that runs in-memory (avoids need for tearDown() method)
-- chose to isolate class tests from the db because the db is included in the api tests
+The API tests are in `/tests/api`, and are written to test the CRUD behaviour of each endpoint. The API test boundary includes the database, using a SQLite test database that runs in-memory. They protect against breaking changes within the API, business logic and database layers.
 
-### Done
+We've also defined some helper functions to support the API tests in `/tests/api/helper_methods.py`.
 
-MVP definition of done: 
-- test file uses `unittest`, 
-- tests in the file use a test db (api tests) or are isolated from the db (class tests), and 
-- all tests in the file passed when run from the CLI
+To run the API tests:
+```bash
+# Ensure that you're in the correct directory
+cd part4/hbnb
 
-Extension: make sure every test file covers all CRUD operations and defined error paths
+# Run an individual api test file by file_name
+python3 -m unittest tests/api/<file_name>.py
 
-- add and configure test.db
-- test_auth_api.py
-- test_amenity_api.py
-- test_amenity_class.py
-- test_place_class.py
-- test_review_class.py
-- test_review_api.py
-- test_user_class.py
-- test_user_api.py
+# Run all of the api tests
+python -m unittest discover -s tests/api
+```
 
-### To do
+## Testing manually with CURL
 
-- test_place_api.py [in progress - waiting on Mel]
-- Debugging of known issues on admin
+For guidance on how to test individual endpoints with curl commands, see [curl tests](/part4/hbnb/tests/curl_tests.md)

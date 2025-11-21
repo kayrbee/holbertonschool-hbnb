@@ -1,11 +1,17 @@
-# Part 4
+# Part 4 Project Guide
+
+This README details the application's structure and the task instructions for part 4.
 
 ## Table of Contents
 
 - [Part 4 Project Structure](/part4/README.md#part-4-app-structure)
-- [Part 4 Overview](/part4/README.md#Part-4-Overview)
-- Jump to the run guide:   [Application Setup Instructions](/part4/hbnb/README.md)
-- Jump to tests:           [Test Documentation](/part4/hbnb/tests/README.md)
+- [Part 4 Task Overview](/part4/README.md#Part-4-Task-Overview)
+
+**Handy links**
+- ➡️ Jump to [Application Setup Guide](/part4/hbnb/README.md)
+- ➡️ Jump to [Test Documentation](/part4/hbnb/tests/README.md)
+- ⬅️ Jump back to [Repository Root](/README.md)
+
 
 ## Part 4 Project Structure
 
@@ -61,19 +67,23 @@ holbertonschool-hbnb/
 │   │   ├── instance/
 │   │   │   ├── development.db
 │   │   ├── tests/
+│   │   │   ├── api/
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── helper_methods.py
+│   │   │   │   ├── test_amenity_api.py
+│   │   │   │   ├── test_auth_api.py     
+│   │   │   │   ├── test_place_api.py
+│   │   │   │   ├── test_review_api.py
+│   │   │   │   ├── test_user_api.py
+│   │   │   ├── models/
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── test_amenity_class.py
+│   │   │   │   ├── test_place_class.py
+│   │   │   │   ├── test_review_class.py
+│   │   │   │   ├── test_user_class.py
 │   │   │   ├── __init__.py
 │   │   │   ├── curl_tests.md
-│   │   │   ├── helper_methods.py
-│   │   │   ├── README.md                        # How to run the project's test suites
-│   │   │   ├── test_amenity_api.py
-│   │   │   ├── test_amenity_class.py
-│   │   │   ├── test_auth_api.py     
-│   │   │   ├── test_place_api.py
-│   │   │   ├── test_place_class.py
-│   │   │   ├── test_review_api.py
-│   │   │   ├── test_review_class.py
-│   │   │   ├── test_user_api.py
-│   │   │   ├── test_user_class.py
+│   │   │   ├── README.md                    # How to run the project's test suites
 │   │   ├── .env-example
 │   │   ├── config.py
 │   │   ├── README.md                        # How to run the application
@@ -84,133 +94,76 @@ holbertonschool-hbnb/
 ├── README.md
 ```
 
-## Part 4 Overview
+## Part 4 – Simple Web Client
 
-### Enhanced Backend with Authentication and Database Integration
-
-Welcome to **Part 3 of the HBnB Project**, where you will extend the backend of the application by introducing **user authentication, authorization, and database integration** using **SQLAlchemy** and **SQLite** for development.  
-Later, you’ll configure **MySQL** for production environments. In this part, you will secure the backend, introduce persistent storage, and prepare the application for a scalable, real-world deployment.
+In this phase, you’ll be focusing on the front-end development of your application using **HTML5**, **CSS3**, and **JavaScript ES6**. Your task is to design and implement an interactive user interface that connects with the back-end services you developed in previous parts of the project.
 
 ---
 
-## 🎯 Objectives of the Project
+### Objectives
 
-### **Authentication and Authorization**
-- Implement **JWT-based user authentication** using `Flask-JWT-Extended`.
-- Add **role-based access control** with an `is_admin` attribute for specific endpoints.
-
-### **Database Integration**
-- Replace **in-memory storage** with **SQLite** for development using **SQLAlchemy** as the ORM.
-- Prepare the system for **MySQL** or other production-grade RDBMS.
-
-### **CRUD Operations with Database Persistence**
-- Refactor all CRUD operations to interact with a **persistent database**.
-
-### **Database Design and Visualization**
-- Design the database schema using **mermaid.js**.
-- Ensure all relationships between entities are correctly mapped.
-
-### **Data Consistency and Validation**
-- Enforce proper **data validation** and **constraints** within models.
+- Develop a user-friendly interface following provided design specifications.
+- Implement client-side functionality to interact with the back-end API.
+- Ensure secure and efficient data handling using JavaScript.
+- Apply modern web development practices to create a dynamic web application.
 
 ---
 
-## 🧠 Learning Objectives
+### Learning Goals
 
-By the end of this part, you will:
-
-- Implement **JWT authentication** to secure your API and manage user sessions.  
-- Enforce **role-based access control** to restrict access based on user roles (regular users vs. administrators).  
-- Replace in-memory repositories with a **SQLite-based persistence layer** using SQLAlchemy for development and configure **MySQL for production**.  
-- Design and visualize a **relational database schema** using **mermaid.js** to handle relationships between users, places, reviews, and amenities.  
-- Ensure the backend is **secure, scalable**, and provides **reliable data storage** for production environments.  
+- Understand and apply HTML5, CSS3, and JavaScript ES6 in a real-world project.
+- Learn to interact with back-end services using AJAX/Fetch API.
+- Implement authentication mechanisms and manage user sessions.
+- Use client-side scripting to enhance user experience without page reloads.
 
 ---
 
-## 🧩 Project Context
+### Tasks Breakdown
 
-In the previous parts of the project, you worked with **in-memory storage**, which is ideal for prototyping but insufficient for production environments.  
-In **Part 3**, you’ll transition to **SQLite**, a lightweight relational database, for development, while preparing the system for **MySQL** in production.  
-This will give you hands-on experience with **real-world database systems**, allowing your application to scale effectively.
+#### **Design (Task 1)**
 
-Additionally, you’ll introduce **JWT-based authentication** to secure the API, ensuring that only authenticated users can interact with certain endpoints.  
-You will also implement **role-based access control** to enforce restrictions based on the user’s privileges (**regular users vs. administrators**).
+- Complete provided HTML and CSS files to match the given design specifications.
+- Create pages for **Login**, **List of Places**, **Place Details**, and **Add Review**.
 
----
+#### **Login (Task 2)**
 
-## 📚 Project Resources
+- Implement login functionality using the back-end API.
+- Store the **JWT token** returned by the API in a cookie for session management.
 
-Here are some resources that will guide you through this part of the project:
+#### **List of Places (Task 3)**
 
-- [Flask-JWT-Extended Documentation](https://flask-jwt-extended.readthedocs.io/) — JWT Authentication  
-- [SQLAlchemy Documentation](https://www.sqlalchemy.org/) — ORM for Python  
-- [SQLite Documentation](https://www.sqlite.org/docs.html) — Lightweight SQL Database  
-- [Flask Official Documentation](https://flask.palletsprojects.com/) — Web Framework  
-- [Mermaid.js Documentation](https://mermaid.js.org/) — For ER Diagrams  
+- Implement the main page to display a list of all places.
+- Fetch places data from the API and implement client-side filtering based on country selection.
+- Ensure the page redirects to the login page if the user is not authenticated.
 
----
+#### **Place Details (Task 4)**
 
-## 🏗️ Structure of the Project
+- Implement the detailed view of a place.
+- Fetch place details from the API using the place ID.
+- Provide access to the *Add Review* form if the user is authenticated.
 
-In this part of the project, the tasks are organized in a way that builds progressively towards a **complete, secure, and database-backed backend system**:
+#### **Add Review (Task 5)**
 
-1. **Modify the User Model to Include Password**  
-   - Store passwords securely using `bcrypt`.  
-   - Update the user registration logic.
-
-2. **Implement JWT Authentication**  
-   - Secure the API using **JWT tokens**.  
-   - Ensure only authenticated users can access protected endpoints.
-
-3. **Implement Authorization for Specific Endpoints**  
-   - Add **role-based access control** to restrict admin-only actions.
-
-4. **SQLite Database Integration**  
-   - Transition from **in-memory data storage** to **SQLite** as the persistent database during development.
-
-5. **Map Entities Using SQLAlchemy**  
-   - Map existing entities (**User**, **Place**, **Review**, **Amenity**) to the database.  
-   - Define relationships and constraints.
-
-6. **Prepare for MySQL in Production**  
-   - Configure the application to use **MySQL** in production and **SQLite** in development.
-
-7. **Database Design and Visualization**  
-   - Use **mermaid.js** to create **entity-relationship diagrams (ERDs)** for your database schema.
-
-   #### Base Database Schema
-   The first diagram below illustrates the **core entities** and their relationships:
-   - **User**
-   - **Place**
-   - **Review**
-   - **Amenity**
-   - **Place_Amenity** (join table for many-to-many relationship between Place and Amenity)
-
-   This visualisation shows how users own places, write reviews, and how places can have multiple amenities.
-
-   ![Base ER Diagram](hbnb/images/Base.png)
-
-   #### Extended Schema (Understanding Relationships)
-   To demonstrate understanding of database relationships and scalability, additional entities were added:
-   - **Reservation** - links a user to a place booking  
-   - **Payment** – records transactions for reservations  
-   - **Message** – allows communication between users
-
-   These additions show one-to-many and many-to-one relationships in a real-world application context.
-
-   ![Extended ER Diagram](hbnb/images/Test_understanding.png)
+- Implement the form to add a review for a place.
+- Ensure the form is accessible only to authenticated users, redirecting others to the index page.
 
 ---
 
-## ✅ Outcome
+### Notes
 
-By the end of **Part 3**, you will have a backend that:
+When testing your client against your API, you’ll probably encounter a **Cross-Origin Resource Sharing (CORS)** error.  
+You’ll need to modify your API code to allow your client to fetch data from it.
 
-- Stores data in a **persistent and secure database**  
-- Implements **JWT-based authentication and authorization**  
-- Enforces **role-based access control**  
-- Is **ready for production deployment** with a scalable database setup  
-
-You will have implemented **industry-standard authentication** and **database management practices** — essential for real-world web applications.
+For a deeper understanding of CORS and how to configure your Flask API, refer to external resources such as tutorials and documentation.
 
 ---
+
+### Resources
+
+[HTML5 Documentation]()  # add link  
+[CSS3 Documentation]()  # add link  
+[JavaScript ES6 Features]()  # add link  
+[Fetch API]()  # add link  
+[Responsive Web Design Basics]()  # add link  
+[Handling Cookies in JavaScript]()  # add link  
+[Client-Side Form Validation]()  # add link

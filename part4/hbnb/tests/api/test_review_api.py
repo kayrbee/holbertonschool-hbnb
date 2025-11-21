@@ -1,7 +1,7 @@
 import unittest
 from app import create_app, db
 from config import TestConfig
-import tests.helper_methods as setup
+import tests.api.helper_methods as setup
 
 
 class TestReviewEndpoints(unittest.TestCase):

@@ -2,7 +2,7 @@ import unittest
 import uuid
 from app import create_app, db
 from config import TestConfig
-import tests.helper_methods as setup
+import tests.api.helper_methods as setup
 
 BASE_URL = "/api/v1/users/"
 
