@@ -56,21 +56,81 @@ venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-### 3. Create a `.env` file
+### 3. [OPTIONAL] Create a `.env` file
 
-Copy [.env-example](/part4/hbnb/app/.env-example) and save it as `.env` in the same directory as the example file.
+Please skip to step 4
 
-This will ensure that the app initialisation can discover the JWT_SECRET_KEY environment variable it needs.
+ℹ️ This step has been marked as optional because the basic instructions specified a default value for the JWT key. Our group has a stretch goal to take it a step further, which we'll work on if we've got time.
 
-### 4. Seed the database
 
-A db file with empty tables already exists in this project. This step seeds the users table with an `admin_user` to enable testing the API. 
+Copy [.env-example](/part4/hbnb/app/.env-example) and save it as `.env` in the same directory as the example file. To use the `.env` file, install `python-dotenv`.
+
+```bash
+pip install python-dotenv
+```
+
+
+### 4. Create & initialise the database
+
+This project is backed by a sqlite database. To create and initialise a fresh database, run these setup commands from a `flask shell`:
+
+```bash
+# open flask shell
+flask shell
+
+# run the setup commands
+>>> from app import db
+>>> db.create_all()
+
+# exit the shell
+>>> exit()
+```
+
+### 5. Seed the database
+
+The previous step created a `development.db` file. This step will seed the users table with an `admin_user` to enable using the application. 
 
 ```bash
 sqlite3 instance/development.db < seed.sql
 ```
 
-### 5. Run the application
+#### 5a. [OPTIONAL] If `sqlite3` is not installed
+
+**MacOS Homebrew**
+```bash
+brew install sqlite
+sqlite3 --version
+
+# Then try step 5 again
+```
+
+**Ubuntu**
+```bash
+sudo apt update
+sudo apt install sqlite3
+sqlite3 --version
+
+# Then try step 5 again
+```
+
+**Windows**
+
+- Download the SQLite tools ZIP from:
+https://www.sqlite.org/download.html
+
+(Look for "sqlite-tools")
+- Unzip it somewhere (e.g. C:\sqlite)
+- Add that folder to your PATH:
+  - Start → “Edit environment variables”
+  - Edit PATH → Add C:\sqlite
+
+```bash
+sqlite3 --version
+
+# Then try step 5 again
+```
+
+### 6. Run the application
 
 There are two ways to launch the application. 
 
@@ -79,13 +139,16 @@ There are two ways to launch the application.
 This option is the preferred method of running the application, because it respects any config that's been passed in via `run.py`.
 
 ```bash
-cd holbertonschool-hbnb/part4
-python3 hbnb/run.py
+# Check your location
+cd holbertonschool-hbnb/part4/hbnb
+
+# Start the application
+python3 run.py
 ```
 
 **Using `flask run`**
 
-This option creates an instance of a flask application, but it bypasses any config that's been passed in via `run.py`. Instead, it uses Flask's standard config options. Good as a shortcut for local testing where you don't need to worry about configuration. 
+This option creates an instance of a flask application, but it bypasses any config that's been passed in via `run.py`. Instead, it uses Flask's standard config options. Good as a shortcut for local testing where you don't need to worry about handling multiple configurations. 
 
 ```bash
 cd holbertonschool-hbnb/part4/hbnb
@@ -98,9 +161,9 @@ flask run --debug
 
 ## Using the application
 
-### 1. Optional step - Validate the setup
+### 1. [OPTIONAL] Validate the db setup
 
-Verify on the CLI that the database was seeded. You should see one admin user returned in the response, which will allow you to perform CRUD operations via the application endpoints.
+You can verify that the database was seeded correctly if you want to. You should see one admin user returned in the response, which will allow you to perform CRUD operations via the application endpoints.
 
 ```bash
 curl http://127.0.0.1:5000/api/v1/users/
@@ -108,10 +171,10 @@ curl http://127.0.0.1:5000/api/v1/users/
 
 ### 2. Access the web front-end
 
-The web front-end is available at the below URL when the application:
+The web front-end is available on port 5500 when the application is running:
 
 ```
-http://127.0.0.1:5000/
+http://127.0.0.1:5500/
 ```
 
 **Log in as the admin**

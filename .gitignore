@@ -1,5 +1,6 @@
 # Ignored folders (and their contents)
 __pycache__/
+instance/
 
 # Virtual environments
 venv/
