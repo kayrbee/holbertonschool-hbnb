@@ -95,7 +95,7 @@ holbertonschool-hbnb/
 │   │   │   ├── Base.png
 │   │   │   ├── Test_understanding.png
 │   │   ├── instance/
-│   │   │   ├── development.db
+│   │   │   ├── development.db                  # Created at db initialisation
 │   │   ├── tests/
 │   │   │   ├── api/
 │   │   │   │   ├── __init__.py
