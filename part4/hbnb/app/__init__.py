@@ -8,6 +8,7 @@ from flask_restx import Api
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager
 from flask_sqlalchemy import SQLAlchemy
+from flask import render_template
 
 # Instantiates a password encryption class
 bcrypt = Bcrypt()
@@ -35,6 +36,32 @@ def create_app(config_class="config.DevelopmentConfig"):
     # Register SQLAlchemy  with the app instance
     db.init_app(app)
 
+    # Define the web front-end routes
+    @app.route("/")
+    def index():
+        return render_template("index.html")
+
+    @app.route("/login")
+    def login():
+        return render_template("login.html")
+
+    @app.route("/place")
+    def place():
+        # Note: hardcoded for now - please fix me!
+        place_data = {
+            "name": "Hogwarts Castle",
+            "host": "Professor McGonagall",
+            "price": 200,
+            "description": "A lovely medieval castle - positively magical",
+            "amenities": ["bathrooms"]
+        }
+        return render_template("place.html", place=place_data)
+
+    # Note - please fix me!
+    # def add_review():
+    #     return render_template("add_review")
+
+    # Register the API namespaces
     api = Api(app, version='1.0', title='HBnB API',
               description='HBnB Application API', doc='/api/v1/')
 
@@ -53,5 +80,5 @@ def create_app(config_class="config.DevelopmentConfig"):
     api.add_namespace(amenities_ns, path='/api/v1/amenities')
     api.add_namespace(auth_ns, path='/api/v1/auth')
     api.add_namespace(admin_ns, path='/api/v1/')
-    
+
     return app
