@@ -7,19 +7,33 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <main>
+
+    {% include 'header.html' %}
+
+    <main class="review-page">
         <!-- Add something to idfentify the place you're reviewing -->
-        <form id="review-form">
-            <h2>Add a Review</h2>
-            <label for="review">Your Review:</label>
-            <textarea id="review" name="review" required></textarea>
-            <label for="rating">Rating:</label>
-            <select id="rating" name="rating" required>
-                <!-- Options for rating -->
-            </select>
-            <button type="submit">Submit Review</button>
-        </form>
+        <h1 class="place-title">{{ place.name }}</h1>
+        <div class="review-button">
+            <button>Leave a Review</button>
+        </div>
+        <div class="review-form-section">
+            <h2 class="leave-review-title">How was your stay?</h2>
+
+            <form class="review-form" action="{{ url_for('submit_review', place_id=place.id) }}" method="POST">
+                <label for="rating">Overall Rating</label>
+                <input type="number" class="rating" min="1" max="5" required>
+
+                <label for="comment">Share your experience</label>
+                <textarea class="comment" name="comment" rows="6" placeholder="What did you like about your stay?" required></textarea>
+
+                <button type="submit" class="submit-review-btn">Submit Review</button>
+            </form>
+        </div>
     </main>
+
+    {% include 'footer.html' %}
+
     <script src="scripts.js"></script>
+
 </body>
 </html>
