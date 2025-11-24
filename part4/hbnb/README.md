@@ -17,13 +17,14 @@ This README details the instructions for running and using the Part 4 applicatio
 - [Running the application](/part4/hbnb/README.md#Running-the-application)
   - [1. Clone the repo](/part4/hbnb/README.md#1-clone-the-repository)
   - [2. Set up a virtual environment](/part4/hbnb/README.md#2-set-up-a-virtual-environment)
-  - [3. Create a .env file](/part4/hbnb/README.md#3-create-a-env-file)
-  - [4. Seed the database](/part4/hbnb/README.md#4-seed-the-database)
-  - [5. Run the application](/part4/hbnb/README.md#5-run-the-application)
+  - [3. Create a .env file](/part4/hbnb/README.md#3-optional-create-a-env-file)
+  - [4. Initialise the database](/part4/hbnb/README.md#4-create--initialise-the-database)
+  - [5. Seed the database](/part4/hbnb/README.md#5-seed-the-database)
+  - [6. Run the application](/part4/hbnb/README.md#6-run-the-application)
 - [Using the application](/part4/hbnb/README.md#Using-the-application)
-  - [1. Optional step - validate the setup](/part4/hbnb/README.md#1-optional-step---validate-the-setup)
+  - [1. Optional step - validate the setup](/part4/hbnb/README.md#1-optional-validate-the-db-setup)
   - [2. Access the web front-end](/part4/hbnb/README.md#2-access-the-web-front-end)
-  - [3. About the application's pages](/part4/hbnb/README.md#3-visit-application-pages)
+  - [3. Log in as the admin](/part4/hbnb/README.md#3-log-in-as-the-admin)
 - [Using the API Endpoints directly](/part4/hbnb/README.md#using-the-endpoints-directly)
   - [Swagger documentation](/part4/hbnb/README.md#1-swagger-documentation)
   - [About the endpoints](/part4/hbnb/README.md#2-about-the-endpoints)
@@ -171,22 +172,28 @@ curl http://127.0.0.1:5000/api/v1/users/
 
 ### 2. Access the web front-end
 
-The web front-end is available on port 5500 when the application is running:
+The web front-end is available on port 5000 while the application is running:
 
 ```
-http://127.0.0.1:5500/
+http://127.0.0.1:5000
 ```
 
-**Log in as the admin**
+The web pages are
+- [Home](http://127.0.0.1:5000)
+- [Login](http://127.0.0.1:5000/login)
+- [Place](http://127.0.0.1:5000/place)
+- [Review]() # add link when done
 
-To do - update these instructions
+### 3. Log in as the admin**
 
+Visit the login page and sign in as the admin
+
+```bash
+http://127.0.0.1:5000/login
+
+email: # admin email
+password: # admin password (see intranet)
 ```
-http://127.0.0.1:5000/
-```
-### 3. About the application's pages
-
-To do - fill in as we go
 
 ## Using the API endpoints directly
 
