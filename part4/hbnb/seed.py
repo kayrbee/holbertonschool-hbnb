@@ -102,7 +102,7 @@ place4 = Place(
     price=600,
     latitude=-48.5667,
     longitude=149.2937,
-    user_id=user3.id,
+    user_id=user3.id
 )
 
 db.session.add_all([place1, place2, place3, place4])

@@ -8,7 +8,7 @@ from flask_restx import Api
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager
 from flask_sqlalchemy import SQLAlchemy
-from flask import render_template
+from flask import render_template, abort
 
 # Instantiates a password encryption class
 bcrypt = Bcrypt()
@@ -56,6 +56,14 @@ def create_app(config_class="config.DevelopmentConfig"):
             "amenities": ["bathrooms"]
         }
         return render_template("place.html", place=place_data)
+
+    @app.route("/place/<place_id>")
+    def place_details(place_id):
+        from app.models.place import Place
+        place = Place.query.get(place_id)
+        if not place:
+            abort(404)
+        return render_template("place.html", place=place)
 
     # Note - please fix me!
     # def add_review():

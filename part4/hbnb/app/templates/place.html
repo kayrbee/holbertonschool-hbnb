@@ -15,10 +15,14 @@
             <h1>{{ place.name }}</h1>
 
             <div class="place-info">
-                <p><strong>Host:</strong>{{ place.host }}</p>
+                <p><strong>Host:</strong> {{ place.user.first_name }} {{ place.user.last_name }}</p>
                 <p><strong>Price per night:</strong>{{ place.price }}</p>
                 <p><strong>Description:</strong>{{ place.description }}</p>
-                <p><strong>Amenities:</strong>{{ place.amenities | join(', ') }}</p>
+
+                <p><strong>Amenities:</strong>
+                {% for amenity in place.amenities %}
+                    {{ amenity.name }}{% if not loop.last %}, {% endif %}
+                {% endfor %}</p>
             </div>
         </section>
 
