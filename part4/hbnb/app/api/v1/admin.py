@@ -166,7 +166,7 @@ class AdminAmenityCreate(Resource):
     def post(self):
         """ Create a new Amenity """
         try:
-            data = request.get_json()
+            data = api.payload or {}
             amenity = facade.create_amenity(data)
             return {'id': amenity.id, 'name': amenity.name}, 201
         except Exception:
@@ -182,7 +182,7 @@ class AdminAmenityModify(Resource):
     @api.response(404, 'Amenity not found')
     def put(self, amenity_id):
         """ Modify Amenity """
-        data = request.get_json()
+        data = api.payload or {}
         name = data.get("name", "").strip()
 
         if not name:

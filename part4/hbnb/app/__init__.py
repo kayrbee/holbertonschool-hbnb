@@ -41,7 +41,7 @@ def create_app(config_class="config.DevelopmentConfig"):
     def index():
         return render_template("index.html")
 
-    @app.route("/login")
+    @app.route("/login", methods=["GET"])
     def login():
         return render_template("login.html")
 
