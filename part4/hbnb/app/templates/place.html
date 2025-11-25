@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ place.name }}</title>
+    <title>Place Details</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
@@ -11,44 +11,27 @@
     {% include 'header.html' %}
 
     <main>
-        <section class="place-details">
-            <h1>{{ place.name }}</h1>
-
-            <div class="place-info">
-                <p><strong>Host:</strong>{{ place.host }}</p>
-                <p><strong>Price per night:</strong>{{ place.price }}</p>
-                <p><strong>Description:</strong>{{ place.description }}</p>
-                <p><strong>Amenities:</strong>{{ place.amenities | join(', ') }}</p>
-            </div>
+        <section id="place-details">
+            <!-- JS inserts place details here -->
         </section>
 
-        <hr>
-
-        <section class="reviews">
-            <h2>Reviews</h2>
-
-            {% if reviews %}
-                {% for review in reviews %}
-                <div class="review-card">
-                    <p>"{{ review.comment }}"</p>
-                    <p><strong> {{ review.user_name }}</strong></p>
-                    <p>Rating: {{ review.rating }}/5</p>
-                </div>
-                {% endfor %}
-            {% else %}
-                <p>This place has no reviews</p>
-            {% endif %}
+        <section id="reviews">
+            <!-- JS inserts reviews here -->
         </section>
 
-        <section class="add-review">
-            {% if user_logged_in %}
-                <a href="{{ url_for('add_review', place_id=place.id) }}" class="details-button">Add Review</a>
-            {% endif %}
+        <section id="add-review">
+            <h2>Add a Review</h2>
+            <form id="review-form">
+                <label for="review-text">Review:</label>
+                <textarea id="review-text" name="review-text" required></textarea>
+                <button type="submit">Submit</button>
+            </form>
         </section>
     </main>
 
     <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
 
     {% include 'footer.html' %}
+
 </body>
 </html>

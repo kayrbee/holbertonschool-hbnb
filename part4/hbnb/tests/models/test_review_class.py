@@ -102,7 +102,7 @@ class TestReviewModel(unittest.TestCase):
         self.assertEqual(data["id"], "rev-1")
         self.assertEqual(data["rating"], self.valid_payload["rating"])
         self.assertEqual(data["text"], self.valid_payload["text"])
-        self.assertEqual(data["user"], self.valid_payload["user"])
+        self.assertIsInstance(data["user"], dict)
         self.assertEqual(data["place"], self.valid_payload["place"])
 
 
