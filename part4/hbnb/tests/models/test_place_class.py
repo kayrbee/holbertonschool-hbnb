@@ -113,11 +113,12 @@ class TestPlaceModel(unittest.TestCase):
 
         # Basic structure
         expected_keys = {"id", "title", "description", "price", "latitude",
-                         "longitude", "user_id", "amenities", "reviews"}
+                         "longitude", "user", "amenities", "reviews"}
         self.assertTrue(expected_keys.issubset(result.keys()))
         self.assertIsInstance(result["amenities"], list)
         self.assertEqual(result["amenities"][0]["name"], "WiFi")
         self.assertEqual(result["reviews"], [])
+        self.assertIn("user", result)
 
     def test_description_defaults_to_empty_string(self):
         payload = self.base_payload.copy()

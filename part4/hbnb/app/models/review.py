@@ -71,6 +71,10 @@ class Review(Base):
             "id": self.id,
             "rating": self.rating,
             "text": self.text,
-            "user": self.user_id,
+            "user": {
+                "id": self.user.id if self.user else None,
+                "first_name": self.user.first_name if self.user else None,
+                "last_name": self.user.last_name if self.user else None
+            },
             "place": self.place_id
         }

@@ -7,10 +7,7 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
-    {% include 'header.html' %}
-
-    <main class="review-page">
+    <main>
         <!-- Add something to idfentify the place you're reviewing -->
         <h1 class="place-title">{{ place.name }}</h1>
         <div class="review-button">
@@ -30,10 +27,6 @@
             </form>
         </div>
     </main>
-
-    {% include 'footer.html' %}
-
     <script src="scripts.js"></script>
-
 </body>
 </html>

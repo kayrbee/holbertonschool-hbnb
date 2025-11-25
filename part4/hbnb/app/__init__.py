@@ -8,7 +8,7 @@ from flask_restx import Api
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager
 from flask_sqlalchemy import SQLAlchemy
-from flask import render_template
+from flask import render_template, abort
 
 # Instantiates a password encryption class
 bcrypt = Bcrypt()
@@ -41,21 +41,13 @@ def create_app(config_class="config.DevelopmentConfig"):
     def index():
         return render_template("index.html")
 
-    @app.route("/login")
+    @app.route("/login", methods=["GET"])
     def login():
         return render_template("login.html")
 
     @app.route("/place")
     def place():
-        # Note: hardcoded for now - please fix me!
-        place_data = {
-            "name": "Hogwarts Castle",
-            "host": "Professor McGonagall",
-            "price": 200,
-            "description": "A lovely medieval castle - positively magical",
-            "amenities": ["bathrooms"]
-        }
-        return render_template("place.html", place=place_data)
+        return render_template("place.html")
 
     # Note - please fix me!
     # def add_review():
