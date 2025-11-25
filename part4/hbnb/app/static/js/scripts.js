@@ -1,45 +1,35 @@
-/* 
-    This is a SAMPLE FILE to get you started.
-    Please, follow the project instructions to complete the tasks.
-*/
 
-document.addEventListener('DOMContentLoaded', () => {
-    const loginForm = document.getElementById('login-form');
+document.addEventListener('DOMContentLoaded', () => {                   // wait for DOM(document) to load
+    const loginForm = document.getElementById('login-form');            // take login form from HTML
 
     if (loginForm) {
         loginForm.addEventListener('submit', async (event) => {
-            event.preventDefault();
+            event.preventDefault();                                     // run our custom logic rather than browser default
   
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
 
-            // --- Client-side validation ---
-            if (!email || !password) {
-                alert("Email and password are required.");
-                return;
-            }
-
-            await loginUser(email, password);
+            await loginUser(email, password);                           // pass entered values to loginUser
         });
     }
 
     async function loginUser(email, password) {
         try {
-            const response = await fetch('/login', {
+            const response = await fetch('/api/v1/auth/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, password })
-            });
-            if (response.ok) {
-                const data = await response.json();
+            });                                                         // send login request
 
-                document.cookie = `token=${data.access_token}; path=/`; // assigns JWT to cookie
-                window.location.href = 'index.html';                   // redirects user after login
+            if (response.ok) {
+                const data = await response.json();                     // parse JSON data
+                document.cookie = `token=${data.access_token}; path=/`; // assign token to cookie
+                window.location.href = 'index.html';                    // redirect user to index.html
             } else {
-                alert('Login failed: ' + response.statusText);         // handles server responses
+                alert((await response.json()).error || 'Login failed');
             }
         } catch (error) {
-            alert('Network error: ' + error.message);                  // handles network failures
+            alert('Network error: ' + error.message);                   // network error if catch fails
         }
     }
-});
+})
