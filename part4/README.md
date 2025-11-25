@@ -181,6 +181,18 @@ In this phase, you’ll be focusing on the front-end development of your applica
 
 ---
 
+### Database Setup (Seed Data)
+- To seed the database with mock users, amenities, places and reviews: 
+    - From the project root `part4/hbnb`:
+    ```
+    python3 seed.py
+    ```
+
+- **Notes:** 
+    - `Review` model uses positional args: `Review(rating, text, place_id, user_id)`. Please add Places first, then assign Amenities later in a separate step to avoid SA warnings.
+
+---
+
 ### Notes
 
 When testing your client against your API, you’ll probably encounter a **Cross-Origin Resource Sharing (CORS)** error.  
