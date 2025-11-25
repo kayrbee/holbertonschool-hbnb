@@ -100,9 +100,13 @@ class Place(Base):
             "price": self.price,
             "latitude": self.latitude,
             "longitude": self.longitude,
-            "user_id": self.user_id,
+            "user": {
+                "id": self.user.id,
+                "first_name": self.user.first_name,
+                "last_name": self.user.last_name
+            },
             "image_url": self.image_url,
             # type: ignore
             "amenities": [a.to_dict() for a in self.amenities],
-            "reviews": []
+            "reviews": [r.to_dict() for r in self.reviews]
         }

@@ -45,14 +45,9 @@ def create_app(config_class="config.DevelopmentConfig"):
     def login():
         return render_template("login.html")
 
-    @app.route("/place/<place_id>")
-    def place_details(place_id):
-        from app.models.place import Place
-        place = Place.query.get(place_id)
-        reviews = place.reviews
-        if not place:
-            abort(404)
-        return render_template('place.html', place=place, reviews=reviews)
+    @app.route("/place")
+    def place():
+        return render_template("place.html")
 
     # Note - please fix me!
     # def add_review():
