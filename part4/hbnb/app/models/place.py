@@ -101,9 +101,9 @@ class Place(Base):
             "latitude": self.latitude,
             "longitude": self.longitude,
             "user": {
-                "id": self.user.id,
-                "first_name": self.user.first_name,
-                "last_name": self.user.last_name
+                "id": self.user.id if self.user else None,
+                "first_name": self.user.first_name if self.user else None,
+                "last_name": self.user.last_name if self.user else None
             },
             "image_url": self.image_url,
             # type: ignore
