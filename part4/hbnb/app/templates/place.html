@@ -15,21 +15,16 @@
             <!-- JS inserts place details here -->
         </section>
 
-        <section id="reviews">
-            <!-- JS inserts reviews here -->
-        </section>
 
-        <section id="add-review">
-            <h2>Add a Review</h2>
-            <form id="review-form">
-                <label for="review-text">Review:</label>
-                <textarea id="review-text" name="review-text" required></textarea>
-                <button type="submit">Submit</button>
-            </form>
-        </section>
+        <div class="review-button">
+            <a href="/add_review?place_id={{ place.id }}">
+                <button>Leave a Review</button>
+            </a>
+        </div>
     </main>
 
-    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/helpers.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/place.js') }}"></script>
 
     {% include 'footer.html' %}
 

@@ -25,7 +25,7 @@
             <div class="place-card">
                 <h2>{{ place.name }}</h2>
                 <p>Price per night: ${{ place.price }}</p>
-                <a href="{{ url_for('place_details', place_id=place.id) }}" class="details-button">View Details</a>
+                <a href="/places/{{ place.id }}" class="details-button">View Details</a>
             </div>
             {% endfor %}
         </section>
@@ -34,5 +34,6 @@
     <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
 
     {% include 'footer.html' %}
+
 </body>
 </html>
