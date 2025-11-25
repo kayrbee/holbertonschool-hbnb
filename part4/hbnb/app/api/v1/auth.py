@@ -13,7 +13,7 @@ login_model = api.model('Login', {
 # Login route
 
 
-@api.route('/login')
+@api.route('/login', methods=["POST"])
 class Login(Resource):
     @api.expect(login_model, validate=True)
     @api.response(200, 'Success')
