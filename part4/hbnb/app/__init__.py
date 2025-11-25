@@ -8,7 +8,7 @@ from flask_restx import Api
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager
 from flask_sqlalchemy import SQLAlchemy
-from flask import render_template, abort
+from flask import render_template, abort, request
 
 # Instantiates a password encryption class
 bcrypt = Bcrypt()
@@ -37,21 +37,38 @@ def create_app(config_class="config.DevelopmentConfig"):
     db.init_app(app)
 
     # Define the web front-end routes
-    @app.route("/")
-    def index():
-        return render_template("index.html")
-
     @app.route("/login", methods=["GET"])
     def login():
         return render_template("login.html")
+    
+    @app.route("/")
+    def list_places():
+        from app.models.place import Place
+        places = Place.query.all()
+        return render_template("index.html", places=places)
 
-    @app.route("/place")
-    def place():
-        return render_template("place.html")
+    @app.route("/places/<place_id>")
+    def place_details(place_id):
+        from app.models.place import Place
+        place = Place.query.get(place_id)
+        
+        if not place:
+            return {"error": "Place not found"}, 404
+        
+        return render_template("place.html", place=place)
 
     # Note - please fix me!
-    # def add_review():
-    #     return render_template("add_review")
+    @app.route("/add_review", methods=["GET"])
+    def add_review():
+        # import here to avoid circular imports at module level
+        from app.models.place import Place
+        place_id = request.args.get("place_id")      
+        
+        place = Place.query.get(place_id)            
+        if not place:
+            return {"error": "Place not found"}, 404
+        
+        return render_template("add_review.html", place=place)
 
     # Register the API namespaces
     api = Api(app, version='1.0', title='HBnB API',
