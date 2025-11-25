@@ -15,6 +15,12 @@
             <h1>{{ place.title }}</h1>
 
             <div class="place-info">
+                {% if place.image_url %}
+                    <img src="{{ url_for('static', filename=place.image_url) }}" 
+                        alt="{{ place.title }}" 
+                        class="place-photo">
+                {% endif %}
+
                 <p><strong>Host:</strong> {{ place.user.first_name }} {{ place.user.last_name }}</p>
                 <p><strong>Price per night:</strong> {{ place.price }}</p>
                 <p><strong>Description:</strong> {{ place.description }}</p>

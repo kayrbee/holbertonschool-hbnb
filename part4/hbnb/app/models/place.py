@@ -22,6 +22,7 @@ class Place(Base):
 
     user_id = db.Column(db.String(36), db.ForeignKey(
         'users.id'), nullable=False)                                    # foreign key to ref User
+    image_url = db.Column(db.String(255), nullable=True)
     owner = db.relationship('User', lazy=True, overlaps="user,places")
     reviews = db.relationship('Review', backref='place', lazy=True)     # foreign key to ref Review
 
@@ -36,6 +37,7 @@ class Place(Base):
         longitude: float,
         user_id: str,
         description: str = "",  # Moved to avoid "non-default argument follows default argument"
+        image_url: str = None,
         amenities: list = None,
         reviews: list = None
     ):
@@ -46,6 +48,7 @@ class Place(Base):
         self.latitude = latitude
         self.longitude = longitude
         self.user_id = user_id
+        self.image_url = image_url
         self.amenities = amenities if amenities else []
         self.reviews = reviews if reviews else []
 
@@ -98,6 +101,7 @@ class Place(Base):
             "latitude": self.latitude,
             "longitude": self.longitude,
             "user_id": self.user_id,
+            "image_url": self.image_url,
             # type: ignore
             "amenities": [a.to_dict() for a in self.amenities],
             "reviews": []

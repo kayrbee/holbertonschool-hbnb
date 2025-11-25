@@ -81,7 +81,8 @@ place1 = Place(
     price=200,
     latitude=-34.5667,
     longitude=142.2937,
-    user_id=user1.id
+    user_id=user1.id,
+    image_url="images/cozy-home.jpg"
 )
 
 place2 = Place(
@@ -90,7 +91,8 @@ place2 = Place(
     price=400,
     latitude=-40.5667,
     longitude=145.2937,
-    user_id=user2.id
+    user_id=user2.id,
+    image_url="images/summer-house.jpg"
 )
 
 place3 = Place(
@@ -99,7 +101,8 @@ place3 = Place(
     price=500,
     latitude=-45.5667,
     longitude=146.2937,
-    user_id=user3.id
+    user_id=user3.id,
+    image_url="images/modern-home.jpg"
 )
 
 place4 = Place(
@@ -108,7 +111,8 @@ place4 = Place(
     price=600,
     latitude=-48.5667,
     longitude=149.2937,
-    user_id=user3.id
+    user_id=user3.id,
+    image_url="images/weekend-getaway.jpg"
 )
 
 db.session.add_all([place1, place2, place3, place4])
@@ -122,31 +126,31 @@ place4.amenities=[swimming_pool, sauna]
 
 # Step 5: Add Review (Notes: the review layout below is done following how the constructor for review model was set up, so it looks different to the ones above)
 review1 = Review(
-    rating=5,
-    text="Amazing stay! Responsive host",
-    place=place1.id,
-    user=user2.id
+    5,
+    "Amazing stay! Responsive host",
+    place1.id,
+    user2.id
 )
 
 review2 = Review(
-    rating=3,
-    text="Love the swimming pool! A little expensive",
-    place=place2.id,
-    user=user1.id
+    3,
+    "Love the swimming pool! A little expensive",
+    place2.id,
+    user1.id
 )
 
 review3 = Review(
-    rating=5,
-    text="Beautiful home!",
-    place=place3.id,
-    user=user1.id
+    5,
+    "Beautiful home!",
+    place3.id,
+    user1.id
 )
 
 review4 = Review(
-    rating=4,
-    text="Perfect weekend getaway",
-    place=place4.id,
-    user=user3.id
+    4,
+    "Perfect weekend getaway",
+    place4.id,
+    user3.id
 )
 
 db.session.add_all([review1, review2, review3, review4])
