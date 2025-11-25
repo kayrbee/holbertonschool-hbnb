@@ -2,16 +2,16 @@ from app import db
 from .base_class import Base
 from sqlalchemy.orm import validates
 
+
 class Review(Base):
     __tablename__ = 'reviews'
-    
+
     text = db.Column(db.String(1000), nullable=False)
     rating = db.Column(db.Integer, nullable=False)
-#    user = db.Column(db.String(60), nullable=False)
-#    place = db.Column(db.String(60), nullable=False)
-
-    place_id = db.Column(db.String(36), db.ForeignKey('places.id'), nullable=False)  # foreign key ref'g Place
-    user_id = db.Column(db.String(36), db.ForeignKey('users.id'), nullable=False)  # foreign key ref'g User
+    place_id = db.Column(db.String(36), db.ForeignKey(
+        'places.id'), nullable=False)  # foreign key ref'g Place
+    user_id = db.Column(db.String(36), db.ForeignKey(
+        'users.id'), nullable=False)  # foreign key ref'g User
 
     def __init__(self, rating: int, text: str, place: str, user: str):
         super().__init__()
@@ -28,7 +28,7 @@ class Review(Base):
         if not value.strip():
             raise ValueError("Text is a mandatory field")
         return value
-    
+
     @validates('rating')
     def validate_rating(self, key, value):
         if not isinstance(value, int):
@@ -36,7 +36,7 @@ class Review(Base):
         if value < 1 or value > 5:
             raise ValueError("Rating must be between 1 and 5")
         return value
-    
+
     @validates('user_id')
     def validate_user(self, key, value):
         if not value:
@@ -44,7 +44,7 @@ class Review(Base):
         if not isinstance(value, str):
             raise TypeError("User must be a string uuid")
         return value
-    
+
     @validates('place_id')
     def validate_place(self, key, value):
         if not value:
