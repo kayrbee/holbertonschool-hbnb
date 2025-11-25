@@ -19,6 +19,7 @@ user1 = User(
     email="carla.c@example.com",
     password="password123"
 )
+user1.hash_password("password123")
 
 user2 = User(
     first_name="Dana",
@@ -26,20 +27,25 @@ user2 = User(
     email="dana.l@example.com",
     password="password567"
 )
+user2.hash_password("password567")
 
 user3 = User(
     first_name="Kat",
     last_name="B",
     email="kat.b@example.com",
-    password="password456"
+    password="password456",
+    is_admin=True
 )
+user3.hash_password("password456")
 
 user4 = User(
     first_name="Mel",
     last_name="H",
     email="mel.h@example.com",
-    password="password789"
+    password="password789",
+    is_admin=True
 )
+user4.hash_password("password789")
 
 db.session.add_all([user1, user2, user3, user4])
 db.session.commit()
@@ -116,34 +122,31 @@ place4.amenities=[swimming_pool, sauna]
 
 # Step 5: Add Review (Notes: the review layout below is done following how the constructor for review model was set up, so it looks different to the ones above)
 review1 = Review(
-    5,  # rating
-    "Amazing stay! Responsive host",  # text
-    place1.id,  # place 
-    user2.id    # user 
+    rating=5,
+    text="Amazing stay! Responsive host",
+    place=place1.id,
+    user=user2.id
 )
 
-# Review 2
 review2 = Review(
-    3,
-    "Love the swimming pool! A little expensive",
-    place2.id,
-    user1.id
+    rating=3,
+    text="Love the swimming pool! A little expensive",
+    place=place2.id,
+    user=user1.id
 )
 
-# Review 3
 review3 = Review(
-    5,
-    "Beautiful home!",
-    place3.id,
-    user1.id
+    rating=5,
+    text="Beautiful home!",
+    place=place3.id,
+    user=user1.id
 )
 
-# Review 4
 review4 = Review(
-    4,
-    "Perfect weekend getaway",
-    place4.id,
-    user3.id
+    rating=4,
+    text="Perfect weekend getaway",
+    place=place4.id,
+    user=user3.id
 )
 
 db.session.add_all([review1, review2, review3, review4])

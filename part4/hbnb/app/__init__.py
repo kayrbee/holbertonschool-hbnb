@@ -45,25 +45,14 @@ def create_app(config_class="config.DevelopmentConfig"):
     def login():
         return render_template("login.html")
 
-    @app.route("/place")
-    def place():
-        # Note: hardcoded for now - please fix me!
-        place_data = {
-            "name": "Hogwarts Castle",
-            "host": "Professor McGonagall",
-            "price": 200,
-            "description": "A lovely medieval castle - positively magical",
-            "amenities": ["bathrooms"]
-        }
-        return render_template("place.html", place=place_data)
-
     @app.route("/place/<place_id>")
     def place_details(place_id):
         from app.models.place import Place
         place = Place.query.get(place_id)
+        reviews = place.reviews
         if not place:
             abort(404)
-        return render_template("place.html", place=place)
+        return render_template('place.html', place=place, reviews=reviews)
 
     # Note - please fix me!
     # def add_review():

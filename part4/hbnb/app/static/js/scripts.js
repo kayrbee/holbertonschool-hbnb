@@ -25,8 +25,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 /* Get place ID from URL */
 function getPlaceIdFromURL() {
-    const params = new URLSearchParams(window.location.search);
-    return params.get("id");
+    const path = window.location.pathname; 
+    const parts = path.split("/");
+    return parts[2];
 }
 
 /* Check user authentication */
@@ -124,6 +125,7 @@ function displayReviews(reviews) {
     });
 }
 
+/* ====== LOGIN SECTION ====== */
 document.addEventListener('DOMContentLoaded', () => {                   // wait for DOM(document) to load
     const loginForm = document.getElementById('login-form');            // take login form from HTML
 

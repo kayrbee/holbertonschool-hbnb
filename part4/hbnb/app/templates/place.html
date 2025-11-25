@@ -12,12 +12,12 @@
 
     <main>
         <section class="place-details">
-            <h1>{{ place.name }}</h1>
+            <h1>{{ place.title }}</h1>
 
             <div class="place-info">
                 <p><strong>Host:</strong> {{ place.user.first_name }} {{ place.user.last_name }}</p>
-                <p><strong>Price per night:</strong>{{ place.price }}</p>
-                <p><strong>Description:</strong>{{ place.description }}</p>
+                <p><strong>Price per night:</strong> {{ place.price }}</p>
+                <p><strong>Description:</strong> {{ place.description }}</p>
 
                 <p><strong>Amenities:</strong>
                 {% for amenity in place.amenities %}
@@ -25,6 +25,7 @@
                 {% endfor %}</p>
             </div>
         </section>
+        <br><br>
 
         <hr>
 
@@ -34,8 +35,12 @@
             {% if reviews %}
                 {% for review in reviews %}
                 <div class="review-card">
-                    <p>"{{ review.comment }}"</p>
-                    <p><strong> {{ review.user_name }}</strong></p>
+                    <p>"{{ review.text }}"</p>
+
+                    <p><strong>
+                        {{ review.user.first_name }} {{ review.user.last_name }}
+                    </strong></p>
+
                     <p>Rating: {{ review.rating }}/5</p>
                 </div>
                 {% endfor %}
