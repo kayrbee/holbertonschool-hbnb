@@ -1,9 +1,32 @@
 /* ====== HOMEPAGE ====== */
+document.addEventListener("DOMContentLoaded", () => {
+    const token = checkAuthentication();     // Show/hide login link
+
+    fetchPlaces(token);
+    priceList();
+});
+
 /* Filter by price */
 document.querySelector('.price-filter').addEventListener('change', (event) => {
     // Get the selected price value
+    priceFilter = event.target.value;
+
     // Iterate over the places and show/hide them based on the selected price
+    places = document.querySelectorAll('.places-card');
+    places.forEach(place => {
+        const priceText = place.querySelector('.price').textContent.trim();  // Fetch price from html
+        const price = Number(priceText.replace(/[^0-9.]/g, ''));  // Ensure that price is a number
+
+        if (priceFilter === 'All') {
+            place.hidden = false;
+            return;
+        }
+
+        const limit = Number(priceFilter.replace(/[^0-9.]/g, ''));
+        place.hidden = price > limit;
+    });
 });
+
 
 /* Dynamically create price filter options */
 async function priceList() {
@@ -13,12 +36,12 @@ async function priceList() {
     for (let i = 0; i < options.length; i++) {
         let option = document.createElement('option');
         option.value = options[i];
-        option.innerHTML = options[i];
+        option.innerHTML = `$${options[i]}`;
         priceList.appendChild(option);
     }
 
-    priceList.name = "price-filter";
-    priceList.id = "prices";
+    priceList.name = "price-filter";  // needed to reference the form data after the form is submitted
+    priceList.id = "prices";  // needed to associate the drop-down list with a label
 }
 
 /* Check user authentication */
@@ -32,9 +55,7 @@ function checkAuthentication() {
         loginLink.style.display = "none";
     }
 
-    // return token;
-    priceList();
-    fetchPlaces(token);
+    return token;
 }
 
 /* Get cookie */
@@ -95,8 +116,16 @@ async function displayPlaces(places) {
         const description = document.createElement('p');  // Create the description
         const price = document.createElement('p');  // Create the price
     
-        // Set attributes and values for html tags
+        // Set class attributes for ease of css selection
         place.setAttribute('class', 'places-card');
+        place.setAttribute('id', p['id']);
+        price.setAttribute('class', 'price');
+        title.setAttribute('class', 'title');
+        description.setAttribute('class', 'description');
+        link.setAttribute('class', 'link-to-place-page');
+        image.setAttribute('class', 'place-photo');
+
+        // Set up image as a link to place page
         link.href = `/place?place_id=${p['id']}`;
         if (p['image_url']) { 
             image.src = `/static/${p['image_url']}`;
@@ -106,10 +135,11 @@ async function displayPlaces(places) {
         image.alt = "Image of " + p['title'];
         image.height = 200;
         image.width = 300;
+
+        // Set tag contents
         title.innerHTML = p['title'];
         description.innerHTML = p['description'];
-        price.innerHTML = p['price'];
-    
+        price.innerHTML = `$${p['price']}`;
         
         // Insert the place within .places-list section
         placesList = document.querySelector('.places-list');
