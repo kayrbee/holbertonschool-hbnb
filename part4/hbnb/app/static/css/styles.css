@@ -6,10 +6,15 @@ html, body {
 body {
     display: flex;
     flex-direction: column;
+    background-color: #fafafa;
 }
 
 main {
   flex: 1; /* pushes footer down */
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 30px 20px;
 }
 
 nav {
@@ -35,14 +40,4 @@ nav {
 footer {
     text-align: center;
     padding: 20px;
-}
-
-body {
-    background-color: #fafafa;
-}
-
-main {
-    max-width: 950px;
-    margin: 0 auto;
-    padding: 30px 20px;
 }
