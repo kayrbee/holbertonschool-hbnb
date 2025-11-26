@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
         reviewLink.href = `/add_review?place_id=${placeId}`;
     }
 
-    fetchPlaceDetails(token, placeId);       // Load the place details
+    fetchPlaceDetails(token, placeId);
 });
 
 /* Get place ID from URL */
@@ -17,20 +17,6 @@ function getPlaceIdFromURL() {
     const params = new URLSearchParams(window.location.search);
     return params.get("place_id");
 }
-
-// /* Check user authentication */
-// function checkAuthentication() {
-//     const token = getCookie("token");
-//     const reviewButton = document.getElementById("review-button");
-
-//     if (!token) {
-//         reviewButton.style.display = "none";
-//     } else {
-//         reviewButton.style.display = "block";
-//     }
-
-//     return token;
-// }
 
 /* Check user authentication */
 function checkAuthentication() {

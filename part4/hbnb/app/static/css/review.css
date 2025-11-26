@@ -88,3 +88,40 @@
 .submit-review-btn:hover {
     background-color: #e51d54;
 }
+
+.popup-hidden {
+    position: fixed;
+    justify-content: center;
+    display: none;
+}
+
+.popup-content {
+    background: white;
+    padding: 20px 30px;
+    border-radius: 12px;
+    font-size: 18px;
+    text-align: center;
+    width: 320px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.popup-btns {
+    margin-top: 16px;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.back-btn {
+    flex: 1;
+    padding: 10px 12px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.back-btn {
+    background-color: #e51d54;
+    color: white;
+}

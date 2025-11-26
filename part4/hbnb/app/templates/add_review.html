@@ -42,13 +42,21 @@
                     <button type="submit" class="submit-review-btn">Submit review</button>
                 </form>
             </section>
+
+            <section id="success-popup" class="popup-hidden">
+                <div class="popup-content">
+                    <p>Thanks for sharing your review!</p>
+                    <div class="popup-btns">
+                        <button id="back-popup" class="back-btn">Back to Place</button>
+                    </div>
+                </div>
+            </section>
         </main>
     </div>
 
     <script src="{{ url_for('static', filename='js/review.js') }}"></script>
     <script src="{{ url_for('static', filename='js/helpers.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/place.js') }}"></script>
-    
+
     {% include 'footer.html' %}
     
 </body>

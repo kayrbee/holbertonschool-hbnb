@@ -1,6 +1,15 @@
 /* ====== REVIEW SECTION ====== */
 // Show review form when button clicked 
 document.addEventListener('DOMContentLoaded', () => {
+
+    // redirect unauthenticated users to index page
+    const token = getCookie("token");
+    if(!token) {
+        alert("Please log in first to leave a review.");
+        window.location.href = "/";
+        return;      // stop running the script
+    }
+
     const reviewForm = document.getElementById('review-form');
 
     // Get place ID from the URL
@@ -38,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     })
     
-    // Handles submission
+    // Handle submission
     if (reviewForm) {
         reviewForm.addEventListener('submit', async (event) => {
             event.preventDefault();
@@ -59,6 +68,19 @@ document.addEventListener('DOMContentLoaded', () => {
             const submitted = await submitReview(token, placeId, text, rating);
                 
             if (submitted) {
+                // Show success message and redirect to place popup
+                const popup = document.getElementById("success-popup");
+                const backBtn = document.getElementById("back-popup")
+
+                if (popup) {
+                    popup.classList.remove("popup-hidden");
+
+                    if (backBtn) {
+                        backBtn.onclick = () => {
+                            window.location.href = `/place?place_id=${placeId}`;
+                        };
+                    }
+                }
                 // Clear the form
                 document.getElementById('review-text').value = "";
                 document.getElementById('rating').selectedIndex = 0;
@@ -66,7 +88,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-    checkAuthentication();
 });
 
 // Make AJAX request to submit review
