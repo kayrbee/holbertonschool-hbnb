@@ -38,13 +38,13 @@
     font-weight: 600;
     margin-bottom: 16px;
     padding-bottom: 8px;
-    border-bottom: 2px solid #f2f2f2; /* NEW: thin divider for polish */
+    border-bottom: 2px solid #f2f2f2;
 }
 
 /* Info text */
 .place-info p {
     margin-bottom: 12px;
-    line-height: 1.6; /* NEW: Better readability */
+    line-height: 1.6;
 }
 
 /* Amenities */
