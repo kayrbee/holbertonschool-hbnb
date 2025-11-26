@@ -86,13 +86,13 @@ async function displayPlaces(places) {
 
         // Create elements
         const place = document.createElement('div');  // Create a div element for the property
-        const link = document.createElement('a');  // Create a link to the property's page
-        const image = document.createElement('img');  // Create an image of the property
-        const title = document.createElement('h2');  // Create the name
-        const description = document.createElement('p');  // Create the description
-        const price = document.createElement('p');  // Create the price
+        const link = document.createElement('a');  // For a link to the property's page
+        const image = document.createElement('img');  // For an image of the property
+        const title = document.createElement('h2');  // For the place name
+        const description = document.createElement('p');  // For the description
+        const price = document.createElement('p');  // For the price
     
-        // Set class attributes for ease of css selection
+        // Set class attributes for easy css selection
         place.setAttribute('class', 'places-card');
         place.setAttribute('id', p['id']);
         price.setAttribute('class', 'price');
@@ -101,29 +101,34 @@ async function displayPlaces(places) {
         link.setAttribute('class', 'link-to-place-page');
         image.setAttribute('class', 'place-photo');
 
-        // Set up image as a link to place page
+        // Set up image as a link to place details page
         link.href = `/place?place_id=${p['id']}`;
+
         if (p['image_url']) { 
             image.src = `/static/${p['image_url']}`;
         } else {
-            image.src = '/static/images/logo.png';  // Set default image to logo if place image not found
+            image.src = '/static/images/hbnb_default_img.png';  // Set default image if place image_url not set
         }
-        image.alt = "Image of " + p['title'];
-        image.height = 200;
-        image.width = 300;
+
+        image.onerror = () => {
+            image.src = '/static/images/hbnb_default_img.png';  // Set fallback if image file not found
+        };
+
+        image.alt = `Image of  ${p['title']}`;
 
         // Set tag contents
         title.innerHTML = p['title'];
         description.innerHTML = p['description'];
         price.innerHTML = `$${p['price']}`;
         
-        // Insert the place within .places-list section
+        // Insert the div and child elements within .places-list section
+        link.appendChild(image);
+        place.appendChild(link);
+        place.appendChild(title);
+        place.appendChild(description);
+        place.appendChild(price);
+
         placesList = document.querySelector('.places-list');
-        placesList.appendChild(place).appendChild(link).appendChild(image);
-        placesList.appendChild(place).appendChild(title);
-        placesList.appendChild(place).appendChild(description);
-        placesList.appendChild(place).appendChild(price);
+        placesList.appendChild(place);
     }
 }
-
-checkAuthentication();
