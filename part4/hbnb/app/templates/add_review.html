@@ -4,22 +4,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Review</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/review.css') }}">
 </head>
 <body>
-    <main>
-        <!-- Add something to idfentify the place you're reviewing -->
-        <form id="review-form">
-            <h2>Add a Review</h2>
-            <label for="review">Your Review:</label>
-            <textarea id="review" name="review" required></textarea>
-            <label for="rating">Rating:</label>
-            <select id="rating" name="rating" required>
-                <!-- Options for rating -->
-            </select>
-            <button type="submit">Submit Review</button>
-        </form>
+
+    {% include 'header.html' %}
+
+    <main class="review-card">
+        <!-- place title and review title -->
+        <h1 class="place-title">{{ place.title }}</h1> 
+        <h2 class="review-title">How was your stay?</h2>
+
+        <!-- button to reveal form -->
+        <button id="show-form-btn" class="review-button">Leave a Review</button>
+
+        <!-- review form -->
+        <section id="review-form-section" style="display: none;">
+            <form id="review-form">
+                <div class="rating-section">
+                    <label class="overall-rating">Overall rating</label>
+                    <div class="star-rating" id="overall-rating">
+                        <span data-value="1">★</span>
+                        <span data-value="2">★</span>
+                        <span data-value="3">★</span>
+                        <span data-value="4">★</span>
+                        <span data-value="5">★</span>
+                    </div>
+                    <!-- This hidden input will store the selected rating -->
+                    <input type="hidden" id="rating" name="rating" value="0">
+                </div>
+                <!-- Text Review -->
+                <div class="comment-section">
+                    <label class="section-label">Share your experience</label>
+                    <textarea id="comment" name="comment" rows="6" placeholder="What did you like about your stay?"></textarea>
+                    <p class="char-count">0 characters</p>
+                </div>
+
+                <button type="submit" class="submit-review-btn">Submit review</button>
+            </form>
+        </section>
     </main>
-    <script src="scripts.js"></script>
+
+    <script src="{{ url_for('static', filename='js/review.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/helpers.js') }}"></script>
+    
+    {% include 'footer.html' %}
+    
 </body>
 </html>

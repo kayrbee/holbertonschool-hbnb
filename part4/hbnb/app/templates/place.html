@@ -19,17 +19,16 @@
             <!-- JS inserts reviews here -->
         </section>
 
-        <section id="add-review">
-            <h2>Add a Review</h2>
-            <form id="review-form">
-                <label for="review-text">Review:</label>
-                <textarea id="review-text" name="review-text" required></textarea>
-                <button type="submit">Submit</button>
-            </form>
+        <section id ="review-button" class="review-button">
+            <!-- JS inserts reviews button here -->
+             <a id="leave-review-link" href="#">
+                <button>Leave a Review</button>
+            </a>
         </section>
     </main>
 
-    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/helpers.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/place.js') }}"></script>
 
     {% include 'footer.html' %}
 

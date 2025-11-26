@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">   <!-- Jinja dynamic URL builder -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">   <!-- Jinja dynamic URL builder -->  
 </head>
 
 <body>
+    
     {% include 'header.html' %}
 
     <main>
@@ -23,8 +24,10 @@
         </form>
     </main>
 
+    <script src="{{ url_for('static', filename='js/user.js') }}"></script>           <!-- Jinja dynamic URL builder -->
+
     {% include 'footer.html' %}
-    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>           <!-- Jinja dynamic URL builder -->
+    
 </body>
 
 </html>
