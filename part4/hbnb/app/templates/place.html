@@ -5,26 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Place Details</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/place.css') }}">
 </head>
 <body>
 
     {% include 'header.html' %}
 
-    <main class="place-card">
-        <section id="place-details">
-            <!-- JS inserts place details here -->
+    <main class="place-container">
+        
+        <!-- Place header (title & img) -->
+        <section id="place-header" class="section-block">
+            <h1 id="place-title" class="place-title"></h1>
+            <img id="place-image" class="place-main-image" alt="Place photo">
         </section>
 
-        <section id="reviews">
-            <!-- JS inserts reviews here -->
+        <!-- Place info (host, price, description) -->
+        <section id="place-info-section" class="section-block">
+            <div id="place-info" class="place-info"></div>
         </section>
 
-        <section id ="review-button" class="review-button">
-            <!-- JS inserts reviews button here -->
-             <a id="leave-review-link" href="#">
-                <button>Leave a Review</button>
-            </a>
+        <!-- Amenities -->
+        <section id="amenities-section" class="section-block">
+            <h2 class="section-title">Amenities</h2>
+            <div id="amenities-list"></div>
         </section>
+
+        <!-- Reviews -->
+        <section id="reviews-section" class="section-block">
+            <h2 class="section-title">Reviews</h2>
+            <div id="reviews-list"></div>
+        </section>
+
+        <!-- Review button -->
+        <section id="review-button-section">
+            <div class="review-button-wrapper">
+                <a id="leave-review-link" href="#">
+                    <button id="review-button">Leave a Review</button>
+                </a>
+            </div>
+        </section>
+
     </main>
 
     <script src="{{ url_for('static', filename='js/place.js') }}"></script>

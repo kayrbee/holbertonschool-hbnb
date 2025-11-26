@@ -37,3 +37,12 @@ footer {
     padding: 20px;
 }
 
+body {
+    background-color: #fafafa;
+}
+
+main {
+    max-width: 950px;
+    margin: 0 auto;
+    padding: 30px 20px;
+}
