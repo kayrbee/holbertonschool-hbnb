@@ -1,4 +1,33 @@
 /* ====== HOMEPAGE ====== */
+/* Filter by price */
+document.querySelector('.price-filter').addEventListener('change', (event) => {
+    // Get the selected price value
+    // Iterate over the places and show/hide them based on the selected price
+});
+
+/* Dynamically create price filter options */
+async function priceList() {
+    const priceList = document.querySelector('.price-filter');
+
+    const list = document.createElement('ol');
+
+    priceList.appendChild(list);
+    
+    p10 = document.createElement('li');
+    p50 = document.createElement('li');
+    p100 = document.createElement('li');
+    pAll = document.createElement('li');
+
+    p10.innerHTML = 10;
+    p50.innerHTML = 50;
+    p100.innerHTML = 100;
+    pAll.innerHTML = 'All';
+
+    list.appendChild(p10);
+    list.appendChild(p50);
+    list.appendChild(p100);
+    list.appendChild(pAll);
+}
 
 /* Check user authentication */
 function checkAuthentication() {
