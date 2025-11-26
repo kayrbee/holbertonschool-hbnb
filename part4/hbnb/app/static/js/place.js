@@ -2,7 +2,13 @@
 /* Loads all places from the API and displays them on the page */
 document.addEventListener("DOMContentLoaded", () => {
     const placeId = getPlaceIdFromURL();     // Extract ?place_id=xxx
-    const token = checkAuthentication();     // Show/hide review form
+    const token = checkAuthentication();     // Show/hide review button
+
+    const reviewLink = document.getElementById("leave-review-link");
+    if (reviewLink && placeId) {
+        reviewLink.href = `/add_review?place_id=${placeId}`;
+    }
+
     fetchPlaceDetails(token, placeId);       // Load the place details
 });
 
@@ -15,12 +21,12 @@ function getPlaceIdFromURL() {
 /* Check user authentication */
 function checkAuthentication() {
     const token = getCookie("token");
-    const addReviewSection = document.getElementById("add-review");
+    const reviewButton = document.getElementById("review-button");
 
     if (!token) {
-        addReviewSection.style.display = "none";
+        reviewButton.style.display = "none";
     } else {
-        addReviewSection.style.display = "block";
+        reviewButton.style.display = "block";
     }
 
     return token;

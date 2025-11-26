@@ -11,7 +11,7 @@
     {% include 'header.html' %}
 
     <main>
-        <section id="place-details" id="review-form-section">
+        <section id="place-details">
             <!-- JS inserts place details here -->
         </section>
 
@@ -19,11 +19,12 @@
             <!-- JS inserts reviews here -->
         </section>
 
-        <section class="review-button">
-            <a href="/add_review?place_id={{ place.id }}">
+        <section id ="review-button" class="review-button">
+            <!-- JS inserts reviews button here -->
+             <a id="leave-review-link" href="#">
                 <button>Leave a Review</button>
             </a>
-        </div>
+        </section>
     </main>
 
     <script src="{{ url_for('static', filename='js/helpers.js') }}"></script>
