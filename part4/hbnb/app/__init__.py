@@ -47,15 +47,9 @@ def create_app(config_class="config.DevelopmentConfig"):
         places = Place.query.all()
         return render_template("index.html", places=places)
 
-    @app.route("/places/<place_id>")
-    def place_details(place_id):
-        from app.models.place import Place
-        place = Place.query.get(place_id)
-        
-        if not place:
-            return {"error": "Place not found"}, 404
-        
-        return render_template("place.html", place=place)
+    @app.route("/place")
+    def place():
+        return render_template("place.html")
 
     # Note - please fix me!
     @app.route("/add_review", methods=["GET"])
