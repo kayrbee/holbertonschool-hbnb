@@ -1,6 +1,6 @@
 /* ====== HOMEPAGE ====== */
 document.addEventListener("DOMContentLoaded", () => {
-    const token = checkAuthentication();     // Show/hide login link
+    const token = checkAuthentication('home');     // Show/hide login link
 
     fetchPlaces(token);
     priceList();
@@ -42,30 +42,6 @@ async function priceList() {
 
     priceList.name = "price-filter";  // needed to reference the form data after the form is submitted
     priceList.id = "prices";  // needed to associate the drop-down list with a label
-}
-
-/* Check user authentication */
-function checkAuthentication() {
-    const token = getCookie("token");
-    const loginLink = document.getElementById("login-link");
-
-    if (!token) {
-        loginLink.style.display = "block";
-    } else {
-        loginLink.style.display = "none";
-    }
-
-    return token;
-}
-
-/* Get cookie */
-function getCookie(name) {
-    const cookies = document.cookie.split("; ");
-    for (const cookie of cookies) {
-        const [cookieName, cookieValue] = cookie.split("=");
-        if (cookieName === name) return cookieValue;
-    }
-    return null;
 }
 
 // Fetch places for homepage

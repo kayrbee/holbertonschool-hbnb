@@ -3,7 +3,7 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     // redirect unauthenticated users to index page
-    const token = getCookie("token");
+    const token = checkAuthentication('review');
     if(!token) {
         alert("Please log in first to leave a review.");
         window.location.href = "/";
