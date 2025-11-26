@@ -75,7 +75,12 @@ pip install python-dotenv
 
 This project is backed by a sqlite database. To create and initialise a fresh database, run these setup commands from a `flask shell`:
 
+NB: to start fresh, delete the `development.db` file first.
+
 ```bash
+# Delete the old database if it exists
+rm instance/development.db
+
 # open flask shell
 flask shell
 
@@ -89,7 +94,13 @@ flask shell
 
 ### 5. Seed the database
 
-The previous step created a `development.db` file. This step will seed the users table with an `admin_user` to enable using the application. 
+The previous step created a `development.db` file. This step will seed a small set of linked data:
+
+- the users table with an `admin_user` and some non-admin users
+- the places table with places owned by non-admins
+- the amenities table
+- the places.amenities table with place<>amenity associations
+- the reviews table with reviews of places
 
 ```bash
 sqlite3 instance/development.db < seed.sql

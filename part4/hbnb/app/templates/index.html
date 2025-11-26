@@ -19,19 +19,13 @@
                 <!-- Options will be populated dynamically -->
             </select>
         </section>
-
+        
         <section class="places-list">
-            {% for place in places %}
-            <div class="place-card">
-                <h2>{{ place.name }}</h2>
-                <p>Price per night: ${{ place.price }}</p>
-                <a href="/place?place_id={{ place.id }}" class="details-button">View Details</a>
-            </div>
-            {% endfor %}
+            <!-- Options will be populated dynamically -->
         </section>
     </main>
     
-    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/home.js') }}"></script>
 
     {% include 'footer.html' %}
 
