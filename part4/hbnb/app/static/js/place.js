@@ -22,15 +22,11 @@ function getPlaceIdFromURL() {
 function checkAuthentication() {
     const token = getCookie("token");
     const reviewSection = document.getElementById("review-button-section");
+    const reviewButton = document.getElementById("review-button");
 
     // Only modify the DOM if the button actually exists on this page
-    if (reviewButton) {
-        reviewButton.style.display = token ? "block" : "none";
-    if (!token) {
-        reviewSection.style.display = "none";
-    } else {
-        reviewSection.style.display = "block";
-    }
+    if (reviewSection) reviewSection.style.display = token ? "block" : "none";
+    if (reviewButton) reviewButton.style.display = token ? "block" : "none";
 
     return token;
 }
@@ -58,14 +54,6 @@ async function fetchPlaceDetails(placeId) {
 
 /* Populate place details */
 function displayPlaceDetails(place) {
-    const container = document.getElementById("place-details");
-
-    // If this page does not have place-details, STOP
-    if (!container) {
-        return;
-    }
-    
-    container.innerHTML = "";
 
     // Title
     document.getElementById("place-title").textContent = place.title;
