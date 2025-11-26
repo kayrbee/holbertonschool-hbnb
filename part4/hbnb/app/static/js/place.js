@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
         reviewLink.href = `/add_review?place_id=${placeId}`;
     }
 
-    fetchPlaceDetails(token, placeId);       // Load the place details
+    fetchPlaceDetails(placeId);       // Load the place details
 });
 
 /* Get place ID from URL */
@@ -21,22 +21,23 @@ function getPlaceIdFromURL() {
 /* Check user authentication */
 function checkAuthentication() {
     const token = getCookie("token");
-    const reviewButton = document.getElementById("review-button");
+    const reviewSection = document.getElementById("review-button-section");
 
     if (!token) {
-        reviewButton.style.display = "none";
+        reviewSection.style.display = "none";
     } else {
-        reviewButton.style.display = "block";
+        reviewSection.style.display = "block";
     }
 
     return token;
 }
 
 /* Fetch place details */
-async function fetchPlaceDetails(token, placeId) {
+async function fetchPlaceDetails(placeId) {
+    const token = getCookie("token");
+
     try {
         const response = await fetch(`/api/v1/places/${placeId}`, {
-            method: "GET",
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": token ? `Bearer ${token}` : ""
@@ -44,7 +45,6 @@ async function fetchPlaceDetails(token, placeId) {
         });
 
         const place = await response.json();
-
         displayPlaceDetails(place);
 
     } catch (error) {
