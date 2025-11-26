@@ -18,5 +18,12 @@ nav {
     display: block;
 }
 
+body {
+    background-color: #fafafa;
+}
 
-
+main {
+    max-width: 950px;
+    margin: 0 auto;
+    padding: 30px 20px;
+}
