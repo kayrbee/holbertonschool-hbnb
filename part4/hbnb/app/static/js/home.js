@@ -55,7 +55,13 @@ async function fetchPlaces(token) {
 // Display places on homepage
 async function displayPlaces(places) {
     // Remove all .place-card divs from .place-list parent
-    // Dynamically create html tags for each place in places
+    let section = document.querySelector('.places-list');
+
+    while (section.hasChildNodes()) {
+        section.removeChild(section.firstChild);
+    }
+
+    // Dynamically create html for each place in places
     for (i = 0; i < places.length; i++) {
         p = places[i];
 
@@ -68,6 +74,7 @@ async function displayPlaces(places) {
         const price = document.createElement('p');  // Create the price
     
         // Set attributes and values for html tags
+        place.setAttribute('class', 'places-card');
         link.href = `/place?place_id=${p['id']}`;
         if (p['image_url']) { 
             image.src = `/static/${p['image_url']}`;
