@@ -55,36 +55,40 @@ async function fetchPlaces(token) {
 // Display places on homepage
 async function displayPlaces(places) {
     // Remove all .place-card divs from .place-list parent
-    p = places[0]
-    console.log(p)
+    // Dynamically create html tags for each place in places
     for (i = 0; i < places.length; i++) {
-        // pass
-    }
-    // Create a div element amd set its contents to place
-    const place = document.createElement('div');
-    const link = document.createElement('a');
-    const image = document.createElement('img');
-    const title = document.createElement('h2');
-    const description = document.createElement('p');
-    const price = document.createElement('p');
-    // place.innerHTML = 'hello';
+        p = places[i];
 
-    link.href = `/place?${p['id']}`;
-    if (p['image_url']) {
-        image.src = p['image_url'];
-    }
-    image.alt = "Image of " + p['title'];
-    title.innerHTML = p['title'];
-    description.innerHTML = p['description'];
-    price.innerHTML = p['price'];
-
+        // Create elements
+        const place = document.createElement('div');  // Create a div element for the property
+        const link = document.createElement('a');  // Create a link to the property's page
+        const image = document.createElement('img');  // Create an image of the property
+        const title = document.createElement('h2');  // Create the name
+        const description = document.createElement('p');  // Create the description
+        const price = document.createElement('p');  // Create the price
     
-    // Insert the div within .places-list section
-    placesList = document.querySelector('.places-list');
-    placesList.appendChild(place).appendChild(link).appendChild(image);
-    placesList.appendChild(place).appendChild(title);
-    placesList.appendChild(place).appendChild(description);
-    placesList.appendChild(place).appendChild(price);
+        // Set attributes and values for html tags
+        link.href = `/place?${p['id']}`;
+        if (p['image_url']) { 
+            image.src = p['image_url'];
+        } else {
+            image.src = '/static/images/logo.png';  // Set default image to logo if place image not found
+        }
+        image.alt = "Image of " + p['title'];
+        image.height = 200;
+        image.width = 400;
+        title.innerHTML = p['title'];
+        description.innerHTML = p['description'];
+        price.innerHTML = p['price'];
+    
+        
+        // Insert the place within .places-list section
+        placesList = document.querySelector('.places-list');
+        placesList.appendChild(place).appendChild(link).appendChild(image);
+        placesList.appendChild(place).appendChild(title);
+        placesList.appendChild(place).appendChild(description);
+        placesList.appendChild(place).appendChild(price);
+    }
 }
 
 checkAuthentication();
