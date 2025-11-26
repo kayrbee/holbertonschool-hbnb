@@ -18,15 +18,28 @@ function getPlaceIdFromURL() {
     return params.get("place_id");
 }
 
+// /* Check user authentication */
+// function checkAuthentication() {
+//     const token = getCookie("token");
+//     const reviewButton = document.getElementById("review-button");
+
+//     if (!token) {
+//         reviewButton.style.display = "none";
+//     } else {
+//         reviewButton.style.display = "block";
+//     }
+
+//     return token;
+// }
+
 /* Check user authentication */
 function checkAuthentication() {
     const token = getCookie("token");
     const reviewButton = document.getElementById("review-button");
 
-    if (!token) {
-        reviewButton.style.display = "none";
-    } else {
-        reviewButton.style.display = "block";
+    // Only modify the DOM if the button actually exists on this page
+    if (reviewButton) {
+        reviewButton.style.display = token ? "block" : "none";
     }
 
     return token;
@@ -55,6 +68,12 @@ async function fetchPlaceDetails(token, placeId) {
 /* Populate place details */
 function displayPlaceDetails(place) {
     const container = document.getElementById("place-details");
+
+    // If this page does not have place-details, STOP
+    if (!container) {
+        return;
+    }
+    
     container.innerHTML = "";
 
     // Title

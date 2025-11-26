@@ -1,3 +1,17 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+  flex: 1; /* pushes footer down */
+}
+
 nav {
     display: flex;
     justify-content: space-between;
@@ -18,5 +32,8 @@ nav {
     display: block;
 }
 
-
+footer {
+    text-align: center;
+    padding: 20px;
+}
 
