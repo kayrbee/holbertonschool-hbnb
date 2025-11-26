@@ -12,9 +12,10 @@ INSERT OR IGNORE INTO amenities (id, name) VALUES
 ('36c9050e-ddd3-4c3b-9731-9f487208bba4', 'Cinema Room'),
 ('36c9050e-ddd3-4c3b-9731-9f487208bba5', 'Kitchen');
 
-INSERT OR IGNORE INTO places (id, title, description, price, latitude, longitude, user_id) VALUES
+INSERT OR IGNORE INTO places (id, title, image_url, description, price, latitude, longitude, user_id)  VALUES
 ('36c9050e-ddd3-4c3b-9731-9f487208bbf1',
  'Cozy Home',
+ 'images/cozy-home.jpg',
  'A cozy apartment with wifi',
  200,
  -34.5667,
@@ -22,6 +23,7 @@ INSERT OR IGNORE INTO places (id, title, description, price, latitude, longitude
  '36c9050e-ddd3-4c3b-9731-9f487208bbc2'),
 ('36c9050e-ddd3-4c3b-9731-9f487208bbf2',
  'Summer House',
+ 'images/summer-house.jpg',
  'A happy house with swimming pool and cocktails',
  400,
  -40.5667,
@@ -29,6 +31,7 @@ INSERT OR IGNORE INTO places (id, title, description, price, latitude, longitude
  '36c9050e-ddd3-4c3b-9731-9f487208bbc3'),
 ('36c9050e-ddd3-4c3b-9731-9f487208bbf3',
  'Modern Home',
+ 'images/modern-home.jpg',
  'Modern, well-equipped home with cinema room',
  500,
  -45.5667,
@@ -36,6 +39,7 @@ INSERT OR IGNORE INTO places (id, title, description, price, latitude, longitude
  '36c9050e-ddd3-4c3b-9731-9f487208bbc4'),
 ('36c9050e-ddd3-4c3b-9731-9f487208bbf4',
  'Weekend Getaway',
+ 'images/weekend-getaway.jpg',
  'Immerse yourself in a relaxing sauna and swimming pool',
  600,
  -48.5667,
