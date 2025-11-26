@@ -8,25 +8,17 @@ document.querySelector('.price-filter').addEventListener('change', (event) => {
 /* Dynamically create price filter options */
 async function priceList() {
     const priceList = document.querySelector('.price-filter');
+    const options = [10, 50, 100, "All"];
 
-    const list = document.createElement('ol');
+    for (let i = 0; i < options.length; i++) {
+        let option = document.createElement('option');
+        option.value = options[i];
+        option.innerHTML = options[i];
+        priceList.appendChild(option);
+    }
 
-    priceList.appendChild(list);
-    
-    p10 = document.createElement('li');
-    p50 = document.createElement('li');
-    p100 = document.createElement('li');
-    pAll = document.createElement('li');
-
-    p10.innerHTML = 10;
-    p50.innerHTML = 50;
-    p100.innerHTML = 100;
-    pAll.innerHTML = 'All';
-
-    list.appendChild(p10);
-    list.appendChild(p50);
-    list.appendChild(p100);
-    list.appendChild(pAll);
+    priceList.name = "price-filter";
+    priceList.id = "prices";
 }
 
 /* Check user authentication */
@@ -41,6 +33,7 @@ function checkAuthentication() {
     }
 
     // return token;
+    priceList();
     fetchPlaces(token);
 }
 
