@@ -94,13 +94,7 @@ flask shell
 
 ### 5. Seed the database
 
-The previous step created a `development.db` file. This step will seed a small set of linked data:
-
-- the users table with an `admin_user` and some non-admin users
-- the places table with places owned by non-admins
-- the amenities table
-- the places.amenities table with place<>amenity associations
-- the reviews table with reviews of places
+The previous step created a `development.db` file. This step will seed a small set of linked data across the `users`, `places`, `amenities` and `reviews` and `places.amenities` tables for the web application to display.
 
 ```bash
 sqlite3 instance/development.db < seed.sql
@@ -175,7 +169,7 @@ flask run --debug
 
 ### 1. [OPTIONAL] Validate the db setup
 
-You can verify that the database was seeded correctly if you want to. You should see one admin user returned in the response, which will allow you to perform CRUD operations via the application endpoints.
+You can verify that the database was seeded correctly if you want to. You should see one admin user and a few non-admin users returned in the response. The admin user will allow you to perform CRUD operations via the application's endpoints.
 
 ```bash
 curl http://127.0.0.1:5000/api/v1/users/
@@ -190,10 +184,10 @@ http://127.0.0.1:5000
 ```
 
 The web pages are
-- [Home](http://127.0.0.1:5000)
-- [Login](http://127.0.0.1:5000/login)
-- [Place](http://127.0.0.1:5000/place)
-- [Review]() # add link when done
+- [home page](http://127.0.0.1:5000) - /
+- [log in page](http://127.0.0.1:5000/login) - /login
+- [place details page](http://127.0.0.1:5000/place?place_id=36c9050e-ddd3-4c3b-9731-9f487208bbf1) - /place?place_id=<place_id>
+- [leave a review page](http://127.0.0.1:5000/add_review?place_id=36c9050e-ddd3-4c3b-9731-9f487208bbf1) - /add_review?place_id=<place_id>
 
 ### 3. Log in as the admin**
 
@@ -202,8 +196,8 @@ Visit the login page and sign in as the admin
 ```bash
 http://127.0.0.1:5000/login
 
-email: # admin email
-password: # admin password (see intranet)
+email: admin@hbnb.io
+password: # use the admin password (see intranet - part 3, task 10 or DM a group member)
 ```
 
 ## Using the API endpoints directly
