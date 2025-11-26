@@ -38,6 +38,7 @@ async function fetchPlaceDetails(placeId) {
 
     try {
         const response = await fetch(`/api/v1/places/${placeId}`, {
+            method: "GET",
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": token ? `Bearer ${token}` : ""
