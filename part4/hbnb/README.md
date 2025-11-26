@@ -75,7 +75,12 @@ pip install python-dotenv
 
 This project is backed by a sqlite database. To create and initialise a fresh database, run these setup commands from a `flask shell`:
 
+NB: to start fresh, delete the `development.db` file first.
+
 ```bash
+# Delete the old database if it exists
+rm instance/development.db
+
 # open flask shell
 flask shell
 

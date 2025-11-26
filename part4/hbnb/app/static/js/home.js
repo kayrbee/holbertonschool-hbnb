@@ -68,15 +68,15 @@ async function displayPlaces(places) {
         const price = document.createElement('p');  // Create the price
     
         // Set attributes and values for html tags
-        link.href = `/place?${p['id']}`;
+        link.href = `/place?place_id=${p['id']}`;
         if (p['image_url']) { 
-            image.src = p['image_url'];
+            image.src = `/static/${p['image_url']}`;
         } else {
             image.src = '/static/images/logo.png';  // Set default image to logo if place image not found
         }
         image.alt = "Image of " + p['title'];
         image.height = 200;
-        image.width = 400;
+        image.width = 300;
         title.innerHTML = p['title'];
         description.innerHTML = p['description'];
         price.innerHTML = p['price'];
