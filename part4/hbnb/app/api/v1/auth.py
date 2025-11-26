@@ -1,6 +1,7 @@
 from flask_restx import Namespace, Resource, fields
 from flask_jwt_extended import create_access_token
 from app.services import facade
+from datetime import timedelta  # to extend token expiry time
 
 api = Namespace('auth', description='Authentication operations')
 
@@ -29,6 +30,7 @@ class Login(Resource):
 
         access_token = create_access_token(
             identity=str(user.id),
+            expires_delta=timedelta(days=3), # extend token exipiry for testing purpose
             additional_claims={"is_admin": user.is_admin}
         )
 

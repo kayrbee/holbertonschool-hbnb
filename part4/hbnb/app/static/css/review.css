@@ -1,15 +1,24 @@
+.review-wrapper {       
+    display: flex;          
+    justify-content: center; 
+    margin-top: 40px;
+}
+
 .review-card {
-    max-width: 700px;
+    width: 500px;
     margin: 20px;
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    text-align: center;
+    max-width: 800px; 
 }
 
 .place-title{
-    color:#010d0d;
+    color:#030d01;
     font-size: 20px;
-    font-weight: 600;
+    font-weight: 800;
 }
 
 .review-title {
@@ -22,7 +31,6 @@
 .overall-rating {
     font-weight: 600;
     font-size: 18px;
-    margin-bottom: 10px;
 }
 
 .star-rating {
@@ -30,11 +38,13 @@
     gap: 6px;
     font-size: 32px;
     cursor: pointer;
+    justify-content: center;
+    margin: 20px auto;
 }
 
 .star-rating span {
     color: #f3e3e3;
-    transition: color 0.2s;
+    transition: color 0.01s;
 }
 
 .star-rating span.selected {
@@ -43,15 +53,18 @@
 
 .comment-section {
     margin-top: 20px;
+    justify-content: center;
 }
 
+
 .comment-section textarea {
-    width: 100%;
     border: 1px solid #ddd;
     border-radius: 10px;
+    background: #f7d5d5;
     padding: 12px;
     margin-top: 10px;
-    font-size: 16px;
+    font-size: 18px;
+    
 }
 
 .char-count {
@@ -61,7 +74,7 @@
 }
 
 .submit-review-btn {
-    width: 100%;
+    /* width: 100%; */
     background-color: #e51d54;
     color: white;
     padding: 16px;
@@ -74,4 +87,41 @@
 
 .submit-review-btn:hover {
     background-color: #e51d54;
+}
+
+.popup-hidden {
+    position: fixed;
+    justify-content: center;
+    display: none;
+}
+
+.popup-content {
+    background: white;
+    padding: 20px 30px;
+    border-radius: 12px;
+    font-size: 18px;
+    text-align: center;
+    width: 320px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.popup-btns {
+    margin-top: 16px;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.back-btn {
+    flex: 1;
+    padding: 10px 12px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.back-btn {
+    background-color: #e51d54;
+    color: white;
 }

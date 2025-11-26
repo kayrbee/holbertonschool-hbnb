@@ -8,7 +8,7 @@ api = Namespace('reviews', description='Review operations')
 review_model = api.model('Review', {
     'text': fields.String(required=True, description='Review comment'),
     'rating': fields.Integer(required=True, description='Rating of the place (1-5)'),
-    'user': fields.String(required=True, description='ID of the review author'),
+    'user': fields.String(description='ID of the review author'),
     'place': fields.String(required=True, description='ID of the place')
 })
 
