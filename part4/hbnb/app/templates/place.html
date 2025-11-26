@@ -11,7 +11,7 @@
     {% include 'header.html' %}
 
     <main>
-        <section id="place-details">
+        <section id="place-details" id="review-form-section">
             <!-- JS inserts place details here -->
         </section>
 
@@ -19,7 +19,7 @@
             <!-- JS inserts reviews here -->
         </section>
 
-        <div class="review-button">
+        <section class="review-button">
             <a href="/add_review?place_id={{ place.id }}">
                 <button>Leave a Review</button>
             </a>

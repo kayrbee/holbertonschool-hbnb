@@ -17,6 +17,23 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Click rating stars
+    const stars = document.querySelectorAll("#overall-rating span");
+    const ratingInput = document.getElementById("rating");
+
+    stars.forEach(star => {
+        star.addEventListener("click", () => {
+            const selectedValue = parseInt(star.dataset.value);
+            // update the hidden rating input
+            ratingInput.value = selectedValue;
+
+            // color the stars
+            stars.forEach(s => {
+                s.classList.toggle("selected", parseInt(s.dataset.value) <= selectedValue);
+            });
+        });
+    })
+    
     // Handles submission
     if (reviewForm) {
         reviewForm.addEventListener('submit', async (event) => {
