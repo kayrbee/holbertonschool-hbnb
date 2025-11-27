@@ -7,10 +7,38 @@ body {
     display: flex;
     flex-direction: column;
     background-color: #fafafa;
+    font-family: 'Prompt', sans-serif;
+    font-weight: 300;                   /* light */
+}
+
+h1 {
+    font-size: 32px;
+    font-weight: 600;
+    color: #3d3d3dfa;
+    margin-bottom: 4px;
+    text-align: center;
+}
+
+h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #3d3d3dfa;
+    margin-bottom: 4px;
+    text-align: center;
+}
+h2, h3, h4, h5, h6 {                /* Headings */
+    font-weight: 500;                   /* semibold */
+    color: #3d3d3dfa;
+    text-align: center;
+    margin: 0;
+}
+
+strong {                                /* Emphasis */
+    font-weight: 500;                   /* regular */
 }
 
 main {
-  flex: 1; /* pushes footer down */
+  flex: 1;                              /* pushes footer down */
   width: 100%;
   max-width: 1400px;
   margin: 0 auto;
@@ -37,7 +65,74 @@ nav {
     display: block;
 }
 
+.button-wrapper {
+    display: flex;
+    justify-content: center;
+    margin: 40px 0 20px;
+}
+
+.button {
+    padding: 15px 34px;
+    font-size: 18px;
+    border-radius: 12px;
+    border: none;
+    background: linear-gradient(90deg, #FF385C, #E31C5F);
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 4px 18px rgba(255, 49, 90, 0.4);
+    transition: 0.2s ease;
+    text-decoration: none;
+    margin-bottom: 12px
+}
+
+.button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 22px rgba(255, 49, 90, 0.55);
+}
+
 footer {
     text-align: center;
     padding: 20px;
+}
+
+/* Section blocks */
+.section-block {
+    background: #ffffff;
+    padding: 25px 30px;
+    border-radius: 16px;
+    margin: 20px auto 30px;
+    box-shadow: 0 2px 14px #0000000F;
+    width: 80%;
+    border: 1px solid #ddd;
+    max-width: 800px; 
+}
+.add-review-page {
+    text-align: center;
+}
+
+
+/* Fonts */
+
+.prompt-light {
+  font-family: "Prompt", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.prompt-regular {
+  font-family: "Prompt", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.prompt-medium {
+  font-family: "Prompt", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.prompt-semibold {
+  font-family: "Prompt", sans-serif;
+  font-weight: 600;
+  font-style: normal;
 }
