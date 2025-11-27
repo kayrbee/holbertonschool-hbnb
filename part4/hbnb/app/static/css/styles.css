@@ -39,6 +39,10 @@ strong {
     font-weight: 500;
 }
 
+light {
+    font-weight: 300;
+}
+
 main {
   flex: 1;
   width: 100%;
