@@ -4,9 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Place Details</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">                   <!-- Jinja dynamic URL builder (x2 lines) -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/place.css') }}">
-    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/favicon.png') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/favicon.png') }}">    <!-- Favicon loader -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">                                         <!-- Font loader (x3 lines) -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -39,10 +42,8 @@
 
         <!-- Review button -->
         <section id="review-button-section">
-            <div class="review-button-wrapper">
-                <a id="leave-review-link" href="#">
-                    <button id="review-button">Leave a Review</button>
-                </a>
+            <div class="button-wrapper">
+                <a id="leave-review-link" href="#" class="button">Leave a Review</a>
             </div>
         </section>
 
