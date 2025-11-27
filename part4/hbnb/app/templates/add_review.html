@@ -11,47 +11,51 @@
     {% include 'header.html' %}
 
     <div class="review-wrapper">
-        <main class="review-card">
-            <!-- place title and review title -->
-            <h1 class="place-title">{{ place.title }}</h1> 
-            <h2 class="review-title">How was your stay?</h2>
+        <div class="section-block">
+            <main class="add-review-page">
+                <!-- place title and review title -->
+                <h1>How was your stay?</h1>
+                <br>
+                <h3>{{ place.title }}</h3> 
 
-            <!-- <button id="show-form-btn" class="review-button" none;>Leave a Review</button>  -->
+                <!-- <button id="show-form-btn" class="review-button" none;>Leave a Review</button>  -->
 
-            <!-- review form -->
-            <section id="review-form-section">
-                <form id="review-form">
-                    <div class="rating-section">
-                        <label class="overall-rating">Overall rating</label>
-                        <div class="star-rating" id="overall-rating">
-                            <span data-value="1">★</span>
-                            <span data-value="2">★</span>
-                            <span data-value="3">★</span>
-                            <span data-value="4">★</span>
-                            <span data-value="5">★</span>
+                <!-- review form -->
+                <section id="review-form-section">
+                    <form id="review-form">
+                        <div class="rating-section">
+                            <label class="overall-rating">Overall rating</label>
+                            <div class="star-rating" id="overall-rating">
+                                <span data-value="1">★</span>
+                                <span data-value="2">★</span>
+                                <span data-value="3">★</span>
+                                <span data-value="4">★</span>
+                                <span data-value="5">★</span>
+                            </div>
+                            <!-- This hidden input will store the selected rating -->
+                            <input type="hidden" id="rating" name="rating" value="0">
                         </div>
-                        <!-- This hidden input will store the selected rating -->
-                        <input type="hidden" id="rating" name="rating" value="0">
-                    </div>
-                    <!-- Text Review -->
-                    <div class="comment-section">
-                        <textarea id="review-text" name="text" rows="6" placeholder="What did you like about your stay?"></textarea>
-                        <p class="char-count">0 characters</p>
-                    </div>
+                        <!-- Text Review -->
+                        <div class="comment-section">
+                            <textarea id="review-text" class="prompt-light" name="text" rows="6" placeholder="What did you like about your stay?"></textarea>
+                        </div>
 
-                    <button type="submit" class="submit-review-btn">Submit review</button>
-                </form>
-            </section>
+                        <div class="button-wrapper">
+                            <button type="submit" class="button">Submit review</button>
+                        </div>
+                    </form>
+                </section>
 
-            <section id="success-popup" class="popup-hidden">
-                <div class="popup-content">
-                    <p>Thanks for sharing your review!</p>
-                    <div class="popup-btns">
-                        <button id="back-popup" class="back-btn">Back to Place</button>
+                <section id="success-popup" class="popup-hidden">
+                    <div class="popup-content">
+                        <p>Thanks for sharing your review!</p>
+                        <div class="popup-btns">
+                            <button id="back-popup" class="back-btn">Back to Place</button>
+                        </div>
                     </div>
-                </div>
-            </section>
-        </main>
+                </section>
+            </main>
+        </div>
     </div>
 
     <script src="{{ url_for('static', filename='js/review.js') }}"></script>
