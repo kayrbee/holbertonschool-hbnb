@@ -119,7 +119,7 @@ async function displayPlaces(places) {
         // Set tag contents
         title.innerHTML = p['title'];
         description.innerHTML = p['description'];
-        price.innerHTML = `$${p['price']}`;
+        price.innerHTML = `$${p['price']} per night`;
         
         // Insert the div and child elements within .places-list section
         link.appendChild(image);

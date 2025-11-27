@@ -39,6 +39,10 @@ strong {
     font-weight: 500;
 }
 
+light {
+    font-weight: 300;
+}
+
 main {
   flex: 1;
   width: 100%;
@@ -104,12 +108,14 @@ footer {
 /* Section blocks */
 .section-block {
     background: #ffffff;
-    padding: 25px 30px;
-    border-radius: 16px;
-    margin: 20px auto 30px;
+
+    margin: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    
     box-shadow: 0 2px 14px #0000000F;
     width: 80%;
-    border: 1px solid #ddd;
     max-width: 800px; 
 }
 .add-review-page {
