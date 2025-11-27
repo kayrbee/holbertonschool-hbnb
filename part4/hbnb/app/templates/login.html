@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">                   <!-- Jinja dynamic URL builder -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">                   <!-- Jinja dynamic URL builder (x2 lines) -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/favicon.png') }}">    <!-- Favicon loader -->
     <link rel="preconnect" href="https://fonts.googleapis.com">                                         <!-- Font loader (x3 lines) -->
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,7 +25,7 @@
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required>
             
-            <button type="submit">Login</button>
+            <button type="submit" class="button">Login</button>
         </form>
     </main>
 
