@@ -4,6 +4,7 @@
 Initialises a Flask app
 """
 from flask import Flask
+from flask_cors import CORS
 from flask_restx import Api
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager
@@ -19,6 +20,8 @@ jwt = JWTManager()
 # Instanstiates a SQLAlchemy class
 db = SQLAlchemy()
 
+# Instanstiates a CORS class
+cors = CORS()
 
 def create_app(config_class="config.DevelopmentConfig"):
 
@@ -35,6 +38,9 @@ def create_app(config_class="config.DevelopmentConfig"):
 
     # Register SQLAlchemy  with the app instance
     db.init_app(app)
+    
+    # Register CORS  with the app instance
+    cors.init_app(app)
 
     # Define the web front-end routes
     @app.route("/login", methods=["GET"])
