@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const token = checkAuthentication('review');
     if(!token) {
         alert("Please log in first to leave a review.");
-        window.location.href = "/";
+        window.location.href = "/login";
         return;      // stop running the script
     }
 
