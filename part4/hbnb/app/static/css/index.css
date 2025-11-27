@@ -10,9 +10,13 @@ main {
 .places-card {
     flex: 0 0 auto;
     width: 280px;
-    border-radius: 16px;
+    
+    margin: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+
     background: #fff;
-    padding: 16px;
     box-shadow: 0 4px 18px rgba(0,0,0,0.08);
     scroll-snap-align: start;
 }
