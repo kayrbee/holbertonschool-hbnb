@@ -1,0 +1,26 @@
+#login-form {
+    background-color: #fff;
+    padding: 32px;
+    border-radius: 16px;
+    box-shadow: 0 2px 14px #0000000F;
+    max-width: 400px;
+    margin: 60px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border: 1px solid #ddd;
+}
+
+#login-form label {
+    font-weight: 500;
+    color: #3d3d3dfa;
+    font-size: 16px;
+}
+
+#login-form input {
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    font-family: 'Prompt', sans-serif;
+}
