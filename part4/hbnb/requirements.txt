@@ -6,3 +6,4 @@ sqlalchemy
 flask-sqlalchemy
 pytest
 requests
+flask_cors
