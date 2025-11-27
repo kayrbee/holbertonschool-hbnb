@@ -8,7 +8,8 @@ body {
     flex-direction: column;
     background-color: #fafafa;
     font-family: 'Prompt', sans-serif;
-    font-weight: 300;                   /* light */
+    font-weight: 300;
+    overflow-x: hidden;
 }
 
 h1 {
@@ -26,19 +27,20 @@ h3 {
     margin-bottom: 4px;
     text-align: center;
 }
-h2, h3, h4, h5, h6 {                /* Headings */
-    font-weight: 500;                   /* semibold */
+
+h2, h3, h4, h5, h6 {
+    font-weight: 500;
     color: #3d3d3dfa;
     text-align: center;
     margin: 0;
 }
 
-strong {                                /* Emphasis */
-    font-weight: 500;                   /* regular */
+strong {
+    font-weight: 500;
 }
 
 main {
-  flex: 1;                              /* pushes footer down */
+  flex: 1;
   width: 100%;
   max-width: 1400px;
   margin: 0 auto;
@@ -54,13 +56,17 @@ nav {
 .nav-left {
     display: flex;
     align-items: center;
+    padding: 12px 20px;
 }
 
 .nav-right {
-    display: flex;
-    align-items: center;
+    padding: 10px 20px;
+    border-radius: 12px;
+    color: #E31C5F;
+    font-weight: 500;
+    font-size: 15px;
+    text-decoration: none;
 }
-
 .logo img {
     display: block;
 }
@@ -110,6 +116,19 @@ footer {
     text-align: center;
 }
 
+.section-title {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #f2f2f2;
+}
+
+.place-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
 /* Fonts */
 

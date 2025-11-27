@@ -31,7 +31,7 @@ document.querySelector('.price-filter').addEventListener('change', (event) => {
 /* Dynamically create price filter options */
 async function priceList() {
     const priceList = document.querySelector('.price-filter');
-    const options = [10, 50, 100, "All"];
+    const options = ["All", 10, 50, 100];
 
     for (let i = 0; i < options.length; i++) {
         let option = document.createElement('option');
@@ -88,7 +88,7 @@ async function displayPlaces(places) {
         const place = document.createElement('div');  // Create a div element for the property
         const link = document.createElement('a');  // For a link to the property's page
         const image = document.createElement('img');  // For an image of the property
-        const title = document.createElement('h2');  // For the place name
+        const title = document.createElement('strong');  // For the place name
         const description = document.createElement('p');  // For the description
         const price = document.createElement('p');  // For the price
     
