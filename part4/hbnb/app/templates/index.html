@@ -18,18 +18,18 @@
     <main>
         <h1>Available Places</h1>
 
-        <section>
+        <div>
             <label for="price-filter">Max Price:</label>
-            <select class="price-filter" class="filter-dropdown">
+            <select id="price-filter" class="filter-dropdown">
                 <!-- Options will be populated dynamically -->
             </select>
-        </section>
+        </div>
         
-        <section class="places-container">
+        <div class="places-container">
             <div class="places-list">
                 <!-- Options will be populated dynamically -->
             </div>
-        </section>
+        </div>
     </main>
     
     <script src="{{ url_for('static', filename='js/home.js') }}"></script>
