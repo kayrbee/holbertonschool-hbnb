@@ -155,6 +155,7 @@ holbertonschool-hbnb/
 │   │   ├── config.py
 │   │   ├── README.md                           # Application Run Guide
 │   │   ├── requirements.txt
+│   │   ├── seed.sql                            # DB seed script
 │   │   ├── run.py
 │   ├── README.md                               # YOU ARE HERE - Part 4 Project Guide
 ├── .gitignore
