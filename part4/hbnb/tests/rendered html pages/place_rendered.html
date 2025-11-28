@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Place Details</title>
+    <link rel="stylesheet" href="/static/css/styles.css">                   <!-- Jinja dynamic URL builder (x2 lines) -->
+    <link rel="stylesheet" href="/static/css/place.css">
+    <link rel="icon" type="image/png" href="/static/images/favicon.png">    <!-- Favicon loader -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">                                         <!-- Font loader (x3 lines) -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <link rel="stylesheet" href="/static/css/styles.css">
+<header>
+    <nav>
+        <div class="nav-left">
+            <a href="/" class="logo">
+                <img src="/static/images/logo.png" alt="HBnB logo" width="142" height="60">
+            </a>
+        </div>
+        <div class="nav-right">
+            <a href="/login" class="login-button" id="login-link">Login</a>
+        </div>
+    </nav>
+    <script src="/static/js/helpers.js"></script>
+</header>
+
+    <main class="place-container">
+        
+        <!-- Place header (title & img) -->
+        <div id="place-header" class="section-block">
+            <h1 id="place-title" class="place-title">Loading...</h1>                    <!-- 'Loading...' placeholder for W3C-->
+            <img id="place-image" 
+                class="place-main-image" 
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
+                alt="Place photo">                                                      <!-- 1x1 transparent placeholder image used for W3C -->
+        </div>
+
+        <!-- Place info (host, price, description) -->
+        <div id="place-info-section" class="section-block">
+            <div id="place-info" class="place-info"></div>
+        </div>
+
+        <!-- Amenities -->
+        <div id="amenities-section" class="section-block">
+            <h2 class="section-title">Amenities</h2>
+            <div id="amenities-list"></div>
+        </div>
+
+        <!-- Reviews -->
+        <div id="reviews-section" class="section-block">
+            <h2 class="section-title">Reviews</h2>
+            <div id="reviews-list"></div>
+        </div>
+
+        <!-- Review button -->
+        <div id="review-button-section">
+            <div class="button-wrapper">
+                <a id="leave-review-link" href="#" class="button">Leave a Review</a>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="/static/js/place.js"></script>
+    <script src="/static/js/helpers.js"></script>
+
+    <footer>
+    <p>&copy;2025 HBnB Evolution. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
