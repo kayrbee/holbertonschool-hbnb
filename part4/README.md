@@ -11,7 +11,7 @@ You are in the Part 4 Project Guide  ---------------------- 🗺️ `/part4`
 
 # Part 4 Project Guide
 
-This README details the application's structure and the task instructions for part 4.
+This README details the application's structure and the task instructions for hbnb part 4: Implementing a web front-end.
 
 ## Table of Contents
 
@@ -26,16 +26,22 @@ This README details the application's structure and the task instructions for pa
         - [3. List of places](/part4/README.md#list-of-places-task-3)
         - [4. Place details](/part4/README.md#place-details-task-4)
         - [5. Add review](/part4/README.md#add-review-task-5)
+    - [W3C Validation](/part4/README.md#w3c-validation)
 
 
 ## Part 4 Project Structure
 
+For an overview of the project please refer to the directory structure below. Most of the structure was cloned from Part 3; Part 4 extends the structure to include a web front-end, including html, javascript, css and image files. 
+
+We've also uploaded a copy of the fully rendered html of each page, to assist the marking process - they're not required for the application to function.
+
 ```
 holbertonschool-hbnb/
-├── .github/  # GitHub Actions config to run automated tests
-├── part1/    # truncated for clarity
-├── part2/    # truncated for clarity
-├── part3/
+├── .github/                        # GitHub Actions config to run automated tests
+├── part1/                          # truncated for clarity
+├── part2/                          # truncated for clarity
+├── part3/                          # truncated for clarity
+├── part4/
 │   ├──hbnb/
 │   │   ├── app/
 │   │   │   ├── api/
@@ -77,11 +83,26 @@ holbertonschool-hbnb/
 │   │   │   │   ├── facade.py
 │   │   │   ├── static/
 │   │   │   │   ├── css/
-│   │   │   │       ├── styles.css
+│   │   │   │   │   ├── index.css
+│   │   │   │   │   ├── login.css
+│   │   │   │   │   ├── place.css
+│   │   │   │   │   ├── review.css
+│   │   │   │   │   ├── styles.css
 │   │   │   │   ├── images/
-│   │   │   │       ├── logo.png
+│   │   │   │   │   ├── cozy-home.png
+│   │   │   │   │   ├── favicon.png
+│   │   │   │   │   ├── hbnb_default_img.png
+│   │   │   │   │   ├── logo.png
+│   │   │   │   │   ├── modern-home.png
+│   │   │   │   │   ├── summer-house.png
+│   │   │   │   │   ├── sweekend-getaway.png
 │   │   │   │   ├── js/
-│   │   │   │       ├── scripts.js
+│   │   │   │   │   ├── helpers.js
+│   │   │   │   │   ├── home.js
+│   │   │   │   │   ├── place.js
+│   │   │   │   │   ├── review.js
+│   │   │   │   │   ├── scripts.js
+│   │   │   │   │   ├── user.js
 │   │   │   ├── templates/
 │   │   │   │   ├── add_review.html
 │   │   │   │   ├── footer.html
@@ -89,13 +110,12 @@ holbertonschool-hbnb/
 │   │   │   │   ├── index.html
 │   │   │   │   ├── login.html
 │   │   │   │   ├── place.html
-│   │   │   ├── services/
 │   │   │   ├── __init__.py                     # Contains def create_app()
 │   │   ├── images/                             # Mermaid diagrams
 │   │   │   ├── Base.png
 │   │   │   ├── Test_understanding.png
 │   │   ├── instance/
-│   │   │   ├── development.db                  # Created at db initialisation
+│   │   │   ├── development.db                   # DB is created here at initialisation
 │   │   ├── tests/
 │   │   │   ├── api/
 │   │   │   │   ├── __init__.py
@@ -111,17 +131,34 @@ holbertonschool-hbnb/
 │   │   │   │   ├── test_place_class.py
 │   │   │   │   ├── test_review_class.py
 │   │   │   │   ├── test_user_class.py
+│   │   │   ├── rendered_html_pages/             # W3C Validations
+│   │   │   │   ├── W3C_results/
+│   │   │   │   │   ├── add_review_check.pdf
+│   │   │   │   │   ├── index_check.pdf
+│   │   │   │   │   ├── login_check.pdf
+│   │   │   │   │   ├── place_check.pdf
+│   │   │   │   │   ├── review_check.pdf
+│   │   │   │   ├── rendering_tools/
+│   │   │   │   │   ├── render_index.pdf
+│   │   │   │   │   ├── render_login.pdf
+│   │   │   │   │   ├── render_page_reviews.pdf
+│   │   │   │   │   ├── render_place.pdf
+│   │   │   │   ├── README.md
+│   │   │   │   ├── index_rendered.html
+│   │   │   │   ├── login.html
+│   │   │   │   ├── place_rendered.html
+│   │   │   │   ├── review_rendered.html
 │   │   │   ├── __init__.py
 │   │   │   ├── curl_tests.md
-│   │   │   ├── README.md                    # How to run the project's test suites
+│   │   │   ├── README.md                       # Testing Guide
 │   │   ├── .env-example
 │   │   ├── config.py
-│   │   ├── README.md                        # How to run the application
+│   │   ├── README.md                           # Application Run Guide
 │   │   ├── requirements.txt
 │   │   ├── run.py
-│   ├── README.md                            # You are here
+│   ├── README.md                               # YOU ARE HERE - Part 4 Project Guide
 ├── .gitignore
-├── README.md
+├── README.md                                   # hbnb Project Guide
 ```
 
 ## Part 4 Task Overview
@@ -211,3 +248,7 @@ For a deeper understanding of CORS and how to configure your Flask API, refer to
 [Responsive Web Design Basics](https://web.dev/articles/responsive-web-design-basics)
 [Handling Cookies in JavaScript](https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie)
 [Client-Side Form Validation](https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Forms/Form_validation)
+
+## W3C Validations
+
+We were instructed to ensure that our html files were valid on the W3C Validator. Because our application uses Jinja and Javascript to render html pages dynamically, we've included our [rendered html files](/part4/hbnb/tests/rendered_html_pages/README.md) to support the marking process. 
