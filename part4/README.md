@@ -26,7 +26,7 @@ This README details the application's structure and the task instructions for hb
         - [3. List of places](/part4/README.md#list-of-places-task-3)
         - [4. Place details](/part4/README.md#place-details-task-4)
         - [5. Add review](/part4/README.md#add-review-task-5)
-    - [W3C Validation](/part4/README.md#w3c-validations)
+    - [W3C Validations](/part4/README.md#w3c-validations)
 
 
 ## Part 4 Project Structure
@@ -241,13 +241,13 @@ For a deeper understanding of CORS and how to configure your Flask API, refer to
 
 ### Resources
 
-[HTML5 Documentation](https://developer.mozilla.org/en-US/docs/Glossary/HTML5) 
-[CSS3 Documentation](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS3)
-[JavaScript ES6 Features](https://developer.mozilla.org/en-US/docs/Web/JavaScript/New_in_JavaScript/ECMAScript_2015) 
-[Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)
-[Responsive Web Design Basics](https://web.dev/articles/responsive-web-design-basics)
-[Handling Cookies in JavaScript](https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie)
-[Client-Side Form Validation](https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Forms/Form_validation)
+- [HTML5 Documentation](https://developer.mozilla.org/en-US/docs/Glossary/HTML5) 
+- [CSS3 Documentation](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS3)
+- [JavaScript ES6 Features](https://developer.mozilla.org/en-US/docs/Web/JavaScript/New_in_JavaScript/ECMAScript_2015) 
+- [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)
+- [Responsive Web Design Basics](https://web.dev/articles/responsive-web-design-basics)
+- [Handling Cookies in JavaScript](https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie)
+- [Client-Side Form Validation](https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Forms/Form_validation)
 
 ## W3C Validations
 
