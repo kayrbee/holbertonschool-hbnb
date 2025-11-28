@@ -16,8 +16,8 @@ This README details the instructions for running and using the Part 4 applicatio
 
 - [Running the application](/part4/hbnb/README.md#Running-the-application)
   - [1. Clone the repo](/part4/hbnb/README.md#1-clone-the-repository)
-  - [2.1 Set up a virtual environment](/part4/hbnb/README.md#2.1-set-up-a-virtual-environment)
-  - [2.2 Enable CORS](/part4/hbnb/README.md#2.2-enable-cors)
+  - [2.1 Set up a Virtual Environment](/part4/hbnb/README.md#21-set-up-a-virtual-environment)
+  - [2.2 Enable CORS](/part4/hbnb/README.md#22-enable-cors)
   - [3. Create a .env file](/part4/hbnb/README.md#3-optional-create-a-env-file)
   - [4. Initialise the database](/part4/hbnb/README.md#4-create--initialise-the-database)
   - [5. Seed the database](/part4/hbnb/README.md#5-seed-the-database)
