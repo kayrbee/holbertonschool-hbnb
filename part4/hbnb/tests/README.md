@@ -23,6 +23,7 @@ We have configured Github Actions to automatically run our unit and API tests on
         - [Run all unit tests](/part4/hbnb/tests/README.md#run-all-unit-tests)
     - [API tests](/part4/hbnb/tests/README.md#run-all-api-tests)
     - [Testing manually with curl](/part4/hbnb/tests/README.md#testing-manually-with-curl)
+    - [W3C Validation](/part4/hbnb/tests/README.md#w3c-validation)
 
 ## Test approach
 
@@ -83,3 +84,10 @@ python -m unittest discover -s tests/api
 ### Testing manually with CURL
 
 For guidance on how to test individual endpoints with curl commands, see [curl tests](/part4/hbnb/tests/curl_tests.md)
+
+### W3C Validation
+
+A key component of the testing for Part 4 was ensuring W3C Validation. Accordingly, final copies of the html have been tested against the [W3C Validator](https://validator.w3.org/) using rendered html code that we generated using python scripts. The following resources will assist the user with various stages of testing or test-review.
+- [Rendered HTML Pages](/part4/hbnb/tests/rendered_html_pages): Contains rendered copies of the HTML as it was upon submission
+- [Rendering Tools](/part4/hbnb/tests/rendered_html_pages/rendering_tools): Contains copies of the .py files used to generate the rendered HTML files. Can be re-used as needed.
+- [W3C Results](/part4/hbnb/tests/rendered_html_pages/W3C_results): Contains copies of the passing results generated upon testing for W3C compliance. This is based on the rendered HTML pages provided.
