@@ -42,7 +42,8 @@ cd holbertonschool-hbnb/part4/hbnb
 
 ### 2.1 Set up a Virtual Environment
 
-**MacOS/Ubuntu**
+**MacOS/Ubuntu/WSL**
+
 
 ```bash
 python3 -m venv venv
@@ -50,7 +51,9 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-**Windows**
+
+**Windows Command Prompt**
+
 
 ```bash
 python -m venv venv
@@ -58,7 +61,18 @@ venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-### 2.2 Enable CORS
+
+**Windows Powershell**
+
+
+```bash
+python -m venv venv
+venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+```
+
+
+### 2.2 CORS Support (no action required)
 This project requires `flask_cors` to allow the front-end (running in the browser on a different origin) to communicate with the Flask API without triggering browser CORS errors.
 
 #### Example of a CORS error (for reference)
@@ -137,28 +151,35 @@ sqlite3 instance/development.db < seed.sql
 brew install sqlite
 sqlite3 --version
 
+
 # Then try step 5 again
 ```
 
-**Ubuntu**
+
+**Ubuntu/WSL**
 ```bash
 sudo apt update
 sudo apt install sqlite3
 sqlite3 --version
 
+
 # Then try step 5 again
 ```
 
-**Windows**
+
+**Windows Command Prompt/Powershell**
+
 
 - Download the SQLite tools ZIP from:
 https://www.sqlite.org/download.html
+
 
 (Look for "sqlite-tools")
 - Unzip it somewhere (e.g. C:\sqlite)
 - Add that folder to your PATH:
   - Start → “Edit environment variables”
   - Edit PATH → Add C:\sqlite
+
 
 ```bash
 sqlite3 --version
