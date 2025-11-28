@@ -26,7 +26,7 @@ This README details the application's structure and the task instructions for hb
         - [3. List of places](/part4/README.md#list-of-places-task-3)
         - [4. Place details](/part4/README.md#place-details-task-4)
         - [5. Add review](/part4/README.md#add-review-task-5)
-    - [W3C Validation](/part4/README.md#w3c-validation)
+    - [W3C Validation](/part4/README.md#w3c-validations)
 
 
 ## Part 4 Project Structure
