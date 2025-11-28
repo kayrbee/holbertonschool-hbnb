@@ -18,34 +18,37 @@
     <main class="place-container">
         
         <!-- Place header (title & img) -->
-        <section id="place-header" class="section-block">
-            <h1 id="place-title" class="place-title"></h1>
-            <img id="place-image" class="place-main-image" alt="Place photo">
-        </section>
+        <div id="place-header" class="section-block">
+            <h1 id="place-title" class="place-title">Loading...</h1>                    <!-- 'Loading...' placeholder for W3C-->
+            <img id="place-image" 
+                class="place-main-image" 
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
+                alt="Place photo">                                                      <!-- 1x1 transparent placeholder image used for W3C -->
+        </div>
 
         <!-- Place info (host, price, description) -->
-        <section id="place-info-section" class="section-block">
+        <div id="place-info-section" class="section-block">
             <div id="place-info" class="place-info"></div>
-        </section>
+        </div>
 
         <!-- Amenities -->
-        <section id="amenities-section" class="section-block">
+        <div id="amenities-section" class="section-block">
             <h2 class="section-title">Amenities</h2>
             <div id="amenities-list"></div>
-        </section>
+        </div>
 
         <!-- Reviews -->
-        <section id="reviews-section" class="section-block">
+        <div id="reviews-section" class="section-block">
             <h2 class="section-title">Reviews</h2>
             <div id="reviews-list"></div>
-        </section>
+        </div>
 
         <!-- Review button -->
-        <section id="review-button-section">
+        <div id="review-button-section">
             <div class="button-wrapper">
                 <a id="leave-review-link" href="#" class="button">Leave a Review</a>
             </div>
-        </section>
+        </div>
 
     </main>
 
