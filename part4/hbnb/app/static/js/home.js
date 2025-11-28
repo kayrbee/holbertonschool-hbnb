@@ -36,7 +36,11 @@ async function priceList() {
     for (let i = 0; i < options.length; i++) {
         let option = document.createElement('option');
         option.value = options[i];
-        option.innerHTML = `$${options[i]}`;
+        if (option.value === "All") {
+            option.innerHTML = `${options[i]}`;  // Don't add $ to All
+        } else {
+            option.innerHTML = `$${options[i]}`;
+        }
         priceList.appendChild(option);
     }
 
