@@ -16,7 +16,8 @@ This README details the instructions for running and using the Part 4 applicatio
 
 - [Running the application](/part4/hbnb/README.md#Running-the-application)
   - [1. Clone the repo](/part4/hbnb/README.md#1-clone-the-repository)
-  - [2. Set up a virtual environment](/part4/hbnb/README.md#2-set-up-a-virtual-environment)
+  - [2.1 Set up a virtual environment](/part4/hbnb/README.md#2.1-set-up-a-virtual-environment)
+  - [2.2 Enable CORS](/part4/hbnb/README.md#2.2-enable-cors)
   - [3. Create a .env file](/part4/hbnb/README.md#3-optional-create-a-env-file)
   - [4. Initialise the database](/part4/hbnb/README.md#4-create--initialise-the-database)
   - [5. Seed the database](/part4/hbnb/README.md#5-seed-the-database)
@@ -39,7 +40,7 @@ git clone https://github.com/kayrbee/holbertonschool-hbnb
 cd holbertonschool-hbnb/part4/hbnb
 ```
 
-### 2. Set up a Virtual Environment
+### 2.1 Set up a Virtual Environment
 
 **MacOS/Ubuntu**
 
@@ -56,6 +57,35 @@ python -m venv venv
 venv\Scripts\activate
 pip install -r requirements.txt
 ```
+
+### 2.2 Enable CORS
+This project requires `flask_cors` to allow the front-end (running in the browser on a different origin) to communicate with the Flask API without triggering browser CORS errors.
+
+#### Example of a CORS error (for reference)
+- If CORS is not enabled, the browser will block front-end requests to the API and print an error as below in the DevTools -> Console:
+
+  ```
+  CORS Error: Access to fetch at .... has been blocked by CORS policy
+  ```
+
+- `flask_cors` is already included in `requirements.txt`, so it installs automatically via the below command in step **2.1**:
+  ```
+  pip install -r requirements.txt
+  ```
+
+- The CORS extension is initialised and enabled for all routes inside `create_app()`:
+  ```
+  from flask_cors import CORS
+  
+  cors.init_app(app)
+  ```
+
+- This ensures that client-side code (HTML, JS) can successfully make `fetch()` requests to:
+  ```
+  http://127.0.0.1:5000/api/v1/...
+  ```
+  without being blocked by the browser's same-origin policy
+
 
 ### 3. [OPTIONAL] Create a `.env` file
 
