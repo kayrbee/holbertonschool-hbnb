@@ -4,16 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Review</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">                   <!-- Jinja dynamic URL builder (x2 lines) --> 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/review.css') }}">
-    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/favicon.png') }}">    <!-- Favicon loader -->
+    <link rel="stylesheet" href="/static/css/styles.css">                   <!-- Jinja dynamic URL builder (x2 lines) --> 
+    <link rel="stylesheet" href="/static/css/review.css">
+    <link rel="icon" type="image/png" href="/static/images/favicon.png">    <!-- Favicon loader -->
     <link rel="preconnect" href="https://fonts.googleapis.com">                                         <!-- Font loader (x3 lines) -->
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    {% include 'header.html' %}
+    <link rel="stylesheet" href="/static/css/styles.css">
+<header>
+    <nav>
+        <div class="nav-left">
+            <a href="/" class="logo">
+                <img src="/static/images/logo.png" alt="HBnB logo" width="142" height="60">
+            </a>
+        </div>
+        <div class="nav-right">
+            <a href="/login" class="login-button" id="login-link">Login</a>
+        </div>
+    </nav>
+    <script src="/static/js/helpers.js"></script>
+</header>
 
     <div class="review-wrapper">
         <div class="section-block">
@@ -21,7 +34,7 @@
                 <!-- place title and review title -->
                 <h1>How was your stay?</h1>
                 <br>
-                <span class="light">{{ place.title }}</span> 
+                <span class="light">Sample Place Title</span> 
 
                 <!-- <button id="show-form-btn" class="review-button" none;>Leave a Review</button>  -->
 
@@ -63,9 +76,12 @@
         </div>
     </div>
 
-    <script src="{{ url_for('static', filename='js/review.js') }}"></script>
+    <script src="/static/js/review.js"></script>
+    <script src="/static/js/helpers.js"></script>
 
-    {% include 'footer.html' %}
+    <footer>
+    <p>&copy;2025 HBnB Evolution. All rights reserved.</p>
+</footer>
     
 </body>
 </html>
